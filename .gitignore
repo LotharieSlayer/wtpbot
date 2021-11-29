@@ -105,3 +105,4 @@ dist
 
 # Manually added files and folders
 /src/files/
+/src/data/

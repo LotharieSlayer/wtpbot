@@ -1,5 +1,5 @@
 /**
- * @author Benjamin Guirlet
+ * @author Lothaire Guée
  * @description
  * 		The base file of the bot.
  */
@@ -33,9 +33,21 @@ client.commands = new Collection();
 	await loadCommandsToGuild( client.user.id, DEV_GUILD_ID, TOKEN );
 })();
 
+/* ----------------------------------------------- */
+/* DATABASES INITILIZATION                         */
+/* ----------------------------------------------- */
+const Enmap = require("enmap");
+const dbModifyPresentation = new Enmap({name: "modifyP"});
+const activeList = new Enmap({name: "activeList"});
+const memes = new Enmap({name: "memes"});
+const status = new Enmap({name: "status"});
 
 module.exports = {
-	client: client
+	client: client,
+	dbModifyPresentation: dbModifyPresentation,
+	activeList: activeList,
+	memes: memes,
+	status: status
 }
 
 /* ----------------------------------------------- */
