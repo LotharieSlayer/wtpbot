@@ -22,7 +22,17 @@
             .setDescription("Entrez l'utilisateur.")
             .setRequired(true));
  
- // mettre la perm seulement pour un role
+/* ----------------------------------------------- */
+/* PERMISSIONS                                     */
+/* ----------------------------------------------- */
+
+const permissions = [
+    {
+        id: '493118603655380992',
+        type: 'USER',
+        permission: true,
+    },
+];
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -53,5 +63,6 @@
  /* ----------------------------------------------- */
  module.exports = {
      data: slashCommand,
+     permissions: permissions,
      execute
  }
