@@ -13,8 +13,9 @@ exports.Certify = true;
 exports.Library = true;
 exports.Changelogs = true;
 exports.ActiveMember = false;
-
 exports.WelcomeRole = true;
+
+exports.Setup = true;
 
 exports.Proposition = true;
 exports.Presentation = true;
