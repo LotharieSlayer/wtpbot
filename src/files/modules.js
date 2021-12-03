@@ -10,7 +10,11 @@
  */
 
 exports.Certify = true;
+exports.Library = true;
+exports.Changelogs = true;
+exports.ActiveMember = false;
+
+exports.WelcomeRole = true;
+
 exports.Proposition = true;
 exports.Presentation = true;
-exports.WelcomeRole = true;
-exports.ActiveMember = true;

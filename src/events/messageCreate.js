@@ -7,7 +7,8 @@
 
 const { LIKE_EMOJI_MENTION, REPOST_EMOJI_MENTION } = require( "../files/config.json" );
 const { Client, Message } = require( "discord.js" );
-const { activeMember } = require("../utils/modules/activeMember.js")
+const { activeMember } = require("../utils/modules/activeMember.js");
+const { changelogs } = require("../commands/everyone/changelogs");
 
 
 /* ----------------------------------------------- */
@@ -21,7 +22,8 @@ const { activeMember } = require("../utils/modules/activeMember.js")
  * @param {Client} client The client that emitted the event.
  */
 async function execute( message, client ) {
-	activeMember(client, message)
+	activeMember(client, message);
+	//changelogs(client, message);
 }
 
 

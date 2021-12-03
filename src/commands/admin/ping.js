@@ -24,8 +24,8 @@ const slashCommand = new SlashCommandBuilder()
 
 	const permissions = [
 		{
-			id: '493118603655380992',
-			type: 'USER',
+			id: 'ADMIN_ID',
+			type: 'ROLE',
 			permission: true,
 		},
 	];
@@ -49,6 +49,7 @@ const slashCommand = new SlashCommandBuilder()
 /* ----------------------------------------------- */
 module.exports = {
 	data: slashCommand,
+    id: slashCommand.id,
 	permissions: permissions,
 	execute
 }

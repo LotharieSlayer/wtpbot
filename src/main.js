@@ -16,7 +16,8 @@ const client = new Client({
 		Intents.FLAGS.GUILDS,
 		Intents.FLAGS.GUILD_MESSAGES,
 		Intents.FLAGS.DIRECT_MESSAGES,
-		Intents.FLAGS.GUILD_MESSAGE_REACTIONS
+		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+		Intents.FLAGS.GUILD_MEMBERS
 	],
 	partials: [
 		"MESSAGE",
@@ -36,18 +37,18 @@ client.commands = new Collection();
 /* ----------------------------------------------- */
 /* DATABASES INITILIZATION                         */
 /* ----------------------------------------------- */
-const Enmap = require("enmap");
+/*const Enmap = require("enmap");
 const dbModifyPresentation = new Enmap({name: "modifyP"});
 const activeList = new Enmap({name: "activeList"});
 const memes = new Enmap({name: "memes"});
-const status = new Enmap({name: "status"});
+const status = new Enmap({name: "status"});*/
 
 module.exports = {
 	client: client,
-	dbModifyPresentation: dbModifyPresentation,
+	/*dbModifyPresentation: dbModifyPresentation,
 	activeList: activeList,
 	memes: memes,
-	status: status
+	status: status*/
 }
 
 /* ----------------------------------------------- */
