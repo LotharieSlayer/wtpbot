@@ -68,7 +68,6 @@ const permissions = [
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    id: slashCommand.id,
     permissions: permissions,
     execute
  }

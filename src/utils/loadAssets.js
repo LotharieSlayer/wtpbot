@@ -11,8 +11,7 @@ const { Client } = require( "discord.js" );
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
-/* ----------------------------------------------- */
-/**
+/* ----------------------------------------------- *//**
  * Load all the commands into the client.
  * @param {Client} client The client where the commands will be loaded.
  */

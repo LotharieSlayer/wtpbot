@@ -19,7 +19,7 @@ const { Changelogs } = require('../../files/modules.js');
  /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
      .setName( "changelogs" )
-     .setDescription( "Affiche les récent changements de votre ami WTPBot." )
+     .setDescription( "Affiche les récents changements de votre ami WTPBot." )
      .setDefaultPermission( true );
  
 /* ----------------------------------------------- */
@@ -70,7 +70,6 @@ const permissions = [
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    id: slashCommand.id,
     permissions: permissions,
     execute
  }

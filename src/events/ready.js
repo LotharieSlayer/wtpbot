@@ -7,7 +7,6 @@
 
 const { Client } = require( "discord.js" );
 
-
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -27,13 +26,15 @@ function execute( client ) {
  * It only need to be called one time after updating the commands or adding concerned commands.
  * @param {Client} client The bot's client.
  */
- async function loadPermissions( client, permission, id ) {
+ async function loadPermissions( client ) {
 
-	await client.guilds.cache.get( GUILD_ID ).commands.fetch();
-	await client.guilds.cache.get( GUILD_ID ).commands.cache.forEach( command => {
-		if(command.id === slashCommandid)
-		command.permissions.add( { permissions: permission } );
-	});
+	client.guilds.cache.map(async guild => {
+		await client.guilds.cache.get( guild.id ).commands.fetch();
+		await client.guilds.cache.get( guild.id ).commands.cache.forEach( command => 
+			command.permissions.add( { permissions: client.commands.get( command.name ).permissions } )
+		)
+	})
+
 }
 
 

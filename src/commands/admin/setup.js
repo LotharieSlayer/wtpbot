@@ -31,6 +31,10 @@ const { Setup } = require('../../files/modules.js');
     .addChannelOption(option =>
         option.setName('presentation')
             .setDescription("Entrez le channel de presentation.")
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('active_member')
+            .setDescription("Entrez le rôle du membre actif.")
             .setRequired(true));
   
  
@@ -59,16 +63,24 @@ const permissions = [
     discussionChannel = interaction.options.getChannel('discussion')
     propositionChannel = interaction.options.getChannel('proposition')
     presentationChannel = interaction.options.getChannel('presentation')
+    activeMemberRole = interaction.options.getRole('active_member')
 
-    console.log(discussionChannel.id)
-    console.log(propositionChannel.id)
-    console.log(presentationChannel.id)
+    const { setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone } = require("../../utils/enmapUtils")
 
-    //JSON.stringify()
+    setupDiscussion.set(discussionChannel.id, interaction.guild.id)
+    setupProposition.set(propositionChannel.id, interaction.guild.id)
+    setupPresentation.set(presentationChannel.id, interaction.guild.id)
+    setupActiveRole.set(activeMemberRole.id, interaction.guild.id)
+    isSetupDone.set(interaction.guild.id, true)
 
-    await interaction.reply(
-        { content: `Discussion : ${discussionChannel.id}, Proposition : ${propositionChannel.id}, Présentation : ${presentationChannel.id}`, ephemeral: true }
-    );
+    await interaction.reply({
+        content: `Configuration :
+        Discussion : \`${discussionChannel.id}\`,
+        Proposition : \`${propositionChannel.id}\`,
+        Présentation : \`${presentationChannel.id}\`,
+        Rôle actif : \`${activeMemberRole.id}\``,
+        ephemeral: true
+    });
      
  }
  
@@ -78,7 +90,6 @@ const permissions = [
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    id: slashCommand.id,
     permissions: permissions,
     execute
  }

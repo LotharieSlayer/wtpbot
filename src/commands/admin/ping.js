@@ -49,7 +49,6 @@ const slashCommand = new SlashCommandBuilder()
 /* ----------------------------------------------- */
 module.exports = {
 	data: slashCommand,
-    id: slashCommand.id,
 	permissions: permissions,
 	execute
 }

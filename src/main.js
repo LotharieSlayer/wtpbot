@@ -9,6 +9,7 @@ const { TOKEN, DEV_GUILD_ID } = require( "./files/config.json" );
 const { Client, Collection, Intents } = require( "discord.js" );
 const { loadCommands, loadEvents } = require( "./utils/loadAssets" );
 const { loadCommandsToGuild } = require( "./utils/registerCommands" );
+const { initDB, dbModifyPresentation, activeList, setupDiscussion, setupPresentation, setupProposition } = require("./utils/enmapUtils.js");
 
 
 const client = new Client({
@@ -34,29 +35,15 @@ client.commands = new Collection();
 	await loadCommandsToGuild( client.user.id, DEV_GUILD_ID, TOKEN );
 })();
 
+
 /* ----------------------------------------------- */
 /* DATABASES INITILIZATION                         */
 /* ----------------------------------------------- */
-/*const Enmap = require("enmap");
-const dbModifyPresentation = new Enmap({name: "modifyP"});
-const activeList = new Enmap({name: "activeList"});
-const memes = new Enmap({name: "memes"});
-const status = new Enmap({name: "status"});*/
 
-module.exports = {
-	client: client,
-	/*dbModifyPresentation: dbModifyPresentation,
-	activeList: activeList,
-	memes: memes,
-	status: status*/
-}
-
-/* ----------------------------------------------- */
-/* COMMAND BUILD                                   */
-/* ----------------------------------------------- */
-/* ----------------------------------------------- */
-/* FUNCTIONS                                       */
-/* ----------------------------------------------- */
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
+
+module.exports = {
+	client: client
+}
