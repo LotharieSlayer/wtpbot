@@ -11,25 +11,22 @@ const { Proposition } = require('../../files/modules.js');
 /*      IMPORTS      */
 const { MessageEmbed } = require("discord.js");
 const { getSetupData } = require('../../utils/enmapUtils');
-//const { JSON } (ça sera l'import de la databse ou le json qui aura l'id du channel proposition)
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
-function proposition(client, msg){
+async function proposition(client, msg){
     if(Proposition == false) return;
     if(msg.author.bot) return;
-    const PROPOSITION_ID = getSetupData(msg.guild.id, "proposition")
+    const PROPOSITION_ID = await getSetupData(msg.guild.id, "proposition")
     console.log(PROPOSITION_ID)
     
-    if (msg.channel.id === PROPOSITION_ID){ //JSON/DB ID trouve un id du channel en question
+    if (msg.channel.id === PROPOSITION_ID){
         
         //Créer un embed de la proposition + y ajouter les réactions.
         var messageContent = msg.content;
         var messageAuthor = msg.author;
         var Attachment = msg.attachments;
-
-        cpt += 1; //Mettre en JSON/DB
 
         const embed = new MessageEmbed()
             .setColor('RANDOM')

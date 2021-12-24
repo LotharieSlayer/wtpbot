@@ -16,7 +16,7 @@ const { MessageEmbed } = require("discord.js");
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
-function welcomeRole(oldMember, newMember){
+async function welcomeRole(oldMember, newMember){
     if(WelcomeRole == false) return;
     
     const { NEW, VERIFIED } = require('../../data/welcomeMessages.js');

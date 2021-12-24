@@ -47,7 +47,7 @@ const permissions = [
     // IMPORTS
     const { dbModifyPresentation, getSetupData } = require("../../utils/enmapUtils")
 
-    const PRESENTATION_ID = getSetupData(interaction.guild.id, "presentation")
+    const PRESENTATION_ID = await getSetupData(interaction.guild.id, "presentation")
     console.log(PRESENTATION_ID)
     dbModifyPresentation.set(interaction.member.id, true)
     interaction.guild.channels.cache.find(x => x.id === PRESENTATION_ID)   //channel presentation ID

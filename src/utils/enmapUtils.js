@@ -57,8 +57,8 @@ async function getSetupData(guild, type){
             }
         })
     } else if (type === "active_role"){
-        isSetupDone.fetchEverything()
-        isSetupDone.forEach( async (value, key) => {
+        setupActiveRole.fetchEverything()
+        setupActiveRole.forEach( async (value, key) => {
             if(value === guild){
                 result = key;
             }
