@@ -17,10 +17,10 @@ let PRESENTATION_ID;
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
-function presentation(msg){
+async function presentation(msg){
 
     if(Presentation == false) return;
-    PRESENTATION_ID = getSetupData(msg.guild.id, "presentation")
+    PRESENTATION_ID = await getSetupData(msg.guild.id, "presentation")
 
     if(msg.channel.id === PRESENTATION_ID){ //fetch dans le json/DB l'id du channel suite au /setup
         if(dbModifyPresentation.get(msg.author.id) === undefined){    
