@@ -8,7 +8,6 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
-//const { JSON } (ça sera l'import de la database ou le json qui aura l'id du channel proposition)
 
 /*      AUTHORISATION      */
 const { Presentation } = require('../../files/modules.js');
@@ -48,7 +47,6 @@ const permissions = [
     const { dbModifyPresentation, getSetupData } = require("../../utils/enmapUtils")
 
     const PRESENTATION_ID = await getSetupData(interaction.guild.id, "presentation")
-    console.log(PRESENTATION_ID)
     dbModifyPresentation.set(interaction.member.id, true)
     interaction.guild.channels.cache.find(x => x.id === PRESENTATION_ID)   //channel presentation ID
         .permissionOverwrites.edit(interaction.member, {

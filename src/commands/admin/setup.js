@@ -8,10 +8,10 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
-const fs = require('fs');
  
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
+const { loadPermissions } = require('../../events/ready.js');
  
  /* ----------------------------------------------- */
  /* COMMAND BUILD                                   */
@@ -21,20 +21,36 @@ const { Setup } = require('../../files/modules.js');
     .setDescription( "Setup le bot sur ce serveur." )
     .setDefaultPermission( true )
     .addChannelOption(option =>
-        option.setName('discussion')
+        option.setName('discussion_chan')
             .setDescription("Entrez le channel de discussion.")
             .setRequired(true))  
     .addChannelOption(option =>
-        option.setName('proposition')
+        option.setName('proposition_chan')
         .setDescription("Entrez le channel de proposition.")
         .setRequired(true))
     .addChannelOption(option =>
-        option.setName('presentation')
+        option.setName('presentation_chan')
             .setDescription("Entrez le channel de presentation.")
             .setRequired(true))
     .addRoleOption(option =>
-        option.setName('active_member')
+        option.setName('active_role')
             .setDescription("Entrez le rôle du membre actif.")
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('certify_role')
+            .setDescription("Entrez le rôle du membre certifié.")
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('ncertify_role')
+            .setDescription("Entrez le rôle du membre non certifié.")
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('demo_role')
+            .setDescription("Entrez le rôle du membre démo.")
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('library_role')
+            .setDescription("Entrez le rôle des archives.")
             .setRequired(true));
   
  
@@ -59,26 +75,48 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Setup == false) return;
+    const {
+        setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
+        setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole
+    } = require("../../utils/enmapUtils")
     
-    discussionChannel = interaction.options.getChannel('discussion')
-    propositionChannel = interaction.options.getChannel('proposition')
-    presentationChannel = interaction.options.getChannel('presentation')
-    activeMemberRole = interaction.options.getRole('active_member')
 
-    const { setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone } = require("../../utils/enmapUtils")
+    discussionChannel = interaction.options.getChannel('discussion_chan')
+    propositionChannel = interaction.options.getChannel('proposition_chan')
+    presentationChannel = interaction.options.getChannel('presentation_chan')
+
+    activeMemberRole = interaction.options.getRole('active_role')
+    certifyRole = interaction.options.getRole('certify_role')
+    ncertifyRole = interaction.options.getRole('ncertify_role')
+    demoRole = interaction.options.getRole('demo_role')
+    libraryRole = interaction.options.getRole('library_role')
+
 
     setupDiscussion.set(discussionChannel.id, interaction.guild.id)
     setupProposition.set(propositionChannel.id, interaction.guild.id)
     setupPresentation.set(presentationChannel.id, interaction.guild.id)
+
     setupActiveRole.set(activeMemberRole.id, interaction.guild.id)
+    setupCertifyRole.set(certifyRole.id, interaction.guild.id)
+    setupNCertifyRole.set(ncertifyRole.id, interaction.guild.id)
+    setupDemoRole.set(demoRole.id, interaction.guild.id)
+    setupLibraryRole.set(libraryRole.id, interaction.guild.id)
+
     isSetupDone.set(interaction.guild.id, true)
+    loadPermissions(interaction.client)
 
     await interaction.reply({
         content: `Configuration :
-        Discussion : \`${discussionChannel.id}\`,
-        Proposition : \`${propositionChannel.id}\`,
-        Présentation : \`${presentationChannel.id}\`,
-        Rôle actif : \`${activeMemberRole.id}\``,
+        discussion_chan : \`${discussionChannel.id}\`,
+        proposition_chan : \`${propositionChannel.id}\`,
+        presentation_chan : \`${presentationChannel.id}\`,\n
+
+        active_role : \`${activeMemberRole.id}\`,
+        certify_role : \`${certifyRole.id}\`,
+        ncertify_role : \`${ncertifyRole.id}\`,
+        demo_role : \`${demoRole.id}\`,
+        library_role : \`${libraryRole.id}\`,
+        `,
         ephemeral: true
     });
      

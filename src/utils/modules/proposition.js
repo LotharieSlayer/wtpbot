@@ -19,7 +19,6 @@ async function proposition(client, msg){
     if(Proposition == false) return;
     if(msg.author.bot) return;
     const PROPOSITION_ID = await getSetupData(msg.guild.id, "proposition")
-    console.log(PROPOSITION_ID)
     
     if (msg.channel.id === PROPOSITION_ID){
         

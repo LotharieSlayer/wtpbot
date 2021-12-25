@@ -11,6 +11,7 @@ const { CommandInteraction } = require( "discord.js" );
  
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
+const { loadPermissions } = require('../../events/ready.js');
  
  /* ----------------------------------------------- */
  /* COMMAND BUILD                                   */
@@ -42,43 +43,21 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Setup == false) return;
-    
-    const { setupDiscussion, setupProposition, setupPresentation, isSetupDone } = require("../../utils/enmapUtils")    
-    const setup = [setupDiscussion, setupProposition, setupPresentation]
 
-    /*for(tab in setup){
+    const { setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone, setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole } = require("../../utils/enmapUtils")    
+    const setup = [setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone, setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole]
+
+    for(tab of setup){
         tab.fetchEverything()
         tab.forEach( async (value, key) => {
             if(value === interaction.guild.id){
                 tab.delete(key)
             }
         })
-    }*/
-
-    //BUG AVEC LA LOOP FOR (LOL)
-   
-    setupDiscussion.fetchEverything()
-    setupDiscussion.forEach( async (value, key) => {
-        if(value === interaction.guild.id){
-            setupDiscussion.delete(key)
-        }
-    })
-    
-    setupProposition.fetchEverything()
-    setupProposition.forEach( async (value, key) => {
-        if(value === interaction.guild.id){
-            setupProposition.delete(key)
-        }
-    })
-
-    setupPresentation.fetchEverything()
-    setupPresentation.forEach( async (value, key) => {
-        if(value === interaction.guild.id){
-            setupPresentation.delete(key)
-        }
-    })
+    }
 
     isSetupDone.set(interaction.guild.id, false)
+    loadPermissions(interaction.client)
 
     await interaction.reply(
         { content: `Bot réinitialisé, si vous souhaitez le réutiliser, merci de démarrer /setup.`, ephemeral: true }

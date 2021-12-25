@@ -42,11 +42,13 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Library == false) return;
-    
+    const { getSetupData } = require("../../utils/enmapUtils")
+    const LIBRARY_ID = await getSetupData(interaction.guild.id, "library")
+
     member = interaction.member
-    let libraryRole = interaction.guild.roles.cache.get("916252819038830622"); //Certifié
+    let libraryRole = interaction.guild.roles.cache.get(LIBRARY_ID);
     
-    if(member.roles.cache.some(role => role.id === "916252819038830622")){
+    if(member.roles.cache.some(role => role.id === LIBRARY_ID)){
         member.roles.remove(libraryRole);
         await interaction.reply(
             { content: `Vous n'avez désormais plus accès aux archives !`, ephemeral: true }

@@ -45,12 +45,16 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Certify == false) return;
-    
+    const { getSetupData } = require("../../utils/enmapUtils")
+    const CERTIFY_ID = await getSetupData(interaction.guild.id, "certify")
+    const NCERTIFY_ID = await getSetupData(interaction.guild.id, "ncertify")
+    const DEMO_ID = await getSetupData(interaction.guild.id, "demo")
+
     member = interaction.options.getMember('user')
 
-    let rolea = interaction.guild.roles.cache.get("904760288073637939"); //Certifié
-    let roleb = interaction.guild.roles.cache.get("875412331746709565"); //Non Certifié
-    let rolec = interaction.guild.roles.cache.get("875412330828169249"); //Démo
+    let rolea = interaction.guild.roles.cache.get(CERTIFY_ID); //Certifié
+    let roleb = interaction.guild.roles.cache.get(NCERTIFY_ID); //Non Certifié
+    let rolec = interaction.guild.roles.cache.get(DEMO_ID); //Démo
     member.roles.add(rolea);
     member.roles.remove(roleb);
     member.roles.remove(rolec);
