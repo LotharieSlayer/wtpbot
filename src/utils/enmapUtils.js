@@ -10,25 +10,35 @@
 /* ----------------------------------------------- */
 const Enmap = require("enmap");
 
+
 const dbModifyPresentation = new Enmap({name: "modifyP"});
 const activeList = new Enmap({name: "activeList"});
 
-// CHANNELS SETUP
+// CHANNELS DATABASE INIT
 const setupDiscussion = new Enmap({name: "setupDiscussion"});
 const setupProposition = new Enmap({name: "setupProposition"});
 const setupPresentation = new Enmap({name: "setupPresentation"});
+const setupThread = new Enmap({name: "setupThread"});
 
-// ROLES SETUP
+// ROLES DATABASE INIT
 const setupActiveRole = new Enmap({name: "setupActiveRole"});
 const setupCertifyRole = new Enmap({name: "setupCertifyRole"});
 const setupNCertifyRole = new Enmap({name: "setupNCertifyRole"});
 const setupDemoRole = new Enmap({name: "setupDemoRole"});
 const setupLibraryRole = new Enmap({name: "setupLibraryRole"});
 
-/*memes = new Enmap({name: "memes"});
-presence = new Enmap({name: "presence"});*/
-const isSetupDone = new Enmap({name: "isSetupDone"});
+const setupAdminRole = new Enmap({name: "setupAdminRole"});
+const setupModRole = new Enmap({name: "setupModRole"});
 
+// PRESENCE AND MEMES DATABASE INIT
+const memes = new Enmap({name: "memes"});
+const presence = new Enmap({name: "presence"});
+const isSetupDone = new Enmap({name: "isSetupDone"})
+
+// Un-comment to set memes and presences into the database
+// const { MEMES } = require("../data/memes");
+// const { STATES } = require("../data/states");
+// setMemes();
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -46,67 +56,70 @@ async function getSetupData(guild, type){
     let result;
     switch (type) {
         case "discussion":
-            setupDiscussion.fetchEverything()
-            setupDiscussion.forEach( async (value, key) => {
-                if(value === guild){
+            setupDiscussion.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
             })
             break;
         case "proposition":
-            setupProposition.fetchEverything()
-            setupProposition.forEach( async (value, key) => {
-                if(value === guild){
+            setupProposition.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
             })
             break;
         case "presentation":
-            setupPresentation.fetchEverything()
-            setupPresentation.forEach( async (value, key) => {
-                if(value === guild){
+            setupPresentation.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
             })
             break;
         case "active_role":
-            setupActiveRole.fetchEverything()
-            setupActiveRole.forEach( async (value, key) => {
-                if(value === guild){
+            setupActiveRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
+            })
+            break;
+        case "thread":
+            // Here guild is the channel actually
+            setupThread.fetchEverything()?.forEach( async (value, key) => {
+                if(key === guild)
+                    result = key;
             })
             break;
         case "certify":
-            setupCertifyRole.fetchEverything()
-            setupCertifyRole.forEach( async (value, key) => {
-                if(value === guild){
+            setupCertifyRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
             })
             break;
         case "ncertify":
-            setupNCertifyRole.fetchEverything()
-            setupNCertifyRole.forEach( async (value, key) => {
-                if(value === guild){
+            setupNCertifyRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
             })
             break;
         case "demo":
-            setupDemoRole.fetchEverything()
-            setupDemoRole.forEach( async (value, key) => {
-                if(value === guild){
+            setupDemoRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
             })
             break;
         case "library":
-            setupLibraryRole.fetchEverything()
-            setupLibraryRole.forEach( async (value, key) => {
-                if(value === guild){
+            setupLibraryRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
                     result = key;
-                }
+            })
+            break
+        case "admin_id":
+            setupAdminRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
+                    result = key;
+            })
+            break
+        case "mod_id":
+            setupModRole.fetchEverything()?.forEach( async (value, key) => {
+                if(value === guild)
+                    result = key;
             })
             break
         case "is_setup":
@@ -115,6 +128,19 @@ async function getSetupData(guild, type){
     return result;
 }
 
+async function setMemes(){
+    // PRESENCE
+    for(let i=0; i < STATES.length; i++){
+        presence.set(STATES[i])
+    }
+    // MEMES
+    for(let i=0; i < MEMES.length; i++){
+        memes.set(MEMES[i].command, MEMES[i].message)
+    }
+}
+
+
+
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
@@ -122,15 +148,22 @@ module.exports = {
 	getSetupData,
     dbModifyPresentation,
     activeList,
+
     setupDiscussion,
     setupPresentation,
     setupProposition,
+    setupThread,
+
     setupActiveRole,
     setupCertifyRole,
     setupNCertifyRole,
     setupDemoRole,
     setupLibraryRole,
-    isSetupDone
-    /*memes: memes,
-    status: status*/
+
+    setupAdminRole,
+    setupModRole,
+
+    isSetupDone,
+    memes,
+    presence
 }

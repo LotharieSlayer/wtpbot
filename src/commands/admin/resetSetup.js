@@ -8,6 +8,15 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
+
+const { setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
+    setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole,
+    setupAdminRole, setupModRole, getSetupData
+} = require("../../utils/enmapUtils")    
+
+const setup = [setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
+    setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole,
+    setupAdminRole, setupModRole]
  
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
@@ -19,20 +28,24 @@ const { loadPermissions } = require('../../events/ready.js');
  const slashCommand = new SlashCommandBuilder()
     .setName( "reset_setup" )
     .setDescription( "Supprimer les données de configuration du bot pour ce serveur." )
-    .setDefaultPermission( true )
+    .setDefaultPermission( false )
   
  
 /* ----------------------------------------------- */
 /* PERMISSIONS                                     */
 /* ----------------------------------------------- */
 
-const permissions = [
-    {
-        id: 'MOD_ID',
-        type: 'ROLE',
-        permission: true,
-    },
-];
+async function permissions(guild){
+    const ADMIN_ID = await getSetupData(guild, "admin_id")
+    const permissions = [
+		{
+			id: ADMIN_ID,
+			type: 'ROLE',
+			permission: true,
+		},
+	];
+	return permissions;
+}
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -43,9 +56,6 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Setup == false) return;
-
-    const { setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone, setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole } = require("../../utils/enmapUtils")    
-    const setup = [setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone, setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole]
 
     for(tab of setup){
         tab.fetchEverything()
@@ -71,6 +81,6 @@ const permissions = [
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions: permissions,
+    permissions,
     execute
  }

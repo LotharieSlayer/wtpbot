@@ -5,6 +5,7 @@
 
 
 const { Message, Client } = require( "discord.js" );
+const { threadDelete } = require("../utils/modules/thread");
 
 
 /* ----------------------------------------------- */
@@ -18,7 +19,7 @@ const { Message, Client } = require( "discord.js" );
  * @param {Client} client The client that created the interaction.
  */
 function execute( message, client ) {
-
+	threadDelete(message)
 }
 
 
@@ -26,6 +27,6 @@ function execute( message, client ) {
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
-	name: "messageCreate",
+	name: "messageDelete",
 	execute
 }

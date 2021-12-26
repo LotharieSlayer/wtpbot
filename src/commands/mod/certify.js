@@ -8,6 +8,7 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
+const { getSetupData } = require("../../utils/enmapUtils")
  
  /*      AUTHORISATION      */
 const { Certify } = require('../../files/modules.js');
@@ -18,7 +19,7 @@ const { Certify } = require('../../files/modules.js');
  const slashCommand = new SlashCommandBuilder()
      .setName( "certify" )
      .setDescription( "Certifier une personne." )
-     .setDefaultPermission( true )
+     .setDefaultPermission( false )
      .addUserOption(option =>
         option.setName('user')
             .setDescription("Entrez l'utilisateur.")
@@ -28,13 +29,23 @@ const { Certify } = require('../../files/modules.js');
 /* PERMISSIONS                                     */
 /* ----------------------------------------------- */
 
-const permissions = [
-    {
-        id: 'MOD_ID',
-        type: 'ROLE',
-        permission: true,
-    },
-];
+async function permissions(guild){
+    const MOD_ID = await getSetupData(guild, "mod_id")
+    const ADMIN_ID = await getSetupData(guild, "admin_id")
+    const permissions = [
+		{
+			id: MOD_ID,
+			type: 'ROLE',
+			permission: true,
+		},
+        {
+			id: ADMIN_ID,
+			type: 'ROLE',
+			permission: true,
+		}
+	];
+	return permissions;
+}
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -45,8 +56,8 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Certify == false) return;
-    const { getSetupData } = require("../../utils/enmapUtils")
     const CERTIFY_ID = await getSetupData(interaction.guild.id, "certify")
+    console.log(CERTIFY_ID)
     const NCERTIFY_ID = await getSetupData(interaction.guild.id, "ncertify")
     const DEMO_ID = await getSetupData(interaction.guild.id, "demo")
 

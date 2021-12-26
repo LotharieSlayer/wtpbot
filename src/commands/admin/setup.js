@@ -8,6 +8,11 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
+const {
+    setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
+    setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole,
+    setupAdminRole, setupModRole, getSetupData
+} = require("../../utils/enmapUtils")
  
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
@@ -19,7 +24,7 @@ const { loadPermissions } = require('../../events/ready.js');
  const slashCommand = new SlashCommandBuilder()
     .setName( "setup" )
     .setDescription( "Setup le bot sur ce serveur." )
-    .setDefaultPermission( true )
+    .setDefaultPermission( false )
     .addChannelOption(option =>
         option.setName('discussion_chan')
             .setDescription("Entrez le channel de discussion.")
@@ -51,20 +56,34 @@ const { loadPermissions } = require('../../events/ready.js');
     .addRoleOption(option =>
         option.setName('library_role')
             .setDescription("Entrez le rôle des archives.")
-            .setRequired(true));
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('admin_role')
+            .setDescription("Entrez le rôle des administrateurs.")
+            .setRequired(true))
+    .addRoleOption(option =>
+        option.setName('mod_role')
+            .setDescription("Entrez le rôle des modérateurs.")
+            .setRequired(true))
+
   
  
 /* ----------------------------------------------- */
 /* PERMISSIONS                                     */
 /* ----------------------------------------------- */
 
-const permissions = [
-    {
-        id: 'MOD_ID',
-        type: 'ROLE',
-        permission: true,
-    },
-];
+async function permissions(guild){
+    const ADMIN_ID = await getSetupData(guild, "admin_id")
+    const permissions = [
+		{
+			id: ADMIN_ID,
+			type: 'ROLE',
+			permission: true,
+		},
+	];
+	return permissions;
+}
+
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -75,11 +94,7 @@ const permissions = [
   */
   async function execute( interaction ) {
     if(Setup == false) return;
-    const {
-        setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
-        setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole
-    } = require("../../utils/enmapUtils")
-    
+   
 
     discussionChannel = interaction.options.getChannel('discussion_chan')
     propositionChannel = interaction.options.getChannel('proposition_chan')
@@ -90,6 +105,8 @@ const permissions = [
     ncertifyRole = interaction.options.getRole('ncertify_role')
     demoRole = interaction.options.getRole('demo_role')
     libraryRole = interaction.options.getRole('library_role')
+    adminRole = interaction.options.getRole('admin_role')
+    modRole = interaction.options.getRole('mod_role')
 
 
     setupDiscussion.set(discussionChannel.id, interaction.guild.id)
@@ -102,20 +119,26 @@ const permissions = [
     setupDemoRole.set(demoRole.id, interaction.guild.id)
     setupLibraryRole.set(libraryRole.id, interaction.guild.id)
 
+    setupAdminRole.set(adminRole.id, interaction.guild.id)
+    setupModRole.set(modRole.id, interaction.guild.id)
+
     isSetupDone.set(interaction.guild.id, true)
     loadPermissions(interaction.client)
+
 
     await interaction.reply({
         content: `Configuration :
         discussion_chan : \`${discussionChannel.id}\`,
         proposition_chan : \`${propositionChannel.id}\`,
         presentation_chan : \`${presentationChannel.id}\`,\n
-
         active_role : \`${activeMemberRole.id}\`,
         certify_role : \`${certifyRole.id}\`,
         ncertify_role : \`${ncertifyRole.id}\`,
         demo_role : \`${demoRole.id}\`,
-        library_role : \`${libraryRole.id}\`,
+        library_role : \`${libraryRole.id}\`,\n
+        admin_role : \`${adminRole.id}\`,
+        mod_role : \`${modRole.id}\`,\n
+        Votre setup est terminé !
         `,
         ephemeral: true
     });
@@ -128,6 +151,6 @@ const permissions = [
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions: permissions,
+    permissions,
     execute
  }

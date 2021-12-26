@@ -16,19 +16,22 @@ const { ADMINS } = require("../../files/config.json");
 const slashCommand = new SlashCommandBuilder()
 	.setName( "ping" )
 	.setDescription( "Ça vous mentionne !" )
-	.setDefaultPermission( true );
+	.setDefaultPermission( false );
 
 /* ----------------------------------------------- */
 /* PERMISSIONS                                     */
 /* ----------------------------------------------- */
 
+async function permissions(guild){
 	const permissions = [
 		{
-			id: 'ADMIN_ID',
+			id: guild,
 			type: 'ROLE',
 			permission: true,
 		},
 	];
+	return permissions;
+}
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -49,6 +52,6 @@ const slashCommand = new SlashCommandBuilder()
 /* ----------------------------------------------- */
 module.exports = {
 	data: slashCommand,
-	permissions: permissions,
+	permissions,
 	execute
 }

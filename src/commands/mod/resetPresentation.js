@@ -8,7 +8,7 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
-//const { JSON } (ça sera l'import de la databse ou le json qui aura l'id du channel proposition)
+const { dbModifyPresentation, getSetupData } = require("../../utils/enmapUtils")
 
 /*      AUTHORISATION      */
 const { Presentation } = require('../../files/modules.js');
@@ -19,7 +19,7 @@ const { Presentation } = require('../../files/modules.js');
  const slashCommand = new SlashCommandBuilder()
      .setName( "p_reset" )
      .setDescription( "Reset les restrictions pour permettre à un utilisateur de mettre à nouveau une présentation." )
-     .setDefaultPermission( true )
+     .setDefaultPermission( false )
      .addUserOption(option =>
         option.setName('user')
             .setDescription("Entrez l'utilisateur.")
@@ -29,13 +29,23 @@ const { Presentation } = require('../../files/modules.js');
 /* PERMISSIONS                                     */
 /* ----------------------------------------------- */
 
-const permissions = [
-    {
-        id: 'MOD_ID',
-        type: 'ROLE',
-        permission: true,
-    },
-];
+async function permissions(guild){
+    const MOD_ID = await getSetupData(guild, "mod_id")
+    const ADMIN_ID = await getSetupData(guild, "admin_id")
+    const permissions = [
+		{
+			id: MOD_ID,
+			type: 'ROLE',
+			permission: true,
+		},
+        {
+			id: ADMIN_ID,
+			type: 'ROLE',
+			permission: true,
+		}
+	];
+	return permissions;
+}
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -47,7 +57,6 @@ const permissions = [
   async function execute( interaction ) {
     if(Presentation == false) return;
     
-    const { dbModifyPresentation, getSetupData } = require("../../utils/enmapUtils")
     const PRESENTATION_ID = await getSetupData(interaction.guild.id, "presentation")
     memberFirst = interaction.options.getMember('user')
 

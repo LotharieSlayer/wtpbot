@@ -17,7 +17,9 @@ const { Client } = require( "discord.js" );
 function execute( client ) {
 	console.log( `${client.user.username} is connected!` );
 
-	// Out-comment when we need to actualise the commands' permissions.
+	loadPresence(client)
+
+	// Out-comment when we need to actualise the commands' permissions on ready event.
 	// loadPermissions( client )
 }
 
@@ -56,24 +58,34 @@ function execute( client ) {
 		]
 
 		if(isSetupDone.get(guild.id)){
-			client.guilds.cache.map(async guild => {
-				await client.guilds.cache.get( guild.id ).commands.fetch();
-				await client.guilds.cache.get( guild.id ).commands.cache.forEach( command => 
-					// 'permissionsDev' for devtest or 'client.commands.get( command.name ).permissions' for live server
-					command.permissions.add( { permissions: client.commands.get( command.name ).permissions } )
-				)
+			await client.guilds.cache.get( guild.id ).commands.fetch();
+			await client.guilds.cache.get( guild.id ).commands.cache.forEach( command => {
+				// Uncomment 'permissionsDev' for devtest
+				// command.permissions.add( { permissions: permissionsDev } )
+
+				// Or these two lines for live server
+				let slashCommandPermissions = client.commands.get( command.name ).permissions(guild.id)
+				slashCommandPermissions.then(r => command.permissions.set( { permissions : r } ))
 			})
 		}
 		else {
 			await client.guilds.cache.get( guild.id ).commands.fetch();
 			await client.guilds.cache.get( guild.id ).commands.cache.forEach( command => {
 				// permissionsDev for devtest or permissionsOnSetup for live server
-				command.permissions.add( { permissions: permissionsOnSetup } )
+				command.permissions.set( { permissions: permissionsOnSetup } )
 				if(command.name === "setup")
-					command.permissions.add( { permissions: permissionsForSetup } )
+					command.permissions.set( { permissions: permissionsForSetup } )
 			})
 		}
 	})
+}
+
+async function loadPresence( client ){
+    const { presence } = require("../utils/enmapUtils")
+	setInterval(() => {
+		// Met la phrase dans le statut du bot.
+        client.user.setActivity(presence.randomKey(1)[0], { type: "WATCHING" });
+    }, 10000);
 }
 
 

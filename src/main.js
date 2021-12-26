@@ -9,6 +9,7 @@ const { TOKEN, DEV_GUILD_ID } = require( "./files/config.json" );
 const { Client, Collection, Intents } = require( "discord.js" );
 const { loadCommands, loadEvents } = require( "./utils/loadAssets" );
 const { loadCommandsToGuild } = require( "./utils/registerCommands" );
+const { loadPermissions } = require("./events/ready");
 const { initDB, dbModifyPresentation, activeList, setupDiscussion, setupPresentation, setupProposition } = require("./utils/enmapUtils.js");
 
 
@@ -33,6 +34,7 @@ client.commands = new Collection();
 	await loadEvents( client );
 	await client.login( TOKEN );
 	await loadCommandsToGuild( client.user.id, DEV_GUILD_ID, TOKEN );
+	await loadPermissions(client);
 })();
 
 

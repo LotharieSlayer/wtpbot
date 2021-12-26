@@ -18,6 +18,11 @@ const { activeList, getSetupData } = require('../../utils/enmapUtils');
 async function activeMember(client, msg){
     // Ask if this module is authorized
     if(ActiveMember == false) return;
+    if(msg.author.bot) return
+    const IsSetupDone = await getSetupData(msg.guild.id, "is_setup")
+    if(!IsSetupDone) return
+
+
     const ACTIVE_ROLE_ID = await getSetupData(msg.guild.id, "active_role")
     activeList.set(msg.author.id, Date.now())
     let activeRole = msg.guild.roles.cache.get(ACTIVE_ROLE_ID);
