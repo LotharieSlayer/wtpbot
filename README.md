@@ -3,3 +3,4 @@
 
 Lotharie's Bot
 
+README and tutorials are coming later !
