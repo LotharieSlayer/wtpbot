@@ -29,7 +29,7 @@ async function proposition(client, msg){
 
         const embed = new MessageEmbed()
             .setColor('RANDOM')
-            .setAuthor(messageAuthor.tag, messageAuthor.avatarURL())
+			.setAuthor( messageAuthor.tag, messageAuthor.avatarURL() )
             .setDescription(messageContent)
             .setTitle(`Proposition n°${msg.id} :`)
             .addFields(

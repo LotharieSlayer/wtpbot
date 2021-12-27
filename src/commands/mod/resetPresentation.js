@@ -18,7 +18,7 @@ const { Presentation } = require('../../files/modules.js');
 /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
      .setName( "p_reset" )
-     .setDescription( "Reset les restrictions pour permettre à un utilisateur de mettre à nouveau une présentation." )
+     .setDescription( "[presentation] Reset les restrictions pour laisser un utilisateur mettre à nouveau une présentation." )
      .setDefaultPermission( false )
      .addUserOption(option =>
         option.setName('user')

@@ -12,14 +12,14 @@ const { loadCommandsToGuild } = require( "./utils/registerCommands" );
 const { loadPermissions } = require("./events/ready");
 const { initDB, dbModifyPresentation, activeList, setupDiscussion, setupPresentation, setupProposition } = require("./utils/enmapUtils.js");
 
-
 const client = new Client({
 	intents: [
 		Intents.FLAGS.GUILDS,
 		Intents.FLAGS.GUILD_MESSAGES,
 		Intents.FLAGS.DIRECT_MESSAGES,
 		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-		Intents.FLAGS.GUILD_MEMBERS
+		Intents.FLAGS.GUILD_MEMBERS,
+		Intents.FLAGS.GUILD_VOICE_STATES
 	],
 	partials: [
 		"MESSAGE",
@@ -27,6 +27,8 @@ const client = new Client({
 	]
 });
 
+// This Map keeps the guilds' player, voice connection and channel's ID to allow multi-server use.
+client.guildsData = new Map();
 
 client.commands = new Collection();
 (async () => {

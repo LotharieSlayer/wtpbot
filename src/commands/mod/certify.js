@@ -18,7 +18,7 @@ const { Certify } = require('../../files/modules.js');
  /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
      .setName( "certify" )
-     .setDescription( "Certifier une personne." )
+     .setDescription( "[role] Certifier une personne." )
      .setDefaultPermission( false )
      .addUserOption(option =>
         option.setName('user')
@@ -57,7 +57,6 @@ async function permissions(guild){
   async function execute( interaction ) {
     if(Certify == false) return;
     const CERTIFY_ID = await getSetupData(interaction.guild.id, "certify")
-    console.log(CERTIFY_ID)
     const NCERTIFY_ID = await getSetupData(interaction.guild.id, "ncertify")
     const DEMO_ID = await getSetupData(interaction.guild.id, "demo")
 

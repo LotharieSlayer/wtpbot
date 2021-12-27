@@ -54,7 +54,7 @@ async function execute( interaction ) {
     const embed = new MessageEmbed()
         .setColor('#e15dd9')
         .setTitle(`Changelogs v${pjson.version} :`)
-        .setAuthor('WhatThePhoqueBot', interaction.client.user.avatarURL())
+        .setAuthor( 'WhatThePhoqueBot', interaction.client.user.avatarURL() )
         .setDescription(messageContent)
         .setTimestamp(new Date())
         .setFooter('Merci à tous de nous soutenir ! :)', interaction.client.user.avatarURL())

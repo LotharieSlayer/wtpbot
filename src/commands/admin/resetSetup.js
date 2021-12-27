@@ -27,7 +27,7 @@ const { loadPermissions } = require('../../events/ready.js');
  /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
     .setName( "reset_setup" )
-    .setDescription( "Supprimer les données de configuration du bot pour ce serveur." )
+    .setDescription( "[setup] Supprimer les données de configuration du bot pour ce serveur." )
     .setDefaultPermission( false )
   
  

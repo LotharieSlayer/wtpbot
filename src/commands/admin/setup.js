@@ -23,7 +23,7 @@ const { loadPermissions } = require('../../events/ready.js');
  /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
     .setName( "setup" )
-    .setDescription( "Setup le bot sur ce serveur." )
+    .setDescription( "[setup] Setup le bot sur ce serveur." )
     .setDefaultPermission( false )
     .addChannelOption(option =>
         option.setName('discussion_chan')

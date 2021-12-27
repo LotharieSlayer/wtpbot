@@ -18,7 +18,7 @@ const { Library } = require('../../files/modules.js');
  /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
      .setName( "library" )
-     .setDescription( "Activer/Désactiver l'accès aux archives." )
+     .setDescription( "[role] Activer/Désactiver l'accès aux archives." )
      .setDefaultPermission( false );
  
 /* ----------------------------------------------- */

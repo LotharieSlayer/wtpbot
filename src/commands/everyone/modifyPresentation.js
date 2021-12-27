@@ -18,7 +18,7 @@ const { Presentation } = require('../../files/modules.js');
 /* ----------------------------------------------- */
  const slashCommand = new SlashCommandBuilder()
      .setName( "p_modify" )
-     .setDescription( "Modifier votre présentation." )
+     .setDescription( "[presentation] Modifier votre présentation." )
      .setDefaultPermission( false )
  
 /* ----------------------------------------------- */

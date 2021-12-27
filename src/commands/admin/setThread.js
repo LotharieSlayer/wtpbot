@@ -18,7 +18,7 @@ const { Thread } = require('../../files/modules.js');
 /* ----------------------------------------------- */
 const slashCommand = new SlashCommandBuilder()
 	.setName( "set_thread" )
-	.setDescription( "Ajouter le channel courant dans la base de données des channels autorisant les threads." )
+	.setDescription( "[thread] Ajouter le channel courant dans la base de données des channels autorisant les threads." )
     .setDefaultPermission( false )
 
 /* ----------------------------------------------- */

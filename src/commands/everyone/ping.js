@@ -8,14 +8,13 @@
 
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
-const { ADMINS } = require("../../files/config.json");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const slashCommand = new SlashCommandBuilder()
 	.setName( "ping" )
-	.setDescription( "Ça vous mentionne !" )
+	.setDescription( "[bot] Donne la latence du bot et de l'API Discord en millisecondes." )
 	.setDefaultPermission( false );
 
 /* ----------------------------------------------- */
@@ -42,7 +41,9 @@ async function permissions(guild){
  */
  async function execute( interaction ) {
 	await interaction.reply(
-		{ content: "Pong!", ephemeral: true }
+		{ content: `🏓 **PING**
+		La latence du bot est de ${interaction.createdTimestamp - Date.now()}ms.
+		Latence API Discord : ${Math.round(interaction.client.ws.ping)}ms`, ephemeral: false }
 	);
 }
 
