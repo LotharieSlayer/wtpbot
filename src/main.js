@@ -10,7 +10,6 @@ const { Client, Collection, Intents } = require( "discord.js" );
 const { loadCommands, loadEvents } = require( "./utils/loadAssets" );
 const { loadCommandsToGuild } = require( "./utils/registerCommands" );
 const { loadPermissions } = require("./events/ready");
-const { initDB, dbModifyPresentation, activeList, setupDiscussion, setupPresentation, setupProposition } = require("./utils/enmapUtils.js");
 
 const client = new Client({
 	intents: [

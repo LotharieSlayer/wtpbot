@@ -9,9 +9,7 @@
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
 const {
-    setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
-    setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole,
-    setupAdminRole, setupModRole, getSetupData
+    setup, isSetupDone, getSetupData
 } = require("../../utils/enmapUtils")
  
  /*      AUTHORISATION      */
@@ -108,20 +106,18 @@ async function permissions(guild){
     adminRole = interaction.options.getRole('admin_role')
     modRole = interaction.options.getRole('mod_role')
 
-
-    setupDiscussion.set(discussionChannel.id, interaction.guild.id)
-    setupProposition.set(propositionChannel.id, interaction.guild.id)
-    setupPresentation.set(presentationChannel.id, interaction.guild.id)
-
-    setupActiveRole.set(activeMemberRole.id, interaction.guild.id)
-    setupCertifyRole.set(certifyRole.id, interaction.guild.id)
-    setupNCertifyRole.set(ncertifyRole.id, interaction.guild.id)
-    setupDemoRole.set(demoRole.id, interaction.guild.id)
-    setupLibraryRole.set(libraryRole.id, interaction.guild.id)
-
-    setupAdminRole.set(adminRole.id, interaction.guild.id)
-    setupModRole.set(modRole.id, interaction.guild.id)
-
+    setup.set(interaction.guild.id, {
+        discussion: discussionChannel.id,
+        proposition: propositionChannel.id,
+        presentation: presentationChannel.id,
+        active_role: activeMemberRole.id,
+        certify: certifyRole.id,
+        ncertify: ncertifyRole.id,
+        demo: demoRole.id,
+        library: libraryRole.id,
+        admin_id: adminRole.id,
+        mod_id: modRole.id
+    })
     isSetupDone.set(interaction.guild.id, true)
     loadPermissions(interaction.client)
 

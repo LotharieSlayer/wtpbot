@@ -9,15 +9,8 @@
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
 
-const { setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
-    setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole,
-    setupAdminRole, setupModRole, getSetupData
-} = require("../../utils/enmapUtils")    
+const { setup, isSetupDone, getSetupData } = require("../../utils/enmapUtils")    
 
-const setup = [setupDiscussion, setupProposition, setupPresentation, setupActiveRole, isSetupDone,
-    setupCertifyRole, setupNCertifyRole, setupDemoRole, setupLibraryRole,
-    setupAdminRole, setupModRole]
- 
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
 const { loadPermissions } = require('../../events/ready.js');
@@ -57,14 +50,12 @@ async function permissions(guild){
   async function execute( interaction ) {
     if(Setup == false) return;
 
-    for(tab of setup){
-        tab.fetchEverything()
-        tab.forEach( async (value, key) => {
-            if(value === interaction.guild.id){
-                tab.delete(key)
-            }
-        })
-    }
+    setup.fetchEverything()
+    setup.forEach( async (key, value) => {
+        if(key === interaction.guild.id){
+            setup.delete(value)
+        }
+    })
 
     isSetupDone.set(interaction.guild.id, false)
     loadPermissions(interaction.client)

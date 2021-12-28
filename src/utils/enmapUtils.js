@@ -10,25 +10,12 @@
 /* ----------------------------------------------- */
 const Enmap = require("enmap");
 
-
 const dbModifyPresentation = new Enmap({name: "modifyP"});
 const activeList = new Enmap({name: "activeList"});
+const setup = new Enmap({name : "setup"})
 
-// CHANNELS DATABASE INIT
-const setupDiscussion = new Enmap({name: "setupDiscussion"});
-const setupProposition = new Enmap({name: "setupProposition"});
-const setupPresentation = new Enmap({name: "setupPresentation"});
+// CHANNELS THREAD
 const setupThread = new Enmap({name: "setupThread"});
-
-// ROLES DATABASE INIT
-const setupActiveRole = new Enmap({name: "setupActiveRole"});
-const setupCertifyRole = new Enmap({name: "setupCertifyRole"});
-const setupNCertifyRole = new Enmap({name: "setupNCertifyRole"});
-const setupDemoRole = new Enmap({name: "setupDemoRole"});
-const setupLibraryRole = new Enmap({name: "setupLibraryRole"});
-
-const setupAdminRole = new Enmap({name: "setupAdminRole"});
-const setupModRole = new Enmap({name: "setupModRole"});
 
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
@@ -54,31 +41,30 @@ const isSetupDone = new Enmap({name: "isSetupDone"})
 async function getSetupData(guild, type){
 
     let result;
+    let possibilities = [
+        "discussion",
+        "proposition",
+        "presentation",
+        "active_role",
+        "certify",
+        "ncertify",
+        "demo",
+        "library",
+        "admin_id",
+        "mod_id"
+    ]
+
+    for(let search of possibilities){
+        if(search === type){
+            setup.fetchEverything()?.forEach( async (value, key) => {
+                if(key === guild){
+                    result = eval("value." + type);
+                }
+            })
+        }
+    }    
+
     switch (type) {
-        case "discussion":
-            setupDiscussion.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
-        case "proposition":
-            setupProposition.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
-        case "presentation":
-            setupPresentation.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
-        case "active_role":
-            setupActiveRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
         case "thread":
             // Here guild is the channel actually
             setupThread.fetchEverything()?.forEach( async (value, key) => {
@@ -86,45 +72,13 @@ async function getSetupData(guild, type){
                     result = key;
             })
             break;
-        case "certify":
-            setupCertifyRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
-        case "ncertify":
-            setupNCertifyRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
-        case "demo":
-            setupDemoRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break;
-        case "library":
-            setupLibraryRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break
-        case "admin_id":
-            setupAdminRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break
-        case "mod_id":
-            setupModRole.fetchEverything()?.forEach( async (value, key) => {
-                if(value === guild)
-                    result = key;
-            })
-            break
         case "is_setup":
             isSetupDone.get(guild) ? result = true : result = false;
+            break;
+        default:
+            break;
     }
+
     return result;
 }
 
@@ -149,19 +103,8 @@ module.exports = {
     dbModifyPresentation,
     activeList,
 
-    setupDiscussion,
-    setupPresentation,
-    setupProposition,
+    setup,
     setupThread,
-
-    setupActiveRole,
-    setupCertifyRole,
-    setupNCertifyRole,
-    setupDemoRole,
-    setupLibraryRole,
-
-    setupAdminRole,
-    setupModRole,
 
     isSetupDone,
     memes,
