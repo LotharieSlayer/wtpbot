@@ -5,50 +5,75 @@
  */
 
 
-const fs = require( "fs" );
 const { Client } = require( "discord.js" );
+
+// Used to get all the directory of the commands and events.
+const { promisify } = require( "util" );
+const { glob } = require( "glob" );
+const globPromise = promisify( glob );
 
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
-/* ----------------------------------------------- *//**
- * Load all the commands into the client.
- * @param {Client} client The client where the commands will be loaded.
+/* ----------------------------------------------- */
+/**
+ * Load the commands in the client.
+ * @param {Client} client The client of the bot.
  */
 async function loadCommands( client ) {
-	const dir = "./commands";
-
-	// Reading the commands' folders.
-	fs.readdirSync( dir ).forEach( sub_dir => {
-		// Reading the commands in the current folder.
-		const commandFiles = fs.readdirSync( `${dir}/${sub_dir}` ).filter( file => file.endsWith( ".js" ) );
-
-		for ( const file of commandFiles ) {
-			// Using another pathname because require works from the current file path and not the project path.
-			const command = require( `../commands/${sub_dir}/${file}` );
-			client.commands.set( command.data.name, command );
-		}
-	})
+	const files = await globPromise( `${process.cwd()}/commands/*/*.js` );
+	files.map( file => {
+		const command = require( file );
+		client.commands.set( command.data.name, command );
+	});
 }
 
 
 /**
- * Load all the events into the client.
- * @param {Client} client The client where the events will be loaded.
+ * Load the events in the client.
+ * @param {Client} client The client of the bot.
  */
 async function loadEvents( client ) {
-	const dir = "./events";
-
-	// Reading the events' files.
-	const eventFiles = fs.readdirSync( dir ).filter(file => file.endsWith('.js'));
-	for ( const file of eventFiles ) {
-		const event = require( `../events/${file}` );
-		if ( event.once ) {
+	const files = await globPromise( `${process.cwd()}/events/*.js` );
+	files.map( file => {
+		const event = require( file );
+		if ( event.once )
 			client.once( event.name, ( ...args ) => event.execute( ...args, client ) );
-		} else {
+		else
 			client.on( event.name, ( ...args ) => event.execute( ...args, client ) );
-		}
-	}
+	});
+}
+
+
+/**
+ * Load the commands into the specified guild.
+ * @param {Client} client The client of the bot.
+ * @param {string} guildId The guild's ID.
+ */
+async function loadCommandsToGuild( client, guildId ) {
+	const commandsArray = [];
+	client.commands.map( command => {
+		commandsArray.push( command.data.toJSON() );
+	});
+
+	await client.guilds.cache.get( guildId ).commands.set( commandsArray );
+	console.log( "Loaded application (/) commands to the guild!" );
+}
+
+
+/**
+ * Used to load the commands in all the guids where the client is present.
+ * @param {Client} client The bot's client.
+ */
+async function loadCommandToAllGuilds( client ) {
+	const commandsArray = [];
+	// Comment these three lines to delete slash commands already loaded globally 
+	// client.commands.map( command => {
+	// 	commandsArray.push( command.data.toJSON() );
+	// });
+
+	await client.application.commands.set( commandsArray );
+	console.log( "Loaded application (/) commands to the guild!\nThe commands may take up to an hour before being available on the guilds." );
 }
 
 
@@ -57,5 +82,7 @@ async function loadEvents( client ) {
 /* ----------------------------------------------- */
 module.exports = {
 	loadCommands,
-	loadEvents
+	loadEvents,
+	loadCommandsToGuild,
+	loadCommandToAllGuilds
 }

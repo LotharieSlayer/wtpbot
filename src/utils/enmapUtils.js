@@ -24,7 +24,7 @@ const isSetupDone = new Enmap({name: "isSetupDone"})
 
 // Un-comment to set memes and presences into the database
 // const { MEMES } = require("../data/memes");
-// const { STATES } = require("../data/states");
+// const { STATES } = require("../data/memes");
 // setMemes();
 
 /* ----------------------------------------------- */
@@ -41,7 +41,7 @@ const isSetupDone = new Enmap({name: "isSetupDone"})
 async function getSetupData(guild, type){
 
     let result;
-    let possibilities = [
+    const possibilities = [
         "discussion",
         "proposition",
         "presentation",
@@ -51,7 +51,8 @@ async function getSetupData(guild, type){
         "demo",
         "library",
         "admin_id",
-        "mod_id"
+        "mod_id",
+        "logs"
     ]
 
     for(let search of possibilities){
@@ -91,6 +92,7 @@ async function setMemes(){
     for(let i=0; i < MEMES.length; i++){
         memes.set(MEMES[i].command, MEMES[i].message)
     }
+    console.log("Toutes les données memes / presence ont été chargé !")
 }
 
 

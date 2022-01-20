@@ -7,6 +7,7 @@
 
 const { GuildMember } = require( "discord.js" );
 const { welcomeRole } = require("../utils/modules/welcomeRole");
+const { timeoutLog } = require("../utils/modules/logs");
 
 
 /* ----------------------------------------------- */
@@ -17,9 +18,10 @@ const { welcomeRole } = require("../utils/modules/welcomeRole");
  * @param {GuildMember} oldMember The previous member object.
  * @param {GuildMember} newMember The new member object.
  */
-async function execute( oldMember, newMember ) {
+async function execute( oldMember, newMember, client ) {
 	welcomeRole(oldMember, newMember);
-
+	timeoutLog(oldMember, newMember, client)
+	// console.log(newMember.communicationDisabledUntil)
 }
 
 

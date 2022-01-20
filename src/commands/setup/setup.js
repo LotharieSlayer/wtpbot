@@ -25,15 +25,19 @@ const { loadPermissions } = require('../../events/ready.js');
     .setDefaultPermission( false )
     .addChannelOption(option =>
         option.setName('discussion_chan')
-            .setDescription("Entrez le channel de discussion.")
+            .setDescription("Entrez le channel de discussion. C'est là où seront les memes envoyé selon les conversations.")
             .setRequired(true))  
     .addChannelOption(option =>
         option.setName('proposition_chan')
-        .setDescription("Entrez le channel de proposition.")
+        .setDescription("Entrez le channel où seront fait les propositions par les membres.")
         .setRequired(true))
     .addChannelOption(option =>
         option.setName('presentation_chan')
-            .setDescription("Entrez le channel de presentation.")
+            .setDescription("Entrez le channel de présentation des membres.")
+            .setRequired(true))
+    .addChannelOption(option =>
+        option.setName('logs_chan')
+            .setDescription("Entrez où seront les logs publiques. (timeout, kick, ban)")
             .setRequired(true))
     .addRoleOption(option =>
         option.setName('active_role')
@@ -53,7 +57,7 @@ const { loadPermissions } = require('../../events/ready.js');
             .setRequired(true))
     .addRoleOption(option =>
         option.setName('library_role')
-            .setDescription("Entrez le rôle des archives.")
+            .setDescription("Entrez le rôle des archives de votre serveur.")
             .setRequired(true))
     .addRoleOption(option =>
         option.setName('admin_role')
@@ -62,7 +66,7 @@ const { loadPermissions } = require('../../events/ready.js');
     .addRoleOption(option =>
         option.setName('mod_role')
             .setDescription("Entrez le rôle des modérateurs.")
-            .setRequired(true))
+            .setRequired(true));
 
   
  
@@ -97,6 +101,7 @@ async function permissions(guild){
     discussionChannel = interaction.options.getChannel('discussion_chan')
     propositionChannel = interaction.options.getChannel('proposition_chan')
     presentationChannel = interaction.options.getChannel('presentation_chan')
+    logsChannel = interaction.options.getChannel('logs_chan')
 
     activeMemberRole = interaction.options.getRole('active_role')
     certifyRole = interaction.options.getRole('certify_role')
@@ -110,6 +115,7 @@ async function permissions(guild){
         discussion: discussionChannel.id,
         proposition: propositionChannel.id,
         presentation: presentationChannel.id,
+        logs: logsChannel.id,
         active_role: activeMemberRole.id,
         certify: certifyRole.id,
         ncertify: ncertifyRole.id,
@@ -124,17 +130,18 @@ async function permissions(guild){
 
     await interaction.reply({
         content: `Configuration :
-        discussion_chan : \`${discussionChannel.id}\`,
-        proposition_chan : \`${propositionChannel.id}\`,
-        presentation_chan : \`${presentationChannel.id}\`,\n
-        active_role : \`${activeMemberRole.id}\`,
-        certify_role : \`${certifyRole.id}\`,
-        ncertify_role : \`${ncertifyRole.id}\`,
-        demo_role : \`${demoRole.id}\`,
-        library_role : \`${libraryRole.id}\`,\n
-        admin_role : \`${adminRole.id}\`,
-        mod_role : \`${modRole.id}\`,\n
-        Votre setup est terminé !
+        <#${discussionChannel.id}> est l'endroit où vous pourrez discuter avec des memes.
+        <#${propositionChannel.id}> est l'endroit où les propositions de vos membres seront.
+        <#${presentationChannel.id}> est l'endroit où seront les présentations des membres.
+        <#${logsChannel.id}> est l'endroit où seront stockés les logs publiques.\n
+        <@!${activeMemberRole.id}> est le rôle des membres actifs sur votre serveur.
+        <@!${certifyRole.id}> est le rôle des membres certifiés par votre serveur.
+        <@!${ncertifyRole.id}> est le rôle des membres non certifiés par votre serveur.
+        <@!${demoRole.id}> est le rôle des membres souhaitant voir ce qu'il se passe avant de rejoindre complètement votre serveur.
+        <@!${libraryRole.id}> est le rôle des membres souhaitant accéder aux archives.\n
+        <@!${adminRole.id}> est le rôle des administrateurs de votre serveur.
+        <@!${modRole.id}> est le rôle des modérateurs de votre serveur.\n
+        Votre setup est terminé, veuillez patienter nous activons au fur et à mesure les commandes pour chacun des rôles !
         `,
         ephemeral: true
     });

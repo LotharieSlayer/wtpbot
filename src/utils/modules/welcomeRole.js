@@ -11,15 +11,14 @@ const { WelcomeRole } = require('../../files/modules.js');
 
 /*      IMPORTS      */
 const { MessageEmbed } = require("discord.js");
-
+const { getSetupData } = require("../../utils/enmapUtils")
+const { NEW, VERIFIED } = require('../../data/welcomeMessages.js');
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
 async function welcomeRole(oldMember, newMember){
     if(WelcomeRole == false) return;
-    const { getSetupData } = require("../../utils/enmapUtils")
-    const { NEW, VERIFIED } = require('../../data/welcomeMessages.js');
 
     const CERTIFY_ID = await getSetupData(newMember.guild.id, "certify")
     const NCERTIFY_ID = await getSetupData(newMember.guild.id, "ncertify")
@@ -27,20 +26,16 @@ async function welcomeRole(oldMember, newMember){
 
     if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
 
-        
         // Message à ceux qui prennent le role Démo
-        if (!oldMember.roles.cache.some(role => role.id === DEMO_ID)
-        && newMember.roles.cache.some(role => role.id === DEMO_ID)) {
+        if (!oldMember.roles.cache.some(role => role.id === DEMO_ID) && newMember.roles.cache.some(role => role.id === DEMO_ID)) {
             newMember.send({ embeds: [NEW] });
         }
         // Message à ceux qui prennent le role Non Certifié
-        if (!oldMember.roles.cache.some(role => role.id === NCERTIFY_ID)
-        && newMember.roles.cache.some(role => role.id === NCERTIFY_ID)) {
+        if (!oldMember.roles.cache.some(role => role.id === NCERTIFY_ID) && newMember.roles.cache.some(role => role.id === NCERTIFY_ID)) {
             newMember.send({ embeds: [NEW] });
         }
         // Message à ceux qui ont passé la certification
-        if (!oldMember.roles.cache.some(role => role.id === CERTIFY_ID)
-        && newMember.roles.cache.some(role => role.id === CERTIFY_ID)) {
+        if (!oldMember.roles.cache.some(role => role.id === CERTIFY_ID) && newMember.roles.cache.some(role => role.id === CERTIFY_ID)) {
             newMember.send({ embeds: [VERIFIED] });
         }
 

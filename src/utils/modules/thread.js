@@ -42,11 +42,8 @@ async function thread(msg){
 
 async function threadDelete(msg){
     if(Thread == false) return;
-    if(msg.author.bot) return;
-    const THREAD_ID = await getSetupData(msg.channel.id, "thread")
-    if(THREAD_ID != msg.channel.id) return
-
-    msg.thread.delete("Message supprimé")
+    if(msg.thread != null)
+        msg.thread.delete("Message supprimé")
     
 }
 

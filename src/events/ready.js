@@ -20,7 +20,7 @@ function execute( client ) {
 	loadPresence(client)
 
 	// Out-comment when we need to actualise the commands' permissions on ready event.
-	// loadPermissions( client )
+	loadPermissions(client)
 }
 
 

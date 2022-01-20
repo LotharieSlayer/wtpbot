@@ -51,9 +51,9 @@ async function permissions(guild){
     if(Setup == false) return;
 
     setup.fetchEverything()
-    setup.forEach( async (key, value) => {
+    setup.forEach( async (value, key) => {
         if(key === interaction.guild.id){
-            setup.delete(value)
+            setup.delete(key)
         }
     })
 

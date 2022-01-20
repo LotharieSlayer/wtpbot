@@ -24,8 +24,6 @@ async function activeMember(client, msg){
 
 
     const ACTIVE_ROLE_ID = await getSetupData(msg.guild.id, "active_role")
-    console.log(await getSetupData(msg.guild.id, "active_role"))
-    console.log(ACTIVE_ROLE_ID)
     activeList.set(msg.author.id, Date.now())
     let activeRole = msg.guild.roles.cache.get(ACTIVE_ROLE_ID);
     msg.member.roles.add(activeRole)

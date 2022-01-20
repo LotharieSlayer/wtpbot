@@ -9,6 +9,7 @@
  * @export {boolean} Authorisation.
  */
 
+// v1.0
 exports.Certify = true;
 exports.Library = true;
 exports.Changelogs = true;
@@ -20,3 +21,9 @@ exports.Setup = true;
 exports.Thread = true;
 exports.Memes = true;
 exports.Presence = true;
+
+// v1.1
+exports.Music = true;
+
+// v1.2
+exports.Mod = true;

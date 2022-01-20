@@ -7,8 +7,7 @@
 
 const { TOKEN, DEV_GUILD_ID } = require( "./files/config.json" );
 const { Client, Collection, Intents } = require( "discord.js" );
-const { loadCommands, loadEvents } = require( "./utils/loadAssets" );
-const { loadCommandsToGuild } = require( "./utils/registerCommands" );
+const { loadCommands, loadEvents, loadCommandsToGuild, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
 const { loadPermissions } = require("./events/ready");
 
 const client = new Client({
@@ -18,11 +17,14 @@ const client = new Client({
 		Intents.FLAGS.DIRECT_MESSAGES,
 		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
 		Intents.FLAGS.GUILD_MEMBERS,
-		Intents.FLAGS.GUILD_VOICE_STATES
+		Intents.FLAGS.GUILD_VOICE_STATES,
+		Intents.FLAGS.GUILD_BANS
 	],
 	partials: [
 		"MESSAGE",
-		"REACTION"
+		"REACTION",
+		"GUILD_MEMBER",
+		"USER"
 	]
 });
 
@@ -34,7 +36,9 @@ client.commands = new Collection();
 	await loadCommands( client );
 	await loadEvents( client );
 	await client.login( TOKEN );
-	await loadCommandsToGuild( client.user.id, DEV_GUILD_ID, TOKEN );
+	for(guild of DEV_GUILD_ID)
+		await loadCommandsToGuild( client, guild );
+	await loadCommandToAllGuilds(client)
 	await loadPermissions(client);
 })();
 

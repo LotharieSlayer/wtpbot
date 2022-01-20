@@ -5,37 +5,44 @@
  */
 
 
-const { Client, Message } = require( "discord.js" );
-const { activeMember } = require("../utils/modules/activeMember.js");
-const { proposition } = require("../utils/modules/proposition.js");
-const { presentation } = require("../utils/modules/presentation");
-const { thread } = require("../utils/modules/thread.js");
-const { memes } = require("../utils/enmapUtils.js");
-
-/* ----------------------------------------------- */
-/* FUNCTIONS                                       */
-/* ----------------------------------------------- */
-
-
-/**
- * Function called when the event 'messageCreate' is emitted.
- * @param {Message} message The message created.
- * @param {Client} client The client that emitted the event.
- */
-async function execute( message, client ) {
-	activeMember(client, message);
-	proposition(client, message);
-	presentation(message)
-	thread(message)
-	loadMemes(message)
-}
-
+ const { Client, Message } = require( "discord.js" );
+ const { activeMember } = require("../utils/modules/activeMember.js");
+ const { proposition } = require("../utils/modules/proposition.js");
+ const { presentation } = require("../utils/modules/presentation");
+ const { thread } = require("../utils/modules/thread.js");
+ const { memes, getSetupData } = require("../utils/enmapUtils.js");
+ let warns = new Map()
+ 
+ 
+ /* ----------------------------------------------- */
+ /* FUNCTIONS                                       */
+ /* ----------------------------------------------- */
+ 
+ 
+ /**
+  * Function called when the event 'messageCreate' is emitted.
+  * @param {Message} message The message created.
+  * @param {Client} client The client that emitted the event.
+  */
+ async function execute( message, client ) {
+	 if( !(await isURL(message)) ){
+		 activeMember(client, message);
+		 proposition(client, message);
+		 presentation(message)
+		 thread(message)
+		 loadMemes(message)
+	 }
+ }
+ 
 async function loadMemes(msg){
-    if(msg.author.bot) return;
+	
+	if(msg.author.bot) return;
+    const discussion = await getSetupData(msg.guild.id, "discussion")
+	if(msg.channel.id != discussion) return;
 
-	// Génère un nombre random entre 1 et 10
-	const randomValue = Math.floor(Math.random() * 10 + 1);
-	if(randomValue > 2) return
+	// Génère un nombre random entre 1 et 30
+	let randomValue = Math.floor(Math.random() * 30 + 1);
+	if(randomValue > 1) return
 
 	memes.fetchEverything()
 	memes.forEach( async (value, key) => {
@@ -44,11 +51,42 @@ async function loadMemes(msg){
 	});
 }
 
+async function isURL(msg){
+	if(msg.author.bot) return true;
 
-/* ----------------------------------------------- */
-/* MODULE EXPORTS                                  */
-/* ----------------------------------------------- */
-module.exports = {
-	name: "messageCreate",
-	execute
+	let ncertify = await getSetupData(msg.guild.id, "ncertify")
+
+	let regex = (/(https?|ftp|ssh|mailto):\/\/[a-z0-9\/:%_+.,#?!@&=-]+/gi)
+	let isMatch = regex.test(msg.content)
+	let isRole = msg.member.roles.cache.some(role => role.id === ncertify)
+
+	if(isMatch && isRole){
+
+		await msg.delete()
+
+		cpt = 0
+		if(warns.get(msg.member.id) != null) cpt = warns.get(msg.member.id)
+		warns.set(msg.member.id, cpt + 1)
+
+		if(cpt < 2)
+			msg.channel.send(`Attention <@${msg.author.id}> tu n'a pas le droit de poster des liens sans être certifié !\nMerci de bien vouloir lire le règlement.`)
+				.then(m => setTimeout(() => m.delete(), 10000))
+		if(cpt >= 2){
+			await msg.member.send(`On t'avais prévenu. Tu as été banni de ${msg.guild.name} car tu as posté trop de liens sans être certifié !`)
+			await msg.member.ban()
+		}
+		return true;
+	}
+
+	return false;
+
 }
+
+ /* ----------------------------------------------- */
+ /* MODULE EXPORTS                                  */
+ /* ----------------------------------------------- */
+ module.exports = {
+	 name: "messageCreate",
+	 execute
+ }
+ 
