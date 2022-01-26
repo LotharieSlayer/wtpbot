@@ -1,1 +1,4 @@
-Ceci est un test pour les **changelogs** !
+- Event log when permissions are once again uploaded
+- Syntax error of m_shuffle resolved
+- Random value for memes replies (30 --> 60)
+- Memes replies bug fix
