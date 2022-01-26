@@ -14,7 +14,7 @@ exports.Certify = true;
 exports.Library = true;
 exports.Changelogs = true;
 exports.ActiveMember = true;
-exports.WelcomeRole = true;
+exports.WelcomeRole = false;
 exports.Proposition = true;
 exports.Presentation = true;
 exports.Setup = true;
@@ -27,3 +27,6 @@ exports.Music = true;
 
 // v1.2
 exports.Mod = true;
+
+// v2.0.2
+exports.WelcomeMember = true;

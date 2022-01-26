@@ -1,7 +1,7 @@
 /**
  * @author Lothaire Guée
  * @description
- * 		The file contains the functions to guide new users by sending DMs.
+ * 		The file contains the functions to logs mod actions in specifics channel.
  *
  */
 
@@ -25,10 +25,10 @@ async function timeoutLog(oldMember, newMember, client){
 
 
     // TIMEOUT
-    console.log(".")
-    console.log(oldMember.communicationDisabledUntil)
-    console.log(newMember.communicationDisabledUntil)
-    console.log(new Date())
+    // console.log(".")
+    // console.log(oldMember.communicationDisabledUntil)
+    // console.log(newMember.communicationDisabledUntil)
+    // console.log(new Date())
     
     if (oldMember.communicationDisabledUntil != newMember.communicationDisabledUntil) {
 

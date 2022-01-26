@@ -9,6 +9,8 @@
 const { SlashCommandBuilder } = require( "@discordjs/builders" );
 const { CommandInteraction } = require( "discord.js" );
 const { getSetupData } = require("../../utils/enmapUtils")
+const { VERIFIED } = require('../../data/welcomeMessages.js');
+
  
  /*      AUTHORISATION      */
 const { Certify } = require('../../files/modules.js');
@@ -68,6 +70,7 @@ async function permissions(guild){
     member.roles.add(rolea);
     member.roles.remove(roleb);
     member.roles.remove(rolec);
+    member.send({ embeds: [VERIFIED] });
 
     await interaction.reply(
         { content: `Vous avez bien certifié <@${member.user.id}> !`, ephemeral: false }

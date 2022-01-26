@@ -1,4 +1,11 @@
+2.0.1
 - Event log when permissions are once again uploaded
 - Syntax error of m_shuffle resolved
 - Random value for memes replies (30 --> 60)
 - Memes replies bug fix
+
+2.0.2
+- Welcome messages in the discussion channel
+- Random value for memes replies (60 --> 100)
+- Correction du bug des messages envoyés en MP
+- welcomeRole.js deprecated

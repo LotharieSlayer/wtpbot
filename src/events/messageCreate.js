@@ -41,7 +41,7 @@ async function loadMemes(msg){
 	if(msg.channel.id != discussion) return;
 
 	// Génère un nombre random entre 1 et 30
-	let randomValue = Math.floor(Math.random() * 60 + 1);
+	let randomValue = Math.floor(Math.random() * 100 + 1);
 	console.log(randomValue)
 	if(randomValue > 1) return
 
