@@ -13,7 +13,7 @@
  
  const slashCommand = new SlashCommandBuilder()
      .setName( "m_shuffle" )
-     .setDescription( "Mélange la queue" );
+     .setDescription( "[music] Mélange la queue" );
  
 
 

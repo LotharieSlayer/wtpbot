@@ -78,6 +78,7 @@ function execute( client ) {
 			})
 		}
 	})
+	console.log("Loaded permissions (/) commands to the guild!")
 }
 
 async function loadPresence( client ){

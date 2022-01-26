@@ -41,13 +41,18 @@ async function loadMemes(msg){
 	if(msg.channel.id != discussion) return;
 
 	// Génère un nombre random entre 1 et 30
-	let randomValue = Math.floor(Math.random() * 30 + 1);
+	let randomValue = Math.floor(Math.random() * 60 + 1);
+	console.log(randomValue)
 	if(randomValue > 1) return
 
 	memes.fetchEverything()
+	let isSent = false;
 	memes.forEach( async (value, key) => {
-		if(msg.content.includes(key))
-			msg.reply(value)
+		if(isSent) return
+		if(msg.content.includes(key)){
+			msg.reply(value);
+			isSent = true;
+		}
 	});
 }
 
