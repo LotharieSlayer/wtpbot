@@ -30,44 +30,34 @@ async function timeoutLog(oldMember, newMember, client){
     // console.log(newMember.communicationDisabledUntil)
     // console.log(new Date())
     
-    if (oldMember.communicationDisabledUntil != newMember.communicationDisabledUntil) {
+    if (oldMember.communicationDisabledUntilTimestamp != newMember.communicationDisabledUntilTimestamp ||
+        (newMember.communicationDisabledUntilTimestamp ?? Infinity) < Date.now()) {
 
         let auditLogs = await oldMember.guild.fetchAuditLogs({ limit: 5, type: 'MEMBER_UPDATE' });
         let timeoutFirst = auditLogs.entries.first();
 
 
-
         let dateNow = new Date()
         if(newMember.communicationDisabledUntil != null && newMember.communicationDisabledUntil > dateNow){
 
-            // GESTION
-            let hours = newMember.communicationDisabledUntil.getHours()
-            let minutes = newMember.communicationDisabledUntil.getMinutes()
-            let date = newMember.communicationDisabledUntil.getDate()
-            let month = newMember.communicationDisabledUntil.getMonth() + 1
-            let year = newMember.communicationDisabledUntil.getFullYear()
-
-            let fullDate = `${hours}h${minutes} le ${date}/${month}/${year}`
-
-
             timeoutEmbed = new MessageEmbed()
                 .setColor('#e15dd9')
-                .setAuthor( `┃ ${newMember.user.username} vient d'être mute jusqu'à ${fullDate}.`, newMember.user.avatarURL() )
+                .setAuthor( `┃ ${newMember.user.username} vient d'être mute.`, newMember.user.avatarURL() )
                 .setDescription(`(${newMember.user.id})`)
-                .setTimestamp(new Date())
-                .setFooter(`WhatThePhoqueBot`, client.user.avatarURL())
+                .setTimestamp(newMember.communicationDisabledUntil)
+                .setFooter(`Par ${timeoutFirst.executor.username} jusqu'à`, timeoutFirst.executor.avatarURL())
           if ( timeoutFirst.reason ) timeoutEmbed.setDescription( `${timeoutFirst.reason} (${newMember.user.id})` );
 
         }
         else {
             timeoutEmbed = new MessageEmbed()
                 .setColor('#e15dd9')
-                .setAuthor( `┃ ${newMember.user.username} (${newMember.user.id}) vient d'être unmute.`, newMember.user.avatarURL() )
                 .setDescription(`(${newMember.user.id})`)
-                .setTimestamp(new Date())
-                .setFooter(`WhatThePhoqueBot`, client.user.avatarURL())
+                .setAuthor( `┃ ${newMember.user.username} vient d'être unmute.`, newMember.user.avatarURL() )
+                .setFooter(`Par ${timeoutFirst.executor.username}`, timeoutFirst.executor.avatarURL())
 
-            if ( timeoutFirst.reason ) timeoutEmbed.setDescription( `${timeoutFirst.reason} (${newMember.user.id})` );
+
+            if ( timeoutFirst.reason ) timeoutEmbed.setDescription( `**Raison :** ${timeoutFirst.reason}` );
 
         }
 
@@ -115,13 +105,21 @@ async function banLog( guildBan, banned, client )
 
     let banEmbed = new MessageEmbed()
         .setColor('#e15dd9')
-        .setTimestamp(new Date())
-        .setFooter(`WhatThePhoqueBot`, client.user.avatarURL());
     
-    if ( banned ) banEmbed.setAuthor( `┃ ${user.username} vient d'être ban.`, user.avatarURL() )
-    else banEmbed.setAuthor( `┃ ${user.username} (${user.id}) vient d'être unban.`, user.avatarURL() )
+    if ( banned ){
+        let auditLogs = await guildBan.guild.fetchAuditLogs({ limit: 5, type: 'MEMBER_BAN_ADD' });
+        let banFirst = auditLogs.entries.first();
+        banEmbed.setFooter(`Par ${banFirst.executor.username}`, banFirst.executor.avatarURL())
+        banEmbed.setAuthor( `┃ ${user.username} (${user.id}) vient d'être ban.`, user.avatarURL() )
+    }
+    else {
+        let auditLogs = await guildBan.guild.fetchAuditLogs({ limit: 5, type: 'MEMBER_BAN_REMOVE' });
+        let unbanFirst = auditLogs.entries.first();
+        banEmbed.setFooter(`Par ${unbanFirst.executor.username}`, unbanFirst.executor.avatarURL())
+        banEmbed.setAuthor( `┃ ${user.username} (${user.id}) vient d'être unban.`, user.avatarURL() )
+    }
 
-    if ( reason ) banEmbed.setDescription( `${reason} (${user.id})` );
+    if ( reason ) banEmbed.setDescription( `**Raison :** ${reason}` );
 
     logChannel.send( { embeds: [banEmbed] } );
 }

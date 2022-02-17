@@ -59,13 +59,13 @@ async function loadMemes(msg){
 async function isURL(msg){
 	if(msg.author.bot) return true;
 
-	let ncertify = await getSetupData(msg.guild.id, "ncertify")
+	let certify = await getSetupData(msg.guild.id, "certify")
 
 	let regex = (/(https?|ftp|ssh|mailto):\/\/[a-z0-9\/:%_+.,#?!@&=-]+/gi)
 	let isMatch = regex.test(msg.content)
-	let isRole = msg.member.roles.cache.some(role => role.id === ncertify)
+	let isRole = msg.member.roles.cache.some(role => role.id === certify) ? true : false
 
-	if(isMatch && isRole){
+	if(isMatch && !isRole){
 
 		await msg.delete()
 
@@ -78,7 +78,7 @@ async function isURL(msg){
 				.then(m => setTimeout(() => m.delete(), 10000))
 		if(cpt >= 2){
 			await msg.member.send(`On t'avais prévenu. Tu as été banni de ${msg.guild.name} car tu as posté trop de liens sans être certifié !`)
-			await msg.member.ban()
+			await msg.member.ban({reason: 'Spam de liens en étant non certifié'})
 		}
 		return true;
 	}

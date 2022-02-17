@@ -1,15 +1,15 @@
 {
   "name": "wtpbot",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "dependencies": {
     "@discordjs/builders": "^0.11",
     "@discordjs/rest": "^0.2.0-canary.0",
     "@discordjs/voice": "^0.7.5",
     "discord.js": "^13.6.0",
     "enmap": "^5.8.7",
-    "glob": "^7.2.0",
     "ffmpeg-static": "^4.4.0",
     "fs": "^0.0.1-security",
+    "glob": "^7.2.0",
     "libsodium-wrappers": "^0.7.9",
     "youtube-dl-exec": "^1.3.3",
     "yt-search": "^2.10.2",
