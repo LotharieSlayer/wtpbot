@@ -42,7 +42,7 @@ async function permissions(guild){
  async function execute( interaction ) {
 	await interaction.reply(
 		{ content: `🏓 **PING**
-		La latence du bot est de ${interaction.createdTimestamp - Date.now()}ms.
+		La latence du bot est de ${Date.now() - interaction.createdTimestamp}ms.
 		Latence API Discord : ${Math.round(interaction.client.ws.ping)}ms`, ephemeral: false }
 	);
 }
