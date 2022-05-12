@@ -22,21 +22,6 @@ const { Changelogs } = require('../../files/modules.js');
      .setDescription( "Affiche les récents changements de votre ami WTPBot." )
      .setDefaultPermission( false );
  
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-	const permissions = [
-		{
-			id: guild,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
-
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
  /* ----------------------------------------------- */
@@ -71,6 +56,5 @@ async function execute( interaction ) {
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions,
     execute
  }

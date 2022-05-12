@@ -25,27 +25,6 @@ const { Presentation } = require('../../files/modules.js');
             .setDescription("Entrez l'utilisateur.")
             .setRequired(true));
  
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-    const MOD_ID = await getSetupData(guild, "mod_id")
-    const ADMIN_ID = await getSetupData(guild, "admin_id")
-    const permissions = [
-		{
-			id: MOD_ID,
-			type: 'ROLE',
-			permission: true,
-		},
-        {
-			id: ADMIN_ID,
-			type: 'ROLE',
-			permission: true,
-		}
-	];
-	return permissions;
-}
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -79,6 +58,5 @@ async function permissions(guild){
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions: permissions,
     execute
  }

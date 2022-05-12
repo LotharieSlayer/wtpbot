@@ -28,22 +28,6 @@ const slashCommand = new SlashCommandBuilder()
 			.setRequired( true )
 	);
 
-
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-	const permissions = [
-		{
-			id: guild,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
-
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -253,6 +237,5 @@ function getPlayMusicEmbed( musicInfo ) {
 /* ----------------------------------------------- */
 module.exports = {
 	data: slashCommand,
-	permissions,
 	execute
 }

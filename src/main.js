@@ -8,7 +8,6 @@
 const { TOKEN, DEV_GUILD_ID } = require( "./files/config.json" );
 const { Client, Collection, Intents } = require( "discord.js" );
 const { loadCommands, loadEvents, loadCommandsToGuild, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
-const { loadPermissions } = require("./events/ready");
 
 const client = new Client({
 	intents: [
@@ -38,8 +37,7 @@ client.commands = new Collection();
 	await client.login( TOKEN );
 	for(guild of DEV_GUILD_ID)
 		await loadCommandsToGuild( client, guild );
-	await loadCommandToAllGuilds(client)
-	await loadPermissions(client);
+	// await loadCommandToAllGuilds(client)
 })();
 
 

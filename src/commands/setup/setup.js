@@ -14,7 +14,6 @@ const {
  
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
-const { loadPermissions } = require('../../events/ready.js');
  
  /* ----------------------------------------------- */
  /* COMMAND BUILD                                   */
@@ -68,23 +67,6 @@ const { loadPermissions } = require('../../events/ready.js');
             .setDescription("Entrez le rôle des modérateurs.")
             .setRequired(true));
 
-  
- 
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-    const ADMIN_ID = await getSetupData(guild, "admin_id")
-    const permissions = [
-		{
-			id: ADMIN_ID,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
 
 
  /* ----------------------------------------------- */
@@ -96,7 +78,6 @@ async function permissions(guild){
   */
   async function execute( interaction ) {
     if(Setup == false) return;
-   
 
     discussionChannel = interaction.options.getChannel('discussion_chan')
     propositionChannel = interaction.options.getChannel('proposition_chan')
@@ -125,7 +106,6 @@ async function permissions(guild){
         mod_id: modRole.id
     })
     isSetupDone.set(interaction.guild.id, true)
-    loadPermissions(interaction.client)
 
 
     await interaction.reply({
@@ -154,6 +134,5 @@ async function permissions(guild){
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions,
     execute
  }

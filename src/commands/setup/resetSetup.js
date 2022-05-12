@@ -13,7 +13,6 @@ const { setup, isSetupDone, getSetupData } = require("../../utils/enmapUtils")
 
  /*      AUTHORISATION      */
 const { Setup } = require('../../files/modules.js');
-const { loadPermissions } = require('../../events/ready.js');
  
  /* ----------------------------------------------- */
  /* COMMAND BUILD                                   */
@@ -23,23 +22,6 @@ const { loadPermissions } = require('../../events/ready.js');
     .setDescription( "[setup] Supprimer les données de configuration du bot pour ce serveur." )
     .setDefaultPermission( false )
   
- 
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-    const ADMIN_ID = await getSetupData(guild, "admin_id")
-    const permissions = [
-		{
-			id: ADMIN_ID,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
-
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
  /* ----------------------------------------------- */
@@ -58,7 +40,6 @@ async function permissions(guild){
     })
 
     isSetupDone.set(interaction.guild.id, false)
-    loadPermissions(interaction.client)
 
     await interaction.reply(
         { content: `Bot réinitialisé, si vous souhaitez le réutiliser, merci de démarrer /setup.`, ephemeral: true }
@@ -72,6 +53,5 @@ async function permissions(guild){
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions,
     execute
  }

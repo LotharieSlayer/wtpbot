@@ -19,22 +19,6 @@ const { Library } = require('../../files/modules.js');
  const slashCommand = new SlashCommandBuilder()
      .setName( "library" )
      .setDescription( "[role] Activer/Désactiver l'accès aux archives." )
-     .setDefaultPermission( false );
- 
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-	const permissions = [
-		{
-			id: guild,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
 
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
@@ -73,6 +57,5 @@ async function permissions(guild){
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions,
     execute
  }

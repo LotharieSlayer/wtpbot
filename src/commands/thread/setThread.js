@@ -22,22 +22,6 @@ const slashCommand = new SlashCommandBuilder()
     .setDefaultPermission( false )
 
 /* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-    const ADMIN_ID = await getSetupData(guild, "admin_id")
-    const permissions = [
-		{
-			id: ADMIN_ID,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
-
-/* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
 /**
@@ -72,6 +56,5 @@ async function permissions(guild){
 /* ----------------------------------------------- */
 module.exports = {
 	data: slashCommand,
-	permissions,
 	execute
 }

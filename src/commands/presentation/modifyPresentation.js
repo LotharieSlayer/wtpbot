@@ -19,23 +19,7 @@ const { Presentation } = require('../../files/modules.js');
  const slashCommand = new SlashCommandBuilder()
      .setName( "p_modify" )
      .setDescription( "[presentation] Modifier votre présentation." )
-     .setDefaultPermission( false )
  
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-	const permissions = [
-		{
-			id: guild,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
-
  /* ----------------------------------------------- */
  /* FUNCTIONS                                       */
  /* ----------------------------------------------- */
@@ -67,6 +51,5 @@ async function permissions(guild){
  /* ----------------------------------------------- */
  module.exports = {
     data: slashCommand,
-    permissions,
     execute
  }

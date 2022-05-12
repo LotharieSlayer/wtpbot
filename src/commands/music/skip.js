@@ -18,22 +18,6 @@ const slashCommand = new SlashCommandBuilder()
 	.setName( "m_skip" )
 	.setDescription( "[music] Passe à la musique suivante sans proposer de vote." );
 
-	
-/* ----------------------------------------------- */
-/* PERMISSIONS                                     */
-/* ----------------------------------------------- */
-
-async function permissions(guild){
-	const permissions = [
-		{
-			id: guild,
-			type: 'ROLE',
-			permission: true,
-		},
-	];
-	return permissions;
-}
-
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -75,6 +59,5 @@ async function execute( interaction ) {
 /* ----------------------------------------------- */
 module.exports = {
 	data: slashCommand,
-	permissions,
 	execute
 }
