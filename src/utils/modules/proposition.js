@@ -18,7 +18,7 @@ const { getSetupData } = require('../../utils/enmapUtils');
 async function proposition(client, msg){
     if(Proposition == false) return;
     if(msg.author.bot) return;
-    const PROPOSITION_ID = await getSetupData(msg.guild.id, "proposition")
+    const PROPOSITION_ID = await getSetupData(msg.channel.id, "proposition")
     
     if (msg.channel.id === PROPOSITION_ID){
         
@@ -31,7 +31,7 @@ async function proposition(client, msg){
             .setColor('RANDOM')
 			.setAuthor( messageAuthor.tag, messageAuthor.avatarURL() )
             .setDescription(messageContent)
-            .setTitle(`Proposition n°${msg.id} :`)
+            .setTitle(`Proposition de ${messageAuthor.tag} :`)
             .addFields(
                 {name: "Votes :", value: "`✅` Oui\n`⚪` Neutre\n`❌` NON"},
             )

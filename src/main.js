@@ -5,9 +5,11 @@
  */
 
 
-const { TOKEN, DEV_GUILD_ID } = require( "./files/config.json" );
 const { Client, Collection, Intents } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandsToGuild, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
+const { loadCommandsToGuild } = require( "./utils/loadAssets" );
+
+require( "dotenv" ).config( { path: '.env' } );
 
 const client = new Client({
 	intents: [
@@ -34,10 +36,10 @@ client.commands = new Collection();
 (async () => {
 	await loadCommands( client );
 	await loadEvents( client );
-	await client.login( TOKEN );
-	for(guild of DEV_GUILD_ID)
-		await loadCommandsToGuild( client, guild );
-	// await loadCommandToAllGuilds(client)
+	await client.login( process.env.TOKEN );
+	// for(guild of process.env.DEV_GUILD_ID)
+		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
+	await loadCommandToAllGuilds(client)
 })();
 
 

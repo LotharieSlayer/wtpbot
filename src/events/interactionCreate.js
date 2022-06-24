@@ -22,6 +22,9 @@ function execute( interaction, client ) {
 	if ( interaction.isCommand() ) {
 		client.commands.get( interaction.commandName ).execute( interaction );
 	}
+	if ( interaction.isContextMenu() ) {
+		client.commands.get( interaction.commandName ).execute( interaction );
+	}
 }
 
 

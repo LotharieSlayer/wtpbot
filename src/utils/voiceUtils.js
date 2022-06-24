@@ -6,7 +6,6 @@
 
 
 const { CommandInteraction, MessageEmbed} = require( "discord.js" );
-const { EMBED_COLOR } = require( "../files/config.json" );
 
 
 /* ----------------------------------------------- */
@@ -25,7 +24,6 @@ async function checkUserIsConnected( interaction ) {
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
-					.setColor( EMBED_COLOR )
 					.setTitle( "Tu dois être dans un salon vocal pour utiliser cette commande!" )
 					.setAuthor( interaction.user.username, interaction.user.avatarURL() )
 

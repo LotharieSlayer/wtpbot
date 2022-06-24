@@ -21,7 +21,6 @@ const { timeoutLog } = require("../utils/modules/logs");
 async function execute( oldMember, newMember, client ) {
 	// welcomeRole(oldMember, newMember);
 	timeoutLog(oldMember, newMember, client)
-	// console.log(newMember.communicationDisabledUntil)
 }
 
 

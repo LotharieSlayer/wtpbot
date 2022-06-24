@@ -57,7 +57,7 @@ async function loadCommandsToGuild( client, guildId ) {
 	});
 
 	await client.guilds.cache.get( guildId ).commands.set( commandsArray );
-	console.log( "Loaded application (/) commands to the guild!" );
+	console.log( `Loaded application (/) commands to the guild! (${guildId})` );
 }
 
 
@@ -66,14 +66,10 @@ async function loadCommandsToGuild( client, guildId ) {
  * @param {Client} client The bot's client.
  */
 async function loadCommandToAllGuilds( client ) {
-	const commandsArray = [];
-	// Comment these three lines to delete slash commands already loaded globally 
-	// client.commands.map( command => {
-	// 	commandsArray.push( command.data.toJSON() );
-	// });
-
-	await client.application.commands.set( commandsArray );
-	console.log( "Loaded application (/) commands to the guild!\nThe commands may take up to an hour before being available on the guilds." );
+	client.guilds.cache.forEach( (value, key) => {
+        loadCommandsToGuild( client, key )
+    });
+	// console.log( "Loaded application (/) commands to the guild!\nThe commands may take up to an hour before being available on the guilds." );
 }
 
 

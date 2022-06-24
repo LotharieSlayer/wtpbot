@@ -21,11 +21,12 @@ async function thread(msg){
     const THREAD_ID = await getSetupData(msg.channel.id, "thread")
     if(THREAD_ID != msg.channel.id) return
 
+    let messageContent
     if(msg.content != ""){
-        var messageContent = " - " + msg.content
+        messageContent = " - " + msg.content
     }
     else{
-        var messageContent = ""
+        messageContent = ""
     }
 
     var messageTotal = "Réponses ┃ " + msg.author.username + messageContent + " (" + msg.id + ") "

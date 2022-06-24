@@ -1,5 +1,5 @@
 /**
- * @author Benjamin Guirlet
+ * @author Lothaire Guée
  * @description
  *      Contains the function linked to the dates.
  */
@@ -32,11 +32,21 @@ function getMonthFormatDate() {
 		( date.getMonth() + 1 );
 }
 
+function getMs(time){
+	time = time.split(":");
+	time[0] = parseInt(time[0]) * 24 * 60 * 60 * 1000; // jours
+	time[1] = parseInt(time[1]) * 60 * 60 * 1000; // hours
+	time[2] = parseInt(time[2]) * 60 * 1000; // minutes
+	const ms = time[0] + time[1] + time[2];
+	return ms
+}
+
 
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
 	getDayFormatDate,
-	getMonthFormatDate
+	getMonthFormatDate,
+	getMs
 }

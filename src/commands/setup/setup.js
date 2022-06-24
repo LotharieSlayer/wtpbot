@@ -6,133 +6,248 @@
  */
 
 /*      IMPORTS      */
-const { SlashCommandBuilder } = require( "@discordjs/builders" );
-const { CommandInteraction } = require( "discord.js" );
-const {
-    setup, isSetupDone, getSetupData
-} = require("../../utils/enmapUtils")
- 
- /*      AUTHORISATION      */
-const { Setup } = require('../../files/modules.js');
- 
- /* ----------------------------------------------- */
- /* COMMAND BUILD                                   */
- /* ----------------------------------------------- */
- const slashCommand = new SlashCommandBuilder()
-    .setName( "setup" )
-    .setDescription( "[setup] Setup le bot sur ce serveur." )
-    .setDefaultPermission( false )
-    .addChannelOption(option =>
-        option.setName('discussion_chan')
-            .setDescription("Entrez le channel de discussion. C'est là où seront les memes envoyé selon les conversations.")
-            .setRequired(true))  
-    .addChannelOption(option =>
-        option.setName('proposition_chan')
-        .setDescription("Entrez le channel où seront fait les propositions par les membres.")
-        .setRequired(true))
-    .addChannelOption(option =>
-        option.setName('presentation_chan')
-            .setDescription("Entrez le channel de présentation des membres.")
-            .setRequired(true))
-    .addChannelOption(option =>
-        option.setName('logs_chan')
-            .setDescription("Entrez où seront les logs publiques. (timeout, kick, ban)")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('active_role')
-            .setDescription("Entrez le rôle du membre actif.")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('certify_role')
-            .setDescription("Entrez le rôle du membre certifié.")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('ncertify_role')
-            .setDescription("Entrez le rôle du membre non certifié.")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('demo_role')
-            .setDescription("Entrez le rôle du membre démo.")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('library_role')
-            .setDescription("Entrez le rôle des archives de votre serveur.")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('admin_role')
-            .setDescription("Entrez le rôle des administrateurs.")
-            .setRequired(true))
-    .addRoleOption(option =>
-        option.setName('mod_role')
-            .setDescription("Entrez le rôle des modérateurs.")
-            .setRequired(true));
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { setupMemes, setupSuggestions, setupThread, setupPresentations, setupLogs, setupArchives, setupCertify, setupWelcome } = require("../../utils/enmapUtils");
+// const { setupActiveRole } = require("../../utils/enmapUtils");
+
+/*      AUTHORISATION      */
+const { Setup } = require("../../files/modules.js");
+
+/* ----------------------------------------------- */
+/* COMMAND BUILD                                   */
+/* ----------------------------------------------- */
+const slashCommand = new SlashCommandBuilder()
+    .setName("setup")
+    .setDescription("[setup] Setup une fonctionnalité du bot sur ce serveur.")
+    .setDefaultPermission(false)
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("memes")
+            .setDescription("Définir/Supprimer ce channel autorisable pour les memes.")
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("suggestions")
+            .setDescription(
+                "Définir/Supprimer ce channel autorisable pour les propositions."
+            )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("presentations")
+            .setDescription(
+                "Définir/Supprimer ce channel autorisable pour les présentations."
+            )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("thread")
+            .setDescription("Définir ce channel autorisable pour les threads.")
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("logs")
+            .setDescription(
+                "Définir/Supprimer le channel pour les logs. (Il ne peut n'y en avoir qu'un)"
+            )
+    )
+    .addSubcommand((subcommand) =>
+    subcommand
+        .setName("welcome")
+        .setDescription(
+            "Définir/Supprimer le channel pour les bienvenus. (Il ne peut n'y en avoir qu'un)"
+        )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("archives")
+            .setDescription(
+                "Définir/Supprimer le rôle pour les membres autorisés à accéder aux archives."
+            )
+            .addRoleOption((role) =>
+                role
+                    .setName("archives")
+                    .setDescription("Le rôle pour les membres autorisés à accéder aux archives.")
+            )
+    )
+    // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
+    // .addSubcommand((subcommand) =>
+    //     subcommand
+    //         .setName("active_role")
+    //         .setDescription(
+    //             "Définir/Supprimer le rôle pour les membres actifs du serveur."
+    //         )
+    //         .addRoleOption((role) =>
+    //             role
+    //                 .setName("active_role")
+    //                 .setDescription("Le rôle pour les membres actifs.")
+    //         )
+    // )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("certify")
+            .setDescription(
+                "Définir/Supprimer les rôles de certification et de non-certification."
+            )
+            .addStringOption((string) =>
+                string
+                    .setName("certify_roles")
+                    .setDescription(
+                        "Entrez l'ID du/des rôles de certification qui seront à ajouter. (séparé d'une \",\" si plusieurs)"
+                    )
+            )
+            .addStringOption((string) =>
+                string
+                    .setName("n_certify_roles")
+                    .setDescription(
+                        "Entrez l'ID du/des rôles de non-certification qui seront à enlever. (séparé d'une \",\" si plusieurs)"
+                    )
+            )
+    );
+
+/* ----------------------------------------------- */
+/* FUNCTIONS                                       */
+/* ----------------------------------------------- */
+/**
+ * Function called when the command 'ping'
+ * @param {CommandInteraction} interaction The interaction generated by the command's execution.
+ */
+async function execute(interaction) {
+    if (Setup == false) return;
+
+    switch (interaction.options._subcommand) {
+        case "memes":
+            if(setupMemes.get(interaction.channel.id) === undefined){
+                setupMemes.set(interaction.channel.id, interaction.guild.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> ajouté à la liste des channels memes !`, ephemeral: true });
+            }
+            else {
+                setupMemes.delete(interaction.channel.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels memes !`, ephemeral: true });
+            }
+            break;
+        case "suggestions":
+            if(setupSuggestions.get(interaction.channel.id) === undefined){
+                setupSuggestions.set(interaction.channel.id, interaction.guild.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> ajouté à la liste des channels propositions !`, ephemeral: true });
+            }
+            else {
+                setupSuggestions.delete(interaction.channel.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels propositions !`, ephemeral: true });
+            }
+            break;
+        case "presentations":
+            if(setupPresentations.get(interaction.channel.id) === undefined){
+                setupPresentations.set(interaction.channel.id, interaction.guild.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> ajouté à la liste des channels présentations !`, ephemeral: true });
+            }
+            else {
+                setupPresentations.delete(interaction.channel.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels présentations !`, ephemeral: true });
+            }
+            break;
+        case "thread":
+            if(setupThread.get(interaction.channel.id) === undefined){
+                setupThread.set(interaction.channel.id, interaction.guild.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> ajouté à la liste des channels thread !`, ephemeral: true });
+            }
+            else {
+                setupThread.delete(interaction.channel.id);
+                await interaction.reply({ content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels thread !`, ephemeral: true });
+            }
+            break;
+        case "logs":
+            if(setupLogs.get(interaction.guild.id) === undefined){
+                setupLogs.set(interaction.guild.id, interaction.channel.id);
+                await interaction.reply({ content: `Logs ajouté au serveur dans <#${interaction.channel.id}> !`, ephemeral: true });
+            }
+            else {
+                setupLogs.delete(interaction.guild.id);
+                await interaction.reply({ content: `Logs supprimé du serveur !`, ephemeral: true });
+            }
+            break;
+        case "welcome":
+            if(setupWelcome.get(interaction.guild.id) === undefined){
+                setupWelcome.set(interaction.guild.id, interaction.channel.id);
+                await interaction.reply({ content: `Channel pour les bienvenus ajouté au serveur dans <#${interaction.channel.id}> !`, ephemeral: true });
+            }
+            else {
+                setupWelcome.delete(interaction.guild.id);
+                await interaction.reply({ content: `Channel pour les bienvenus supprimé du serveur !`, ephemeral: true });
+            }
+            break;
+        case "archives":
+            // eslint-disable-next-line no-case-declarations
+            const archivesGet = await setupArchives.get(interaction.guild.id)
+            if(archivesGet === undefined){
+                const roleId = interaction.options.getRole("archives").id;
+                if(roleId != undefined){
+                    setupArchives.set(interaction.guild.id, interaction.options.getRole("archives").id);
+                    await interaction.reply({ content: `Rôle des archives ajouté au serveur ! (<@!${interaction.options.getRole("archives").id}>)`, ephemeral: true });
+                }
+                else {
+                    await interaction.reply({ content: `Rôle à supprimer introuvable, vous devez spécifier un rôle si vous souhaitez l'ajouter.`, ephemeral: true });
+                }
+            }
+            else {
+                setupArchives.delete(interaction.guild.id);
+                await interaction.reply({ content: `Rôle des archives supprimé du serveur ! (<@!${archivesGet}>)`, ephemeral: true });
+            }
+            break;
+        // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
+        // case "active_role":
+        //     // eslint-disable-next-line no-case-declarations
+        //     const activeRoleGet = await setupActiveRole.get(interaction.guild.id)
+        //     if(activeRoleGet === undefined){
+        //         const roleId = interaction.options.getRole("active_role").id;
+        //         if(roleId != undefined){
+        //             setupActiveRole.set(interaction.guild.id, interaction.options.getRole("active_role").id);
+        //             await interaction.reply({ content: `Rôle des membres actifs ajouté au serveur ! (<@${interaction.options.getRole("active_role").id}>)`, ephemeral: true });
+        //         }
+        //         else {
+        //             await interaction.reply({ content: `Rôle à supprimer introuvable, vous devez spécifier un rôle si vous souhaitez l'ajouter.`, ephemeral: true });
+        //         }
+        //     }
+        //     else {
+        //         setupActiveRole.delete(interaction.guild.id);
+        //         await interaction.reply({ content: `Rôle des membres actifs supprimé du serveur ! (<@${activeRoleGet}>)`, ephemeral: true });
+        //     }
+        //     break;
+        case "certify":
+            // eslint-disable-next-line no-case-declarations
+            const getCertify = interaction.options.getString("certify_roles")
+            // eslint-disable-next-line no-case-declarations
+            const getNCertify = interaction.options.getString("n_certify_roles")
+
+            if((setupCertify.get(interaction.guild.id) === undefined) || (getCertify != null || undefined) || (getNCertify != null || undefined)){
+                
+                if((getCertify != null || undefined) || (getNCertify != null || undefined)){
+                    const certifyRoles = getCertify.split(",");
+                    const nCertifyRoles = getNCertify.split(",");
+                    setupCertify.set(interaction.guild.id, {certifyRoles, nCertifyRoles});
+                    await interaction.reply({ content: `Setup de la certification terminé !\n **Certifié :** ${certifyRoles}\n **NCertifié :** ${nCertifyRoles}`, ephemeral: true });
+                }
+                else {
+                    await interaction.reply({ content: `Setup de la certification à supprimer introuvable, vous devez spécifier les rôles avec des ID si vous souhaitez le configurer.`, ephemeral: true });
+                }
+            }
+            else {
+                setupCertify.delete(interaction.guild.id);
+                await interaction.reply({ content: `Setup de la certification supprimé !`, ephemeral: true });
+            }
+            break;
+        default:
+            await interaction.reply({ content: "Commande non permise.", ephemeral: true });
+            break;
+    }
+
+}
 
 
-
- /* ----------------------------------------------- */
- /* FUNCTIONS                                       */
- /* ----------------------------------------------- */
- /**
-  * Function called when the command 'ping'
-  * @param {CommandInteraction} interaction The interaction generated by the command's execution.
-  */
-  async function execute( interaction ) {
-    if(Setup == false) return;
-
-    discussionChannel = interaction.options.getChannel('discussion_chan')
-    propositionChannel = interaction.options.getChannel('proposition_chan')
-    presentationChannel = interaction.options.getChannel('presentation_chan')
-    logsChannel = interaction.options.getChannel('logs_chan')
-
-    activeMemberRole = interaction.options.getRole('active_role')
-    certifyRole = interaction.options.getRole('certify_role')
-    ncertifyRole = interaction.options.getRole('ncertify_role')
-    demoRole = interaction.options.getRole('demo_role')
-    libraryRole = interaction.options.getRole('library_role')
-    adminRole = interaction.options.getRole('admin_role')
-    modRole = interaction.options.getRole('mod_role')
-
-    setup.set(interaction.guild.id, {
-        discussion: discussionChannel.id,
-        proposition: propositionChannel.id,
-        presentation: presentationChannel.id,
-        logs: logsChannel.id,
-        active_role: activeMemberRole.id,
-        certify: certifyRole.id,
-        ncertify: ncertifyRole.id,
-        demo: demoRole.id,
-        library: libraryRole.id,
-        admin_id: adminRole.id,
-        mod_id: modRole.id
-    })
-    isSetupDone.set(interaction.guild.id, true)
-
-
-    await interaction.reply({
-        content: `Configuration :
-        <#${discussionChannel.id}> est l'endroit où vous pourrez discuter avec des memes.
-        <#${propositionChannel.id}> est l'endroit où les propositions de vos membres seront.
-        <#${presentationChannel.id}> est l'endroit où seront les présentations des membres.
-        <#${logsChannel.id}> est l'endroit où seront stockés les logs publiques.\n
-        <@!${activeMemberRole.id}> est le rôle des membres actifs sur votre serveur.
-        <@!${certifyRole.id}> est le rôle des membres certifiés par votre serveur.
-        <@!${ncertifyRole.id}> est le rôle des membres non certifiés par votre serveur.
-        <@!${demoRole.id}> est le rôle des membres souhaitant voir ce qu'il se passe avant de rejoindre complètement votre serveur.
-        <@!${libraryRole.id}> est le rôle des membres souhaitant accéder aux archives.\n
-        <@!${adminRole.id}> est le rôle des administrateurs de votre serveur.
-        <@!${modRole.id}> est le rôle des modérateurs de votre serveur.\n
-        Votre setup est terminé, veuillez patienter nous activons au fur et à mesure les commandes pour chacun des rôles !
-        `,
-        ephemeral: true
-    });
-     
- }
- 
- 
- /* ----------------------------------------------- */
- /* MODULE EXPORTS                                  */
- /* ----------------------------------------------- */
- module.exports = {
+/* ----------------------------------------------- */
+/* MODULE EXPORTS                                  */
+/* ----------------------------------------------- */
+module.exports = {
     data: slashCommand,
-    execute
- }
+    execute,
+};

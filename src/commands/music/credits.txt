@@ -1,2 +1,0 @@
-Un grand merci à Benjamin de m'avoir prété le code de son bot UBMF qui fait du gros son sa mère.
-Source : https://github.com/uAtomicBoolean/UBMF

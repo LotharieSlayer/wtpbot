@@ -11,16 +11,24 @@
 const Enmap = require("enmap");
 
 const dbModifyPresentation = new Enmap({name: "modifyP"});
-const activeList = new Enmap({name: "activeList"});
-const setup = new Enmap({name : "setup"})
 
-// CHANNELS THREAD
-const setupThread = new Enmap({name: "setupThread"});
+// SETUP
+const setupMemes = new Enmap({name: "setup_memes"});
+const setupSuggestions = new Enmap({name: "setup_suggestions"});
+const setupPresentations = new Enmap({name: "setup_presentations"});
+const setupLogs = new Enmap({name: "setup_logs"});
+const setupCertify = new Enmap({name: "setup_certify"});
+const setupActiveRole = new Enmap({name: "setup_active_role"});
+const setupArchives = new Enmap({name: "setup_archives"});
+const setupThread = new Enmap({name: "setup_thread"});
+const setupWelcome = new Enmap({name: "setup_welcome"});
 
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
 const presence = new Enmap({name: "presence"});
-const isSetupDone = new Enmap({name: "isSetupDone"})
+
+// USERS
+const warnedUsers = new Enmap({name: "warned_users"});
 
 // Un-comment to set memes and presences into the database
 // const { MEMES } = require("../data/memes");
@@ -37,52 +45,69 @@ const isSetupDone = new Enmap({name: "isSetupDone"})
  * the channel you want to search.
  * Example : getSetupData(GUILD_ID, "presentation") but it can be : "proposition" or "discussion"
  */
+async function getSetupData(id, type){
 
-async function getSetupData(guild, type){
-
-    let result;
-    const possibilities = [
-        "discussion",
-        "proposition",
-        "presentation",
-        "active_role",
-        "certify",
-        "ncertify",
-        "demo",
-        "library",
-        "admin_id",
-        "mod_id",
-        "logs"
-    ]
-
-    for(let search of possibilities){
-        if(search === type){
-            setup.fetchEverything()?.forEach( async (value, key) => {
-                if(key === guild){
-                    result = eval("value." + type);
-                }
-            })
-        }
-    }    
 
     switch (type) {
+        case "discussion":
+            // Here id is the channel
+            // Because we are searching all channels from a guild setup for memes
+            // It allows multiple discussions channels for example
+            return await getResultsKey(setupMemes, id)
+        case "proposition":
+            // Here id is the channel
+            return await getResultsKey(setupSuggestions, id)
+        case "presentation":
+            // Here id is the channel
+            return await getResultsKey(setupPresentations, id)
         case "thread":
-            // Here guild is the channel actually
-            setupThread.fetchEverything()?.forEach( async (value, key) => {
-                if(key === guild)
-                    result = key;
-            })
-            break;
-        case "is_setup":
-            isSetupDone.get(guild) ? result = true : result = false;
-            break;
+            // Here id is the channel
+            return await getResultsKey(setupThread, id)
+        case "logs":
+            // Here id is the guild
+            // Because we are searching for the logs channel ID of the current guild
+            // It allows only a single channel for logging for example
+            return await getResultsValue(setupLogs, id)
+        case "active_role":
+            // Here id is the guild
+            return await getResultsValue(setupActiveRole, id)
+        case "archives":
+            // Here id is the guild
+            return await getResultsValue(setupArchives, id)
+        case "certify":
+            // Here id is the guild
+            return await getResultsValue(setupCertify, id)
+        case "warn_user":
+            // Here id is the member
+            return await getResultsValue(warnedUsers, id)
+        case "welcome":
+            // Here id is the member
+            return await getResultsValue(setupWelcome, id)
         default:
             break;
     }
 
+}
+
+async function getResultsKey(db, id){
+    let result;
+    db.fetchEverything()?.forEach( async (value, key) => {
+        if(key === id)
+            result = key;
+    })
     return result;
 }
 
+async function getResultsValue(db, id){
+    let result;
+    db.fetchEverything()?.forEach( async (value, key) => {
+        if(key === id)
+            result = value;
+    })
+    return result;
+}
+
+/*
 async function setMemes(){
     // PRESENCE
     for(let i=0; i < STATES.length; i++){
@@ -94,7 +119,7 @@ async function setMemes(){
     }
     console.log("Toutes les données memes / presence ont été chargé !")
 }
-
+*/
 
 
 /* ----------------------------------------------- */
@@ -102,13 +127,18 @@ async function setMemes(){
 /* ----------------------------------------------- */
 module.exports = {
 	getSetupData,
-    dbModifyPresentation,
-    activeList,
-
-    setup,
+    setupCertify,
+    setupLogs,
+    setupMemes,
+    setupActiveRole,
+    setupPresentations,
+    setupSuggestions,
     setupThread,
+    setupArchives,
+    setupWelcome,
 
-    isSetupDone,
+    warnedUsers,
+    dbModifyPresentation,
     memes,
     presence
 }

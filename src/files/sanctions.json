@@ -1,0 +1,81 @@
+{
+    "enum":{
+        "spam":"Spam",
+        "mass_ping":"Mass Ping",
+        "staff_ping_inutile":"Ping au staff inutile",
+        "contenu_inapproprie":"Contenu Inapproprié",
+        "hn":"Humour noir",
+        "nsfw":"NSFW",
+        "politique":"Politique",
+        "violence_extreme":"Violence Extrême",
+        "fake_report":"Fake Report",
+        "gore":"Gore",
+        "pub":"Pub",
+        "haine":"Haine",
+        "discrimination":"Discrimination",
+        "troll":"Troll",
+        "non_respect_staff":"Non-respect du staff",
+        "harcelement":"Harcèlement",
+        "pp_porno":"Photo de profil pornographique",
+        "raid":"Raid"
+    },
+    "sanctions":[
+        {
+            "id": 1,
+            "name": "LVL1",
+            "timeout": "00:00:10",
+            "values": ["00:00:10", "00:00:30", "00:03:00", "00:06:00"],
+            "reasons": ["spam", "mass_ping", "staff_ping_inutile", "contenu_inapproprie"]
+        },
+        {
+            "id": 2,
+            "name": "LVL2",
+            "timeout": "00:00:10",
+            "values": ["00:03:00", "00:06:00", "00:12:00", "00:24:00"],
+            "reasons": ["hn", "nsfw", "politique"]
+        },
+        {
+            "id": 3,
+            "name": "LVL3",
+            "timeout": "00:00:10",
+            "values": ["00:08:00", "00:24:00", "00:48:00", "07:00:00"],
+            "reasons": ["violence_extreme"]
+        },
+        {
+            "id": 4,
+            "name": "LVL4",
+            "timeout": "00:00:10",
+            "values": ["03:00:00", "07:00:00"],
+            "reasons": ["fake_report"]
+        },
+        {
+            "id": 5,
+            "name": "LVL5",
+            "timeout": "00:00:10",
+            "values": ["00:24:00", "ban"],
+            "reasons": [
+                "gore",
+                "pub",
+                "haine",
+                "discrimination",
+                "troll",
+                "non_respect_staff",
+                "harcelement"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "LVL6",
+            "timeout": "00:24:00",
+            "values": ["kick"],
+            "reasons": ["pp_porno"]
+        },
+        {
+            "id": 7,
+            "name": "LVL7",
+            "timeout": "00:00:10",
+            "values": ["ban"],
+            "reasons": ["raid"]
+        }
+    ]
+}

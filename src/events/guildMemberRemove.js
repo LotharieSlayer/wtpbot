@@ -5,7 +5,6 @@
  */
 
 
-const { GuildMember } = require( "discord.js" );
 const { kickLog } = require("../utils/modules/logs");
 
 

@@ -1,20 +1,19 @@
 /**
  * @author Lothaire Guée
  * @description
- *      Contains the command 'ping'.
- *      Pong the user.
+ *      Contains the command 'entries'.
+ *      Send the member entries log file to the user in DM.
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageAttachment } = require("discord.js");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const slashCommand = new SlashCommandBuilder()
-    .setName("ping")
-    .setDescription(
-        "[other] Donne la latence du bot et de l'API Discord en millisecondes."
-    )
+    .setName("entries")
+    .setDescription("[mod] Envoi les logs d'entrées des membres dans vos MP.")
     .setDefaultPermission(false);
 
 /* ----------------------------------------------- */
@@ -26,11 +25,17 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction) {
 
+    const logsFile = new MessageAttachment(
+        `${process.cwd()}/files/userEntries.log`
+    );
+    await interaction.member.send({
+        content: `Logs des entrées de membres du serveur ${interaction.guild.name} (${interaction.guildId}).`,
+        files: [logsFile],
+    });
     await interaction.reply({
-        content: `🏓 **PING**
-		La latence du bot est de ${interaction.createdTimestamp - Date.now()}ms.
-		Latence API Discord : ${Math.round(interaction.client.ws.ping)}ms`,
-        ephemeral: false,
+        content: `Voilà le fichier de logs ci-dessous ! Le message étant en ephemeral, le fichier vous a aussi été envoyé en MP.`,
+        files: [logsFile],
+        ephemeral: true,
     });
 }
 

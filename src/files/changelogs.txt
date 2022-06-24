@@ -9,3 +9,16 @@
 - Random value for memes replies (60 --> 100)
 - Correction du bug des messages envoyés en MP
 - welcomeRole.js deprecated
+
+2.0.3
+- Vulnerability patch
+
+2.1.0
+- /warn, the brand new command for mods
+- UserEntries.log, where you can find all users id that joined you're server.
+- /setup rework
+- Multi-serveur
+- Removed :
+    Unmute and unban log
+    Music commands
+    ActiveMember and ActiveRole

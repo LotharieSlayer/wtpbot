@@ -11,10 +11,10 @@
 
 // v1.0
 exports.Certify = true;
-exports.Library = true;
+exports.Archives = true;
 exports.Changelogs = true;
-exports.ActiveMember = true;
-exports.WelcomeRole = false;
+exports.ActiveMember = false; // deprecated
+exports.WelcomeRole = false; // deprecated
 exports.Proposition = true;
 exports.Presentation = true;
 exports.Setup = true;
@@ -23,10 +23,13 @@ exports.Memes = true;
 exports.Presence = true;
 
 // v1.1
-exports.Music = true;
+exports.Music = false; // deprecated
 
 // v1.2
-exports.Mod = true;
+exports.Logs = true;
 
 // v2.0.2
 exports.WelcomeMember = true;
+
+// v2.1.0
+exports.Warn = true;

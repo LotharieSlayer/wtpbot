@@ -20,11 +20,11 @@ const { NEW } = require('../../data/welcomeMessages.js');
 async function welcomeMember(member, client){
     if(WelcomeMember == false) return;
 
-    const DISCUSSION_ID = await getSetupData(member.guild.id, "discussion")
-    const discussionChannel = await client.channels.cache.find(channel => channel.id === DISCUSSION_ID)
-    let message = `Hey yo <@${member.id}>, bienvenue sur ***FRANCE MEMES*** ! <:frMeme1:759475543652565023><:frMeme2:759475544684757002>`;
+    const WELCOME_ID = await getSetupData(member.guild.id, "welcome")
+    const welcomeChannel = await client.channels.cache.find(channel => channel.id === WELCOME_ID)
+    let message = `Hey yo <@${member.id}>, bienvenue sur ***${member.guild.name}*** !`;
     
-    discussionChannel.send(message)
+    welcomeChannel.send(message)
     member.send({ embeds: [NEW] });
 
 }
