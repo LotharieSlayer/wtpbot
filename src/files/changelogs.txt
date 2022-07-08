@@ -13,6 +13,7 @@
 - cmCertify (interactionMessage) et cuCertify (interactionUser) pour aider les modérateurs à Certifier des personnes en un clic.
 - Correction de plusieurs bug Crash Spawn lorsque les rôles certifiés/le channel de bienvenue n'était pas setup.
 - /audit permettant au modérateurs d'obtenir des informations sur les sanctions précedemment appliqué sur l'utilisateur qui pourrait se faire warn.
+- /warnlist pour obtenir la liste des warns existants et leurs sanctions.
 
 Info :
 cm = CommandMessage (right-click on a message)
