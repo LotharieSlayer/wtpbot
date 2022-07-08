@@ -27,8 +27,11 @@ const setupWelcome = new Enmap({name: "setup_welcome"});
 const memes = new Enmap({name: "memes"});
 const presence = new Enmap({name: "presence"});
 
-// USERS
+// WARNS
 const warnedUsers = new Enmap({name: "warned_users"});
+
+// COUNTER
+const counter = new Enmap({name: "counter"});
 
 // Un-comment to set memes and presences into the database
 // const { MEMES } = require("../data/memes");
@@ -140,5 +143,6 @@ module.exports = {
     warnedUsers,
     dbModifyPresentation,
     memes,
-    presence
+    presence,
+    counter
 }

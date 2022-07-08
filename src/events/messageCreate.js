@@ -21,15 +21,18 @@ let warns = new Map();
  * @param {Client} client The client that emitted the event.
  */
 async function execute(message, client) {
-    if (!(await isURL(message))) {
-        proposition(client, message);
-        presentation(message);
-        thread(message);
-        loadMemes(message);
-        
-        // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
-        // activeMember(client, message);
+    try{
+        if (!(await isURL(message))) {
+            proposition(client, message);
+            presentation(message);
+            thread(message);
+            loadMemes(message);
+            
+            // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
+            // activeMember(client, message);
+        }
     }
+    catch(e){console.log(e)}
 }
 
 async function loadMemes(msg) {
@@ -56,6 +59,8 @@ async function isURL(msg) {
     if (msg.author.bot) return true;
 
     let certify = await getSetupData(msg.guild.id, "certify");
+    
+    if (certify === undefined || certify === null) return;
 
     let regex = /(https?|ftp|ssh|mailto):\/\/[a-z0-9/:%_+.,#?!@&=-]+/gi;
     let isMatch = regex.test(msg.content);

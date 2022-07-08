@@ -1,81 +1,84 @@
 {
-    "enum":{
-        "spam":"Spam",
-        "mass_ping":"Mass Ping",
-        "staff_ping_inutile":"Ping au staff inutile",
-        "contenu_inapproprie":"Contenu Inapproprié",
-        "hn":"Humour noir",
-        "nsfw":"NSFW",
-        "politique":"Politique",
-        "violence_extreme":"Violence Extrême",
-        "fake_report":"Fake Report",
-        "gore":"Gore",
-        "pub":"Pub",
-        "haine":"Haine",
-        "discrimination":"Discrimination",
-        "troll":"Troll",
-        "non_respect_staff":"Non-respect du staff",
-        "harcelement":"Harcèlement",
-        "pp_porno":"Photo de profil pornographique",
-        "raid":"Raid"
+    "enum": {
+        "spam": { "name": "Spam", "emoji": "🍔" },
+        "mass_ping": { "name": "Mass Ping", "emoji": "🛎️" },
+        "staff_ping_inutile": {
+            "name": "Ping au staff inutile",
+            "emoji": "🔔"
+        },
+        "contenu_inapproprie": { "name": "Contenu Inapproprié", "emoji": "⛔" },
+        "hn": { "name": "Humour noir", "emoji": "🤡" },
+        "nsfw": { "name": "NSFW", "emoji": "💦" },
+        "politique": { "name": "Politique", "emoji": "🏛️" },
+        "violence_extreme": { "name": "Violence Extrême", "emoji": "👊" },
+        "fake_report": { "name": "Fake Report", "emoji": "🏳️" },
+        "gore": { "name": "Gore", "emoji": "🩸" },
+        "pub": { "name": "Pub", "emoji": "👁️‍🗨️" },
+        "haine": { "name": "Haine", "emoji": "😡" },
+        "discrimination": { "name": "Discrimination", "emoji": "👉" },
+        "troll": { "name": "Troll", "emoji": "👺" },
+        "non_respect_staff": { "name": "Non-respect du staff", "emoji": "🗯️" },
+        "harcelement": { "name": "Harcèlement", "emoji": "😈" },
+        "doxx": { "name": "Doxx", "emoji": "🕵️" },
+        "profil": { "name": "Profil Discord inapproprié", "emoji": "🧑" }
     },
-    "sanctions":[
+    "sanctions": [
         {
             "id": 1,
             "name": "LVL1",
-            "timeout": "00:00:10",
-            "values": ["00:00:10", "00:00:30", "00:03:00", "00:06:00"],
-            "reasons": ["spam", "mass_ping", "staff_ping_inutile", "contenu_inapproprie"]
+            "values": ["dm", "00:00:10", "00:00:30", "00:03:00", "00:06:00"],
+            "reasons": [
+                "spam",
+                "mass_ping",
+                "staff_ping_inutile",
+                "contenu_inapproprie"
+            ]
         },
         {
             "id": 2,
             "name": "LVL2",
-            "timeout": "00:00:10",
-            "values": ["00:03:00", "00:06:00", "00:12:00", "00:24:00"],
+            "values": ["dm", "00:03:00", "00:06:00", "00:12:00", "00:24:00"],
             "reasons": ["hn", "nsfw", "politique"]
         },
         {
             "id": 3,
             "name": "LVL3",
-            "timeout": "00:00:10",
-            "values": ["00:08:00", "00:24:00", "00:48:00", "07:00:00"],
+            "values": ["dm", "00:08:00", "00:24:00", "00:48:00", "07:00:00"],
             "reasons": ["violence_extreme"]
         },
         {
             "id": 4,
             "name": "LVL4",
-            "timeout": "00:00:10",
-            "values": ["03:00:00", "07:00:00"],
+            "values": ["dm", "03:00:00", "07:00:00"],
             "reasons": ["fake_report"]
         },
         {
             "id": 5,
             "name": "LVL5",
-            "timeout": "00:00:10",
             "values": ["00:24:00", "ban"],
             "reasons": [
-                "gore",
-                "pub",
                 "haine",
                 "discrimination",
                 "troll",
                 "non_respect_staff",
-                "harcelement"
+                "harcelement",
+                "doxx"
             ]
         },
         {
             "id": 6,
             "name": "LVL6",
-            "timeout": "00:24:00",
-            "values": ["kick"],
-            "reasons": ["pp_porno"]
+            "values": ["dm", "kick"],
+            "reasons": ["profil"]
         },
         {
             "id": 7,
             "name": "LVL7",
-            "timeout": "00:00:10",
             "values": ["ban"],
-            "reasons": ["raid"]
+            "reasons": [
+                "gore",
+                "pub"
+            ]
         }
     ]
 }

@@ -20,7 +20,6 @@ const fs = require("fs");
 async function timeoutLog(oldMember, newMember, client) {
     if (Logs == false) return;
 
-    let timeoutEmbed;
     const LOGS_ID = await getSetupData(newMember.guild.id, "logs");
     const logChannel = await client.channels.cache.find(
         (channel) => channel.id === LOGS_ID
@@ -42,7 +41,7 @@ async function timeoutLog(oldMember, newMember, client) {
             newMember.communicationDisabledUntil != null &&
             newMember.communicationDisabledUntil > dateNow
         ) {
-            timeoutEmbed = new MessageEmbed()
+            const timeoutEmbed = new MessageEmbed()
                 .setColor("#e15dd9")
                 .setAuthor(
                     `┃ ${newMember.user.username} vient d'être mute.`,
@@ -54,10 +53,13 @@ async function timeoutLog(oldMember, newMember, client) {
                     `Par ${timeoutFirst.executor.username} jusqu'à`,
                     timeoutFirst.executor.avatarURL()
                 );
-            if (timeoutFirst.reason)
+            if (timeoutFirst.reason){
                 timeoutEmbed.setDescription(
-                    `${timeoutFirst.reason} (${newMember.user.id})`
+                    `(${newMember.user.id})\n${timeoutFirst.reason}\n`
                 );
+                if(timeoutFirst.reason.startsWith("**Warn :**"))
+                    timeoutEmbed.setColor("#ffcc4d");
+            }
 
             logChannel.send({
                 embeds: [timeoutEmbed],
@@ -99,7 +101,9 @@ async function banLog(guildBan, banned, client) {
     let user = guildBan.user;
     let reason = guildBan.reason;
 
-    let banEmbed = new MessageEmbed().setColor("#e15dd9");
+    let banEmbed = new MessageEmbed()
+    
+    banEmbed.setColor("#e15dd9");
 
     if (banned) {
         let auditLogs = await guildBan.guild.fetchAuditLogs({
@@ -112,11 +116,15 @@ async function banLog(guildBan, banned, client) {
             banFirst.executor.avatarURL()
         );
         banEmbed.setAuthor(
-            `┃ ${user.username} (${user.id}) vient d'être ban.`,
+            `┃ ${user.username} vient d'être ban.`,
             user.avatarURL()
         );
 
-        if (reason) banEmbed.setDescription(`**Raison :** ${reason}`);
+        if (reason){
+            banEmbed.setDescription(`(${user.id})\n${reason}\n`);
+            if(reason.startsWith("**Warn :**"))
+                banEmbed.setColor("#ffcc4d");
+        }
 
         logChannel.send({
             embeds: [banEmbed],

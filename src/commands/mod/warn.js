@@ -1,13 +1,14 @@
 /**
  * @author Lothaire Guée
  * @description
- *      Contains the command 'ping'.
- *      Pong the user.
+ *      Contains the command 'warn'.
+ *      Warn a user.
  */
 
+const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { getMs } = require("../../utils/dateUtils");
-const { getSetupData, warnedUsers } = require("../../utils/enmapUtils");
+const { getSetupData, warnedUsers, counter } = require("../../utils/enmapUtils");
 const JSONPenalties = require(`${process.cwd()}/files/sanctions.json`);
 
 /* ----------------------------------------------- */
@@ -44,10 +45,9 @@ const slashCommand = new SlashCommandBuilder()
 				{ name: 'Troll', value: 'troll' },
 				{ name: 'Non-respect du staff', value: 'non_respect_staff' },
 				{ name: 'Harcèlement', value: 'harcelement' },
+				{ name: 'Doxx', value: 'doxx' },
 
-				{ name: 'Raid', value: 'raid' },
-
-				{ name: 'Photo de profil pornographique', value: 'pp_porno' },
+				{ name: 'Profil Discord inapproprié', value: 'profil' },
 
             )
     )
@@ -64,28 +64,56 @@ const slashCommand = new SlashCommandBuilder()
     )
     .setDefaultPermission(false);
 
+
+
+const dmEmbed = new MessageEmbed()
+    .setColor("#ffcc4d")
+    .setAuthor(
+        {name:`Vous venez d'être warn.`, iconURL:"https://i.imgur.com/tuQo0dNh.jpg"}
+    )
+    .setTimestamp(Date.now());
+
+
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
 
 
-async function penalty(member, reason, sanction, reasonS, timeoutBase){
+async function penalty(member, reason, sanction, reasonS, timeoutBase, interaction){
+
     // Timeout du membre
     switch (sanction) {
+        case "dm":
+            if(reasonS === null)
+                dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}** appliqué par <@${interaction.member.id}>.`)
+            else
+                dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}** appliqué par <@${interaction.member.id}>.\n**Info supplémentaire :** ${reasonS}`)
+
+            dmEmbed.setFooter({text:`${interaction.member.user.tag}`, iconURL:interaction.member.user.avatarURL()});
+
+            try{await member.send({embeds:[dmEmbed]})}
+            catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
+            break;
         case "kick":
-            await member.kick(`Warn pour la sanction ${reason}.`)
+            if(reasonS === null)
+                await member.kick(`**Warn :** ${reason} appliqué par <@${interaction.member.id}>`)
+            else
+                await member.kick(`**Warn :** ${reason} appliqué par <@${interaction.member.id}>\n**Info supplémentaire :** ${reasonS}`)
             break;
         case "ban":
-            await member.ban({reason: `Warn pour la sanction ${reason}.`})
+            if(reasonS === null)
+                await member.ban({reason: `**Warn :** ${reason} appliqué par <@${interaction.member.id}>`})
+            else
+                await member.ban({reason: `**Warn :** ${reason} appliqué par <@${interaction.member.id}>\n**Info supplémentaire :** ${reasonS}`})
             break;
         default:
             // eslint-disable-next-line no-case-declarations
             let timeoutBaseGood = timeoutBase - Date.now();
             if(timeoutBaseGood < 0) timeoutBaseGood = 0;
             if(reasonS === null)
-                member.timeout(getMs(sanction) + timeoutBaseGood, `Raison : ${reason}`);
+                member.timeout(getMs(sanction) + timeoutBaseGood, `**Warn :** ${reason} appliqué par <@${interaction.member.id}>`);
             else
-                member.timeout(getMs(sanction) + timeoutBaseGood, `Raison : ${reason}, Raison supplémentaire : ${reasonS}`);
+                member.timeout(getMs(sanction) + timeoutBaseGood, `**Warn :** ${reason} appliqué par <@${interaction.member.id}>\n**Info supplémentaire :** ${reasonS}`);
         break;
     }
 }
@@ -98,80 +126,77 @@ async function penalty(member, reason, sanction, reasonS, timeoutBase){
  */
 async function execute(interaction) {
 
-
     for (let i = 0; i < JSONPenalties.sanctions.length; i++) {
         for (let j = 0; j < JSONPenalties.sanctions[i].reasons.length; j++) {
             if(interaction.options.getString("raison") === JSONPenalties.sanctions[i].reasons[j]){
-                const reason = JSONPenalties.enum[interaction.options.getString("raison")];
+                const reason = JSONPenalties.enum[interaction.options.getString("raison")].name;
+                const reasonValue = interaction.options.getString("raison");
                 const reasonS = interaction.options.getString("raison_supp");
                 const member = interaction.options.getMember("user")
                 const userDB = await getSetupData(member.id, "warn_user")
                 const timeoutBase = member.communicationDisabledUntilTimestamp
 
+                // Incrémentation du compteur
+                if(counter.get(`warn_${reasonValue}`) === undefined) counter.set(`warn_${reasonValue}`, 1);
+                else counter.set(`warn_${reasonValue}`, counter.get(`warn_${reasonValue}`) + 1);
 
                 // Le cas ou l'utilisateur n'a pas encore été warn / Utilise son intervalle de temps du droit à l'erreur
                 if(userDB === undefined){
                     // On set l'utilisateur dans la DB
-                    warnedUsers.set(member.id, {sanctions : { [reason] : -1 }, timestamp : Date.now()});
-
-                    // On envoie le message à l'utilisateur
-                    try{await member.send("Vous avez été warn pour la sanction **" + reason + "**.")}
-                    catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
-                    await interaction.reply({ content: "L'utilisateur n'avait pas encore été warn du tout, il vient d'être enregistré dans la base de données et bénéficie de son droit à l'erreur.", ephemeral: true });
+                    warnedUsers.set(member.id, {sanctions : { [reason] : 0 }, warns:[{reason: reasonValue, reasonS: reasonS, timestamp: Date.now(), mod: interaction.member.id}], user:{tag: member.user.tag, avatarURL: member.user.avatarURL()}});
+                    const userDBNow = await getSetupData(member.id, "warn_user")
+                    const sanction = JSONPenalties.sanctions[i].values[userDBNow.sanctions[reason]]
+                    
+                    penalty(member, reason, sanction, reasonS, timeoutBase, interaction)
+                    await interaction.reply({ content: "L'utilisateur n'avait pas encore été warn du tout, il vient d'être enregistré dans la base de données et a été prévenu dans ses DM.", ephemeral: true });
                     return
 
+                }
 
-                } else if(userDB.timestamp === undefined || userDB.sanctions[reason] === undefined){
-                    
+                // Le cas ou l'utilisateur a déjà été warn
+
+                // Cas ou ce n'était pas cette raison
+                // A CORRIGER pcq le lvl 5 quand ils se prennent 24h et bah ça leur met ce dm qui n'est pas le bon aux modos
+                if(userDB.sanctions[reason] === undefined){
                     userDB.sanctions[reason] = 0;
-                    // On set l'utilisateur dans la DB
-                    warnedUsers.set(member.id, userDB)
-
-                    const sanction = JSONPenalties.sanctions[i].values[userDB.sanctions[reason]]
-
-                    
-                    // On envoie le message à l'utilisateur
-                    try{await member.send(`Vous avez été warn **${userDB.sanctions[reason]+1} fois** pour ${reason}. Sanction **${sanction}** (j:h:m) appliqué.\n**Warn par ${interaction.member.user.username}** (${interaction.member.user.id})`)}
-                    catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
-                    penalty(member, reason, sanction, reasonS, timeoutBase)
-                    await interaction.reply({ content: `L'utilisateur n'avait pas encore été warn pour cette sanction. Sanction **${sanction}** (j:h:m) appliqué.`, ephemeral: true });
-                    return
-
-
-                    // Déjà vu mais n'a pas encore dépassé le temps de l'intervalle d'erreur
-                } else if (userDB.timestamp + getMs(JSONPenalties.sanctions[i].timeout) > Date.now() && userDB.sanctions[reason] !== null){
-
-                    await interaction.reply({ content: `Cet utilisateur a déjà été warn pour une sanction mais reste dans l'intervalle de temps du droit à l'erreur. (${JSONPenalties.sanctions[i].timeout} (j:h:m))\n` +
-                    "En cas d'urgence : Si vous pensez que ce dernier n'a pas sa place dans le serveur et qu'il n'y a pas besoin de droit à l'erreur pour comprendre que l'utilisateur est dangeureux," +
-                    "vous pouvez utiliser la commande 'ban' pour le bannir.", ephemeral: true });
-                    try{await member.send(`Vous avez été warn pour la sanction ${reason} mais cela reste dans l'intervalle de temps du droit à l'erreur.`)}
-                    catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
-                    return
-
-
-                    // SANCTION
-                } else if (userDB.timestamp + getMs(JSONPenalties.sanctions[i].timeout) < Date.now() && userDB.sanctions[reason] !== null){
-
-                    // On augmente le nombre de raison que l'on update dans la db en remettant l'objet
-                    userDB.sanctions[reason]++;
-                    warnedUsers.set(member.id, userDB)
-
-                    // Si on dépasse la plus grande valeur de timeout du tableau, on le remet à la valeur max
-                    let nbSanctions = userDB.sanctions[reason];
-                    if(nbSanctions >= JSONPenalties.sanctions[i].values.length) nbSanctions = JSONPenalties.sanctions[i].values.length - 1;
-
-                    const sanction = JSONPenalties.sanctions[i].values[nbSanctions] 
-
-                    // On envoie le message à l'utilisateur et on applique le timeout
-                    
-                    const nbTimes = userDB.sanctions[reason]+1;
-                    
-                    try{await member.send(`Vous avez été warn **${nbTimes} fois** pour ${reason}. Sanction **${sanction}** (j:h:m) appliqué.\n**Warn par ${interaction.member.user.username}** (${interaction.member.user.id})`)}
-                    catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
-                    penalty(member, reason, sanction, reasonS, timeoutBase)
-                    await interaction.reply({ content: `${member.user.username} (${member.id}) a déjà été warn ${nbTimes} fois pour cette sanction "${reason}".\n**Sanction ${sanction} (j:h:m) appliqué.**`, ephemeral: true })
+                    userDB.warns.push({reason: reasonValue, reasonS: reasonS, timestamp: Date.now(), mod: interaction.member.id})
+                    warnedUsers.set(member.id, userDB);
+                    penalty(member, reason, JSONPenalties.sanctions[i].values[userDB.sanctions[reason]], reasonS, timeoutBase, interaction)
+                    await interaction.reply({ content: "L'utilisateur n'avait pas encore été warn pour cette sanction, ce dernier a été prévenu dans ses DM ou a reçu une sanction.", ephemeral: true });
                     return
                 }
+
+                if(userDB.user === undefined)
+                    userDB.user = {tag: member.user.tag, avatarURL: member.user.avatarURL()}
+
+                // On augmente le nombre de raison que l'on update dans la db en remettant l'objet
+                userDB.sanctions[reason]++;
+                userDB.warns.push({reason: reasonValue, reasonS: reasonS, timestamp: Date.now(), mod: interaction.member.id})
+
+                warnedUsers.set(member.id, userDB)
+
+                // Si on dépasse la plus grande valeur de timeout du tableau, on le remet à la valeur max
+                let nbSanctions = userDB.sanctions[reason];
+                if(nbSanctions >= JSONPenalties.sanctions[i].values.length) nbSanctions = JSONPenalties.sanctions[i].values.length - 1;
+
+                const sanction = JSONPenalties.sanctions[i].values[nbSanctions] 
+
+                // On envoie le message à l'utilisateur et on applique le timeout
+                
+                const nbTimes = userDB.sanctions[reason]+1;
+                if(interaction.options.getString("raison_supp") === null)
+                    dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m) appliqué par <@${interaction.member.id}>.`)
+                else
+                    dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m) appliqué par <@${interaction.member.id}>.\n**Info supplémentaire :** ${reasonS}`)
+
+                dmEmbed.setFooter({text:`${interaction.member.user.tag}`, iconURL:interaction.member.user.avatarURL()});
+    
+                try{await member.send({embeds:[dmEmbed]})}
+                catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
+                
+                penalty(member, reason, sanction, reasonS, timeoutBase, interaction)
+                await interaction.reply({ content: `${member.user.username} (${member.id}) a déjà été warn ${nbTimes} fois pour cette sanction "${reason}".\n**Sanction ${sanction} (j:h:m) appliqué.**`, ephemeral: true })
+                return
             }
         }
     }

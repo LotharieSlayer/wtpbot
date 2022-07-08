@@ -1,6 +1,6 @@
 {
   "name": "wtpbot",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "dependencies": {
     "@discordjs/builders": "^0.15",
     "@discordjs/rest": "^0.2.0-canary.0",
