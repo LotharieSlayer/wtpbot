@@ -39,3 +39,9 @@ Grants needed to let **ALL** commands work. If you don't need some commands just
 
 `https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=1494917572806&scope=bot%20applications.commands`
 
+### DISCLAIMER about the actual and the next 2.2 version : 
+(Because the bot doesn't really work, even if you follow all the instructions correctly ((you need some extra files)))
+- This bot need a tree structure clean refresh. In order to do this, some files are not present in this repo like welcomeMessages.js and memes.js. They are in the `data/` folder that you don't have access (It is also where the Enmap DB is stored), theses files will be transferred into the `files/` folder.
+- The `modules/` folder in the `utils/` folder will be moved to the `src/` root folder
+
+**So be ready for v2.2 !**
