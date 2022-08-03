@@ -14,7 +14,7 @@ const { getSetupData } = require("../../utils/enmapUtils");
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const cmCommand = new ContextMenuCommandBuilder()
-	.setName( "Certifier" )
+	.setName( "Certifier (user)" )
 	.setType( 2 )
     .setDefaultPermission(false);
 
