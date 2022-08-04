@@ -35,5 +35,6 @@ async function loadPresence( client ){
 /* ----------------------------------------------- */
 module.exports = {
 	name: "ready",
+	once : true,
 	execute
 }

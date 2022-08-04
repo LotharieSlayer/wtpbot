@@ -5,7 +5,7 @@
  */
 
 
-const { CommandInteraction, MessageEmbed} = require( "discord.js" );
+const { CommandInteraction, EmbedBuilder} = require( "discord.js" );
 
 
 /* ----------------------------------------------- */
@@ -23,7 +23,7 @@ async function checkUserIsConnected( interaction ) {
 	if ( !voiceChannelId ) {
 		await interaction.reply({
 			embeds: [
-				new MessageEmbed()
+				new EmbedBuilder()
 					.setTitle( "Tu dois être dans un salon vocal pour utiliser cette commande!" )
 					.setAuthor( interaction.user.username, interaction.user.avatarURL() )
 

@@ -6,16 +6,17 @@
  */
 
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
-const { VERIFIED } = require("../../data/welcomeMessages");
+const { VERIFIED } = require("../../files/welcomeMessages");
 const { Certify } = require("../../files/modules");
 const { getSetupData } = require("../../utils/enmapUtils");
+const { ApplicationCommandType } = require("discord.js");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const cmCommand = new ContextMenuCommandBuilder()
-	.setName( "Certifier (user)" )
-	.setType( 2 )
+	.setName( "Certifier User" )
+	.setType( ApplicationCommandType.User )
     .setDefaultPermission(false);
 
 
@@ -40,7 +41,7 @@ async function execute( interaction ) {
         await member.roles.remove(interaction.guild.roles.cache.get(roles.nCertifyRoles[i]));
     }
 
-    member.send({ embeds: [VERIFIED] });
+    await member.send({ embeds: [VERIFIED] });
 
     await interaction.reply({
         content: `Vous avez bien certifié <@${member.user.id}> !`,

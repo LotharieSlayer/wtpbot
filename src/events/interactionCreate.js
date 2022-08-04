@@ -5,7 +5,7 @@
  */
 
 
-const { CommandInteraction, Client } = require( "discord.js" );
+const { CommandInteraction, Client, InteractionType } = require( "discord.js" );
 
 
 /* ----------------------------------------------- */
@@ -19,10 +19,10 @@ const { CommandInteraction, Client } = require( "discord.js" );
  * @param {Client} client The client that created the interaction.
  */
 function execute( interaction, client ) {
-	if ( interaction.isCommand() ) {
+	if ( interaction.type === InteractionType.ApplicationCommand ) {
 		client.commands.get( interaction.commandName ).execute( interaction );
 	}
-	if ( interaction.isContextMenu() ) {
+	if ( interaction.isContextMenuCommand() ) {
 		client.commands.get( interaction.commandName ).execute( interaction );
 	}
 }

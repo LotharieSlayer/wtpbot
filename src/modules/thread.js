@@ -7,10 +7,10 @@
 
 
 /*      AUTHORISATION      */
-const { Thread } = require('../../files/modules.js');
+const { Thread } = require('../files/modules.js');
 
 /*      IMPORTS      */
-const { getSetupData } = require('../../utils/enmapUtils');
+const { getSetupData } = require('../utils/enmapUtils');
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */

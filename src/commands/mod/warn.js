@@ -5,7 +5,7 @@
  *      Warn a user.
  */
 
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { getMs } = require("../../utils/dateUtils");
 const { getSetupData, warnedUsers, counter } = require("../../utils/enmapUtils");
@@ -66,7 +66,7 @@ const slashCommand = new SlashCommandBuilder()
 
 
 
-const dmEmbed = new MessageEmbed()
+const dmEmbed = new EmbedBuilder()
     .setColor("#ffcc4d")
     .setAuthor(
         {name:`Vous venez d'être warn.`, iconURL:"https://i.imgur.com/tuQo0dNh.jpg"}

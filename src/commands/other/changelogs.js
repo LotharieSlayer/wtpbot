@@ -7,7 +7,7 @@
 
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const pjson = require("../../../package.json");
 const fs = require("fs");
 
@@ -36,7 +36,7 @@ async function execute(interaction) {
 
     //EMBED
     // inside a command, event listener, etc.
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setColor("#e15dd9")
         .setTitle(`Changelogs v${pjson.version} :`)
         .setAuthor("WhatThePhoqueBot", interaction.client.user.avatarURL())

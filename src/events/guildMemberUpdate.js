@@ -7,7 +7,7 @@
 
 const { GuildMember } = require( "discord.js" );
 // const { welcomeRole } = require("../utils/modules/welcomeRole");
-const { timeoutLog } = require("../utils/modules/logs");
+const { timeoutLog } = require("../modules/logs");
 
 
 /* ----------------------------------------------- */

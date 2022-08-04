@@ -6,11 +6,11 @@
  */
 
 /*      AUTHORISATION      */
-const { Logs } = require("../../files/modules.js");
+const { Logs } = require("../files/modules.js");
 
 /*      IMPORTS      */
-const { MessageEmbed } = require("discord.js");
-const { getSetupData } = require("../../utils/enmapUtils");
+const { EmbedBuilder } = require("discord.js");
+const { getSetupData } = require("../utils/enmapUtils");
 const fs = require("fs");
 
 /* ----------------------------------------------- */
@@ -41,7 +41,7 @@ async function timeoutLog(oldMember, newMember, client) {
             newMember.communicationDisabledUntil != null &&
             newMember.communicationDisabledUntil > dateNow
         ) {
-            const timeoutEmbed = new MessageEmbed()
+            const timeoutEmbed = new EmbedBuilder()
                 .setColor("#e15dd9")
                 .setAuthor(
                     `┃ ${newMember.user.username} vient d'être mute.`,
@@ -77,7 +77,7 @@ async function kickLog(member, client) {
     );
     let kickEmbed;
 
-    kickEmbed = new MessageEmbed()
+    kickEmbed = new EmbedBuilder()
         .setColor("#e15dd9")
         .setAuthor(
             `┃ ${member.user.username} (${member.id}) a quitté le serveur.`,
@@ -101,7 +101,7 @@ async function banLog(guildBan, banned, client) {
     let user = guildBan.user;
     let reason = guildBan.reason;
 
-    let banEmbed = new MessageEmbed()
+    let banEmbed = new EmbedBuilder()
     
     banEmbed.setColor("#e15dd9");
 

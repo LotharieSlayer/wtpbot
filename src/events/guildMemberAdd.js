@@ -6,8 +6,8 @@
 
 
 const { GuildMember } = require( "discord.js" );
-const { userLog } = require("../utils/modules/logs");
-const { welcomeMember } = require("../utils/modules/welcomeMember");
+const { userLog } = require("../modules/logs");
+const { welcomeMember } = require("../modules/welcomeMember");
 
 
 /* ----------------------------------------------- */

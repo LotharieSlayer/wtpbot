@@ -34,8 +34,8 @@ const warnedUsers = new Enmap({name: "warned_users"});
 const counter = new Enmap({name: "counter"});
 
 // Un-comment to set memes and presences into the database
-// const { MEMES } = require("../data/memes");
-// const { STATES } = require("../data/memes");
+// const { MEMES } = require("../files/memes");
+// const { STATES } = require("../files/memes");
 // setMemes();
 
 /* ----------------------------------------------- */

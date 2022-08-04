@@ -6,7 +6,7 @@
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { warnedUsers } = require("../../utils/enmapUtils");
 const JSONPenalties = require(`${process.cwd()}/files/sanctions.json`);
 
@@ -79,7 +79,7 @@ async function execute(interaction) {
         return;
     }
     
-    const embedMessage = new MessageEmbed()
+    const embedMessage = new EmbedBuilder()
     .setTitle("Audit de l'utilisateur " + tag)
     .setThumbnail(avatarURL)
 

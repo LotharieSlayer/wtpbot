@@ -5,9 +5,8 @@
  */
 
 // const { activeMember } = require("../utils/modules/activeMember.js");
-const { proposition } = require("../utils/modules/proposition.js");
-const { presentation } = require("../utils/modules/presentation");
-const { thread } = require("../utils/modules/thread.js");
+const { proposition } = require("../modules/proposition.js");
+const { thread } = require("../modules/thread.js");
 const { memes, getSetupData } = require("../utils/enmapUtils.js");
 let warns = new Map();
 
@@ -21,15 +20,11 @@ let warns = new Map();
  * @param {Client} client The client that emitted the event.
  */
 async function execute(message, client) {
-    try{
+    try {
         if (!(await isURL(message))) {
             proposition(client, message);
-            presentation(message);
             thread(message);
             loadMemes(message);
-            
-            // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
-            // activeMember(client, message);
         }
     }
     catch(e){console.log(e)}

@@ -5,7 +5,7 @@
  */
 
 
-const { kickLog } = require("../utils/modules/logs");
+const { kickLog } = require("../modules/logs");
 
 
 /* ----------------------------------------------- */

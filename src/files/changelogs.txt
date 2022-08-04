@@ -1,21 +1,4 @@
-2.1.0
-- /warn, the brand new command for mods
-- UserEntries.log, where you can find all users id that joined you're server.
-- /setup rework
-- Multi-serveur
-- Removed :
-    Unmute and unban log
-    Music commands
-    ActiveMember and ActiveRole
-
-2.1.1
-- Droit à l'erreur dans le /warn retiré car peu utile (objet timeout dans le sanctions.json)
-- cmCertify (interactionMessage) et cuCertify (interactionUser) pour aider les modérateurs à Certifier des personnes en un clic.
-- Correction de plusieurs bug Crash Spawn lorsque les rôles certifiés/le channel de bienvenue n'était pas setup.
-- /audit permettant au modérateurs d'obtenir des informations sur les sanctions précedemment appliqué sur l'utilisateur qui pourrait se faire warn.
-- /warnlist pour obtenir la liste des warns existants et leurs sanctions.
-
-Info :
-cm = CommandMessage (right-click on a message)
-cs = CommandSlash (write the command starting with /)
-cu = CommandUser (right-click on a user)
+2.2.0
+- Presentation, ActiveMember, ActiveRole removed
+- Tree structure reworked (/modules now directly in the src/ folder)
+- 

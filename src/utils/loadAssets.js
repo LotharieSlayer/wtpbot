@@ -5,8 +5,6 @@
  */
 
 
-const { Client } = require( "discord.js" );
-
 // Used to get all the directory of the commands and events.
 const { promisify } = require( "util" );
 const { glob } = require( "glob" );
@@ -21,11 +19,11 @@ const globPromise = promisify( glob );
  * @param {Client} client The client of the bot.
  */
 async function loadCommands( client ) {
-	const files = await globPromise( `${process.cwd()}/commands/*/*.js` );
-	files.map( file => {
-		const command = require( file );
-		client.commands.set( command.data.name, command );
-	});
+    const files = await globPromise( `${process.cwd()}/commands/*/*.js` );
+    files.map( file => {
+        const command = require( file );
+        client.commands.set( command.data.name, command );
+    });
 }
 
 
@@ -34,14 +32,14 @@ async function loadCommands( client ) {
  * @param {Client} client The client of the bot.
  */
 async function loadEvents( client ) {
-	const files = await globPromise( `${process.cwd()}/events/*.js` );
-	files.map( file => {
-		const event = require( file );
-		if ( event.once )
-			client.once( event.name, ( ...args ) => event.execute( ...args, client ) );
-		else
-			client.on( event.name, ( ...args ) => event.execute( ...args, client ) );
-	});
+    const files = await globPromise( `${process.cwd()}/events/*.js` );
+    files.map( file => {
+        const event = require( file );
+        if ( event.once )
+            client.once( event.name, ( ...args ) => event.execute( ...args, client ) );
+        else
+            client.on( event.name, ( ...args ) => event.execute( ...args, client ) );
+    });
 }
 
 
@@ -51,13 +49,13 @@ async function loadEvents( client ) {
  * @param {string} guildId The guild's ID.
  */
 async function loadCommandsToGuild( client, guildId ) {
-	const commandsArray = [];
-	client.commands.map( command => {
-		commandsArray.push( command.data.toJSON() );
-	});
+    const commandsArray = [];
+    client.commands.map( command => {
+        commandsArray.push( command.data.toJSON() );
+    });
 
-	await client.guilds.cache.get( guildId ).commands.set( commandsArray );
-	console.log( `Loaded application (/) commands to the guild! (${guildId})` );
+    await client.guilds.cache.get( guildId ).commands.set( commandsArray );
+    console.log( `Loaded application (/) commands to the guild! (${guildId})` );
 }
 
 
@@ -66,10 +64,10 @@ async function loadCommandsToGuild( client, guildId ) {
  * @param {Client} client The bot's client.
  */
 async function loadCommandToAllGuilds( client ) {
-	client.guilds.cache.forEach( (value, key) => {
+    client.guilds.cache.forEach( (value, key) => {
         loadCommandsToGuild( client, key )
     });
-	// console.log( "Loaded application (/) commands to the guild!\nThe commands may take up to an hour before being available on the guilds." );
+    // console.log( "Loaded application (/) commands to the guild!\nThe commands may take up to an hour before being available on the guilds." );
 }
 
 
@@ -77,8 +75,8 @@ async function loadCommandToAllGuilds( client ) {
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
-	loadCommands,
-	loadEvents,
-	loadCommandsToGuild,
-	loadCommandToAllGuilds
+    loadCommands,
+    loadEvents,
+    loadCommandsToGuild,
+    loadCommandToAllGuilds
 }

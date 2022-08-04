@@ -13,10 +13,8 @@
 exports.Certify = true;
 exports.Archives = true;
 exports.Changelogs = true;
-exports.ActiveMember = false; // deprecated
-exports.WelcomeRole = false; // deprecated
 exports.Proposition = true;
-exports.Presentation = true;
+exports.Presentation = false; // deprecated
 exports.Setup = true;
 exports.Thread = true;
 exports.Memes = true;
@@ -33,3 +31,6 @@ exports.WelcomeMember = true;
 
 // v2.1.0
 exports.Warn = true;
+
+// v2.2.0
+exports.Contest = true;

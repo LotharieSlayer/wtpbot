@@ -7,11 +7,11 @@
 
 
 /*      AUTHORISATION      */
-const { WelcomeMember } = require('../../files/modules.js');
+const { WelcomeMember } = require('../files/modules.js');
 
 /*      IMPORTS      */
-const { getSetupData } = require("../enmapUtils")
-const { NEW } = require('../../data/welcomeMessages.js');
+const { getSetupData } = require("../utils/enmapUtils")
+const { NEW } = require('../files/welcomeMessages.js');
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */

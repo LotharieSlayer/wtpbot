@@ -5,7 +5,7 @@
 
 
 const { Message, Client } = require( "discord.js" );
-const { threadDelete } = require("../utils/modules/thread");
+const { threadDelete } = require("../modules/thread");
 
 
 /* ----------------------------------------------- */

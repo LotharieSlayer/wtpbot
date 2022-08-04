@@ -6,7 +6,7 @@
 
 
 const { GuildBan, Client } = require( "discord.js" );
-const { banLog } = require( "../utils/modules/logs" );
+const { banLog } = require( "../modules/logs" );
 
 
 /* ----------------------------------------------- */

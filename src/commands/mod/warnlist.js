@@ -6,7 +6,7 @@
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const JSONPenalties = require(`${process.cwd()}/files/sanctions.json`);
 
 /* ----------------------------------------------- */
@@ -32,7 +32,7 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction) {
     
-    const embedMessage = new MessageEmbed()
+    const embedMessage = new EmbedBuilder()
     .setTitle("Tous les warns (⬇️)")
     .setDescription("ℹ️ Sanctions attribués allant de bas en haut et de la forme (jour:heure:minute)")
     .setColor("#ffcc4d")

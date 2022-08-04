@@ -6,11 +6,11 @@
 
 
 /*      AUTHORISATION      */
-const { Proposition } = require('../../files/modules.js');
+const { Proposition } = require('../files/modules.js');
 
 /*      IMPORTS      */
-const { MessageEmbed } = require("discord.js");
-const { getSetupData } = require('../../utils/enmapUtils');
+const { EmbedBuilder } = require("discord.js");
+const { getSetupData } = require('../utils/enmapUtils');
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -27,7 +27,7 @@ async function proposition(client, msg){
         var messageAuthor = msg.author;
         var Attachment = msg.attachments;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor('RANDOM')
 			.setAuthor( messageAuthor.tag, messageAuthor.avatarURL() )
             .setDescription(messageContent)

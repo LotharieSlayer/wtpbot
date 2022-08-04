@@ -8,7 +8,7 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { getSetupData } = require("../../utils/enmapUtils");
-const { VERIFIED } = require("../../data/welcomeMessages.js");
+const { VERIFIED } = require("../../files/welcomeMessages.js");
 
 /*      AUTHORISATION      */
 const { Certify } = require("../../files/modules.js");
@@ -49,7 +49,7 @@ async function execute(interaction) {
         await member.roles.remove(interaction.guild.roles.cache.get(roles.nCertifyRoles[i]));
     }
 
-    member.send({ embeds: [VERIFIED] });
+    await member.send({ embeds: [VERIFIED] });
 
     await interaction.reply({
         content: `Vous avez bien certifié <@${member.user.id}> !`,
