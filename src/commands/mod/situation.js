@@ -16,7 +16,7 @@ const JSONPenalties = require(`${process.cwd()}/files/sanctions.json`);
 const slashCommand = new SlashCommandBuilder()
     .setName("situation")
     .setDescription(
-        "[mod] Obtenir votre situation au sein du serveur."
+        "[mod] Obtenir l'état de votre compte au sein du serveur."
     );
 
     
