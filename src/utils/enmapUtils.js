@@ -28,6 +28,7 @@ const setupPremium = new Enmap({name: "setup_premium"});
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
 const presence = new Enmap({name: "presence"});
+const advices = new Enmap({name: "advices"})
 
 // WARNS
 const warnedUsers = new Enmap({name: "warned_users"});
@@ -45,6 +46,10 @@ const contestKarmas = new Enmap({name: "contest_karmas"});
 // const { MEMES } = require("../files/memes");
 // const { STATES } = require("../files/memes");
 // setMemes();
+
+// Un-comment to set advices into the database
+const { ADVICES } = require("../files/advices")
+setAdvices();
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -138,6 +143,17 @@ async function setMemes(){
 */
 
 
+
+async function setAdvices(){
+    // MEMES
+    for(let i=0; i < ADVICES.length; i++){
+        memes.set(ADVICES[i].command, ADVICES[i].message)
+    }
+    console.log("Toutes les données des advices ont été chargé !")
+}
+
+
+
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
@@ -162,5 +178,6 @@ module.exports = {
     dbModifyPresentation,
     memes,
     presence,
+    advicesDB,
     counter
 }

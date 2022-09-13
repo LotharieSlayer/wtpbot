@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **2.2.0**
 - Discord v14 (latest Discord API)
 - Tree structure reworked (/modules now directly in the src/ folder)
@@ -5,3 +6,11 @@
 - Links for /warn added
 - Documentation everywhere
 - Memes Contest even if included with 2.2.0 on FRANCE MEMES will not be open-source for a moment till we don't have finished this project.
+=======
+2.2.0
+- Presentation, ActiveMember, ActiveRole removed
+- Structure et arborescense du projet retravaillé (/modules directement dans le dossier src/)
+- /advice : Permet de donner des conseils aux utilisateurs pour bien utiliser le serveur
+- /situation : Permet de connaître l'état de notre compte sur le serveur en question
+- Traduction de toute la documentation/code en français
+>>>>>>> a9a9680e17728e90d74489e364b55b7f57b6db58
