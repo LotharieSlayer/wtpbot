@@ -31,6 +31,14 @@ async function execute(interaction) {
 
     const { getSetupData } = require("../../utils/enmapUtils");
     const ARCHIVES_ID = await getSetupData(interaction.guild.id, "archives");
+    
+    if (ARCHIVES_ID === null || ARCHIVES_ID === undefined){
+        await interaction.reply({
+            content: `Désolé, mais l'administrateur n'a pas setup le rôle des archives pour ce serveur !`,
+            ephemeral: true,
+        });
+        return;
+    }
 
     const member = interaction.member;
     let archivesRole = interaction.guild.roles.cache.get(ARCHIVES_ID);

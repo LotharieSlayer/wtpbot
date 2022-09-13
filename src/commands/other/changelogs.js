@@ -37,15 +37,15 @@ async function execute(interaction) {
     //EMBED
     // inside a command, event listener, etc.
     const embed = new EmbedBuilder()
-        .setColor("#e15dd9")
+        .setColor(0xe15dd9)
         .setTitle(`Changelogs v${pjson.version} :`)
-        .setAuthor("WhatThePhoqueBot", interaction.client.user.avatarURL())
+        .setAuthor({name: "WhatThePhoqueBot", iconURL: interaction.client.user.avatarURL()})
         .setDescription(messageContent)
         .setTimestamp(new Date())
-        .setFooter(
-            "Merci à tous de nous soutenir ! :)",
-            interaction.client.user.avatarURL()
-        );
+        .setFooter({
+            text: "Merci !",
+            value: interaction.client.user.avatarURL()
+        });
 
     await interaction.reply({ embeds: [embed], ephemeral: false });
 }

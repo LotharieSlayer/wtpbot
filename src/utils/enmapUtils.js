@@ -22,6 +22,8 @@ const setupActiveRole = new Enmap({name: "setup_active_role"});
 const setupArchives = new Enmap({name: "setup_archives"});
 const setupThread = new Enmap({name: "setup_thread"});
 const setupWelcome = new Enmap({name: "setup_welcome"});
+const setupContest = new Enmap({name: "setup_contest"});
+const setupPremium = new Enmap({name: "setup_premium"});
 
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
@@ -32,6 +34,12 @@ const warnedUsers = new Enmap({name: "warned_users"});
 
 // COUNTER
 const counter = new Enmap({name: "counter"});
+
+// CONTEST
+const contestPosts = new Enmap({name: "contest_posts"});
+const contestSupervotes = new Enmap({name: "contest_supervotes"});
+const contestKarmas = new Enmap({name: "contest_karmas"});
+
 
 // Un-comment to set memes and presences into the database
 // const { MEMES } = require("../files/memes");
@@ -49,7 +57,6 @@ const counter = new Enmap({name: "counter"});
  * Example : getSetupData(GUILD_ID, "presentation") but it can be : "proposition" or "discussion"
  */
 async function getSetupData(id, type){
-
 
     switch (type) {
         case "discussion":
@@ -86,6 +93,12 @@ async function getSetupData(id, type){
         case "welcome":
             // Here id is the member
             return await getResultsValue(setupWelcome, id)
+        case "contest":
+            // Here id is the guild
+            return await getResultsValue(setupContest, id)
+        case "premium":
+            // Here id is the guild
+            return await getResultsValue(setupPremium, id)
         default:
             break;
     }
@@ -139,7 +152,12 @@ module.exports = {
     setupThread,
     setupArchives,
     setupWelcome,
+    setupContest,
+    setupPremium,
 
+    contestPosts,
+    contestSupervotes,
+    contestKarmas,
     warnedUsers,
     dbModifyPresentation,
     memes,

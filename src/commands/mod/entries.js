@@ -6,7 +6,7 @@
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageAttachment } = require("discord.js");
+const { AttachmentBuilder } = require("discord.js");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
@@ -25,7 +25,7 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction) {
 
-    const logsFile = new MessageAttachment(
+    const logsFile = new AttachmentBuilder(
         `${process.cwd()}/files/userEntries.log`
     );
     await interaction.member.send({

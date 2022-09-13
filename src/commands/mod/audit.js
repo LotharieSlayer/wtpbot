@@ -90,11 +90,11 @@ async function execute(interaction) {
     }
 
     if(nbWarns > 10)
-        embedMessage.setColor('RED')
+        embedMessage.setColor('Red')
     else if(nbWarns > 5)
-        embedMessage.setColor('YELLOW')
+        embedMessage.setColor('Yellow')
     else if(nbWarns > 0)
-        embedMessage.setColor('GREEN')
+        embedMessage.setColor('Green')
 
 
     let sanctions = JSON.stringify(userDB.sanctions)
@@ -105,20 +105,22 @@ async function execute(interaction) {
     sanctions = sanctions.replaceAll(",", "\n")
     sanctions += "\n\nTri dans l'ordre des plus récents :"
 
-    embedMessage.addField("Warns", sanctions)
+    embedMessage.addFields({ name: "Warns", value: sanctions })
 
-    // for(let i = 0; i < userDB.warns.length; i++){
+    // Constructeur des fields
     for(let i = userDB.warns.length - 1; i >= 0; i--){
         let reasonS = userDB.warns[i].reasonS;
         reasonS === null ? reasonS = "" : reasonS += "\n";
+        let link = userDB.warns[i].link;
+        link === null || link === undefined ? link = "Aucun lien fourni\n" : link = "[Message/Log](" + link + ")\n";
         let timestamp = "";
         timestamp += userDB.warns[i].timestamp;
 
-        embedMessage.addField(
-            JSONPenalties.enum[userDB.warns[i].reason].emoji + " **" + JSONPenalties.enum[userDB.warns[i].reason].name + "** ",
-            reasonS + " <t:"+ timestamp.slice(0, -3) + ":R>" + " par <@" + userDB.warns[i].mod + ">\n",
-            true
-        );
+        embedMessage.addFields({
+            name: JSONPenalties.enum[userDB.warns[i].reason].emoji + " **" + JSONPenalties.enum[userDB.warns[i].reason].name + "** ",
+            value: reasonS + link + "<t:" + timestamp.slice(0, -3) + ":R>" + " par <@" + userDB.warns[i].mod + ">\n",
+            inline: true
+        });
 
     }
 

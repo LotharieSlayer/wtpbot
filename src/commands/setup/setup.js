@@ -7,11 +7,11 @@
 
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { setupMemes, setupSuggestions, setupThread, setupPresentations, setupLogs, setupArchives, setupCertify, setupWelcome } = require("../../utils/enmapUtils");
-// const { setupActiveRole } = require("../../utils/enmapUtils");
+const { setupMemes, setupSuggestions, setupThread, setupPresentations, setupLogs, setupArchives, setupCertify, setupWelcome, setupContest, setupPremium } = require("../../utils/enmapUtils");
 
 /*      AUTHORISATION      */
 const { Setup } = require("../../files/modules.js");
+const { client } = require("../../main");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
@@ -70,19 +70,6 @@ const slashCommand = new SlashCommandBuilder()
                     .setDescription("Le rôle pour les membres autorisés à accéder aux archives.")
             )
     )
-    // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
-    // .addSubcommand((subcommand) =>
-    //     subcommand
-    //         .setName("active_role")
-    //         .setDescription(
-    //             "Définir/Supprimer le rôle pour les membres actifs du serveur."
-    //         )
-    //         .addRoleOption((role) =>
-    //             role
-    //                 .setName("active_role")
-    //                 .setDescription("Le rôle pour les membres actifs.")
-    //         )
-    // )
     .addSubcommand((subcommand) =>
         subcommand
             .setName("certify")
@@ -101,6 +88,41 @@ const slashCommand = new SlashCommandBuilder()
                     .setName("n_certify_roles")
                     .setDescription(
                         "Entrez l'ID du/des rôles de non-certification qui seront à enlever. (séparé d'une \",\" si plusieurs)"
+                    )
+            )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("contest")
+            .setDescription(
+                "Setup/Supprimer le contest du serveur."
+            )
+            .addChannelOption((channel) =>
+                channel
+                    .setName("infos")
+                    .setDescription(
+                        "Entrez le salon où seront affichées les infos du contest."
+                    )
+            )
+            .addChannelOption((channel) =>
+                channel
+                    .setName("posts")
+                    .setDescription(
+                        "Entrez le salon où seront affichées les posts du contest."
+                    )
+            )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("premium")
+            .setDescription(
+                "Entrez l'ID du/des rôles Premium sur votre serveur. (séparé d'une \",\" si plusieurs)"
+            )
+            .addStringOption((string) =>
+                string
+                    .setName("premium_roles")
+                    .setDescription(
+                        "Entrez l'ID du/des rôles Premium sur votre serveur. (séparé d'une \",\" si plusieurs)"
                     )
             )
     );
@@ -194,25 +216,6 @@ async function execute(interaction) {
                 await interaction.reply({ content: `Rôle des archives supprimé du serveur ! (<@!${archivesGet}>)`, ephemeral: true });
             }
             break;
-        // Membre actif à refaire dans France Bot surement (ce sera plus intelligement utilisé qu'un simple compteur de messages)
-        // case "active_role":
-        //     // eslint-disable-next-line no-case-declarations
-        //     const activeRoleGet = await setupActiveRole.get(interaction.guild.id)
-        //     if(activeRoleGet === undefined){
-        //         const roleId = interaction.options.getRole("active_role").id;
-        //         if(roleId != undefined){
-        //             setupActiveRole.set(interaction.guild.id, interaction.options.getRole("active_role").id);
-        //             await interaction.reply({ content: `Rôle des membres actifs ajouté au serveur ! (<@${interaction.options.getRole("active_role").id}>)`, ephemeral: true });
-        //         }
-        //         else {
-        //             await interaction.reply({ content: `Rôle à supprimer introuvable, vous devez spécifier un rôle si vous souhaitez l'ajouter.`, ephemeral: true });
-        //         }
-        //     }
-        //     else {
-        //         setupActiveRole.delete(interaction.guild.id);
-        //         await interaction.reply({ content: `Rôle des membres actifs supprimé du serveur ! (<@${activeRoleGet}>)`, ephemeral: true });
-        //     }
-        //     break;
         case "certify":
             // eslint-disable-next-line no-case-declarations
             const getCertify = interaction.options.getString("certify_roles")
@@ -225,7 +228,7 @@ async function execute(interaction) {
                     const certifyRoles = getCertify.split(",");
                     const nCertifyRoles = getNCertify.split(",");
                     setupCertify.set(interaction.guild.id, {certifyRoles, nCertifyRoles});
-                    await interaction.reply({ content: `Setup de la certification terminé !\n **Certifié :** ${certifyRoles}\n **NCertifié :** ${nCertifyRoles}`, ephemeral: true });
+                    await interaction.reply({ content: `**Setup de la certification terminé !**\nCertifié : ${certifyRoles}\nNCertifié : ${nCertifyRoles}`, ephemeral: true });
                 }
                 else {
                     await interaction.reply({ content: `Setup de la certification à supprimer introuvable, vous devez spécifier les rôles avec des ID si vous souhaitez le configurer.`, ephemeral: true });
@@ -235,6 +238,33 @@ async function execute(interaction) {
                 setupCertify.delete(interaction.guild.id);
                 await interaction.reply({ content: `Setup de la certification supprimé !`, ephemeral: true });
             }
+            break;
+        case "contest":
+            if( setupContest.get(interaction.guild.id) === undefined || (interaction.options.getChannel("infos") != null || interaction.options.getChannel("posts") != null) ){
+                let infoChannel = null;
+                let postChannel = null;
+                if( interaction.options.getChannel("infos") != null ) infoChannel = interaction.options.getChannel("infos").id
+                if( interaction.options.getChannel("posts") != null ) postChannel = interaction.options.getChannel("posts").id
+
+                const data = { setup: { setupUser: interaction.member.id, setupChannelInfos: infoChannel, setupChannelPosts: postChannel }}
+                
+                setupContest.set(interaction.guild.id, data);
+                await client.eventsEmitter.emit('ContestUpdate', data, interaction.guild.id);
+                client.eventsEmitter.emit('ContestRestart');
+                await interaction.member.send({ content: `Démarrage/Update du setup des contests en cours, nous vous enverrons un DM ici une fois terminé.`});
+                await interaction.reply({ content: `Démarrage/Update du setup des contests en cours, nous vous enverrons un DM sur Discord une fois terminé.`, ephemeral: true });
+            }
+            else {
+                setupContest.delete(interaction.guild.id);
+                await interaction.member.send({ content: `Le setup a déjà effectuée.\nDésactivation des memes contest.\n**Warning :** Nous ne supprimons pas les channels dans le cas où voudriez les réutiliser.`});
+                await interaction.reply({ content: `Le setup a déjà effectuée.\nDésactivation des memes contest.\n**Warning :** Nous ne supprimons pas les channels dans le cas où voudriez les réutiliser.`, ephemeral: true });
+            }
+            break;
+        case "premium":
+            // eslint-disable-next-line no-case-declarations
+            const premiumRoles = interaction.options.getString("premium_roles").split(",");
+            setupPremium.set(interaction.guild.id, premiumRoles);
+            await interaction.reply({ content: `**Setup des rôles premium terminés !**\nRôles premium : ${premiumRoles}`, ephemeral: true });
             break;
         default:
             await interaction.reply({ content: "Commande non permise.", ephemeral: true });

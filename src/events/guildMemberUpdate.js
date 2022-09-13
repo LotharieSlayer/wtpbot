@@ -19,7 +19,6 @@ const { timeoutLog } = require("../modules/logs");
  * @param {GuildMember} newMember The new member object.
  */
 async function execute( oldMember, newMember, client ) {
-	// welcomeRole(oldMember, newMember);
 	timeoutLog(oldMember, newMember, client)
 }
 

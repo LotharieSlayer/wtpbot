@@ -1,4 +1,7 @@
-2.2.0
-- Presentation, ActiveMember, ActiveRole removed
+**2.2.0**
+- Discord v14 (latest Discord API)
 - Tree structure reworked (/modules now directly in the src/ folder)
-- 
+- Presentation, ActiveMember, ActiveRole removed
+- Links for /warn added
+- Documentation everywhere
+- Memes Contest even if included with 2.2.0 on FRANCE MEMES will not be open-source for a moment till we don't have finished this project.

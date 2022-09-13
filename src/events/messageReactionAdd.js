@@ -19,7 +19,7 @@ const { MessageReaction, Client, User } = require( "discord.js" );
  * @param {Client} client The client that emitted the event.
  */
 async function execute( reaction, user, client ) {
-
+	console.log(reaction, user);
 }
 
 

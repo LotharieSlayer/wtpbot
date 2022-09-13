@@ -34,8 +34,8 @@ async function execute(interaction) {
     
     const embedMessage = new EmbedBuilder()
     .setTitle("Tous les warns (⬇️)")
-    .setDescription("ℹ️ Sanctions attribués allant de bas en haut et de la forme (jour:heure:minute)")
-    .setColor("#ffcc4d")
+    .setDescription("ℹ️ Sanctions attribués allant de haut en bas et de la forme (jour:heure:minute)")
+    .setColor(0xffcc4d)
 
     for(let raison in JSONPenalties.enum){
         for (let sanction of JSONPenalties.sanctions) {
@@ -47,7 +47,7 @@ async function execute(interaction) {
                     values = values.replaceAll("\"", "")
                     values = values.replaceAll(",", "\n")
                     values = values.toUpperCase()
-                    embedMessage.addField(`${JSONPenalties.enum[raison].emoji} ${JSONPenalties.enum[raison].name}`, values, true);
+                    embedMessage.addFields({name:`${JSONPenalties.enum[raison].emoji} ${JSONPenalties.enum[raison].name}`, value: values, inline: true });
                 }
             }
             
@@ -55,7 +55,7 @@ async function execute(interaction) {
 
     }
 
-    interaction.reply({embeds:[embedMessage], ephemeral: true});
+    await interaction.reply({embeds:[embedMessage], ephemeral: true});
 }
 
 /* ----------------------------------------------- */

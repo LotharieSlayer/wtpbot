@@ -32,7 +32,7 @@ async function timeoutLog(oldMember, newMember, client) {
     ) {
         let auditLogs = await oldMember.guild.fetchAuditLogs({
             limit: 5,
-            type: "MEMBER_UPDATE",
+            type: 24, // MEMBER_UPDATE
         });
         let timeoutFirst = auditLogs.entries.first();
 
@@ -42,17 +42,17 @@ async function timeoutLog(oldMember, newMember, client) {
             newMember.communicationDisabledUntil > dateNow
         ) {
             const timeoutEmbed = new EmbedBuilder()
-                .setColor("#e15dd9")
-                .setAuthor(
-                    `┃ ${newMember.user.username} vient d'être mute.`,
-                    newMember.user.avatarURL()
-                )
+                .setColor(0xe15dd9)
+                .setAuthor({
+                    name: `┃ ${newMember.user.username} vient d'être mute.`,
+                    iconURL: newMember.user.avatarURL()
+                })
                 .setDescription(`(${newMember.user.id})`)
                 .setTimestamp(newMember.communicationDisabledUntil)
-                .setFooter(
-                    `Par ${timeoutFirst.executor.username} jusqu'à`,
-                    timeoutFirst.executor.avatarURL()
-                );
+                .setFooter({
+                    text: `Par ${timeoutFirst.executor.username} jusqu'à`,
+                    iconURL: timeoutFirst.executor.avatarURL()
+                });
             if (timeoutFirst.reason){
                 timeoutEmbed.setDescription(
                     `(${newMember.user.id})\n${timeoutFirst.reason}\n`
@@ -78,13 +78,13 @@ async function kickLog(member, client) {
     let kickEmbed;
 
     kickEmbed = new EmbedBuilder()
-        .setColor("#e15dd9")
-        .setAuthor(
-            `┃ ${member.user.username} (${member.id}) a quitté le serveur.`,
-            member.user.avatarURL()
-        )
+        .setColor(0xe15dd9)
+        .setAuthor({
+            name:`┃ ${member.user.username} (${member.id}) a quitté le serveur.`,
+            iconURL: member.user.avatarURL()
+        })
         .setTimestamp(new Date())
-        .setFooter(`WhatThePhoqueBot`, client.user.avatarURL());
+        .setFooter({ text: `WhatThePhoqueBot`, iconURL: client.user.avatarURL() });
 
     logChannel.send({
         embeds: [kickEmbed],
@@ -103,27 +103,27 @@ async function banLog(guildBan, banned, client) {
 
     let banEmbed = new EmbedBuilder()
     
-    banEmbed.setColor("#e15dd9");
+    banEmbed.setColor(0xe15dd9);
 
     if (banned) {
         let auditLogs = await guildBan.guild.fetchAuditLogs({
             limit: 5,
-            type: "MEMBER_BAN_ADD",
+            type: 22    //"MEMBER_BAN_ADD"
         });
         let banFirst = auditLogs.entries.first();
-        banEmbed.setFooter(
-            `Par ${banFirst.executor.username}`,
-            banFirst.executor.avatarURL()
-        );
-        banEmbed.setAuthor(
-            `┃ ${user.username} vient d'être ban.`,
-            user.avatarURL()
-        );
+        banEmbed.setFooter({
+            text: `Par ${banFirst.executor.username}`,
+            iconURL: banFirst.executor.avatarURL()
+        });
+        banEmbed.setAuthor({
+            name: `┃ ${user.username} vient d'être ban.`,
+            iconURL: user.avatarURL()
+        });
 
         if (reason){
             banEmbed.setDescription(`(${user.id})\n${reason}\n`);
             if(reason.startsWith("**Warn :**"))
-                banEmbed.setColor("#ffcc4d");
+                banEmbed.setColor(0xffcc4d);
         }
 
         logChannel.send({
