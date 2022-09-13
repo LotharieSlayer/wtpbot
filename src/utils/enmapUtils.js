@@ -26,7 +26,7 @@ const setupWelcome = new Enmap({name: "setup_welcome"});
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
 const presence = new Enmap({name: "presence"});
-const advicesDB = new Enmap({name: "advices"})
+const advices = new Enmap({name: "advices"})
 
 // WARNS
 const warnedUsers = new Enmap({name: "warned_users"});
