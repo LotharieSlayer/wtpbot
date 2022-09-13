@@ -147,7 +147,7 @@ async function setMemes(){
 async function setAdvices(){
     // MEMES
     for(let i=0; i < ADVICES.length; i++){
-        memes.set(ADVICES[i].command, ADVICES[i].message)
+        advices.set(ADVICES[i])
     }
     console.log("Toutes les données des advices ont été chargé !")
 }
@@ -178,6 +178,6 @@ module.exports = {
     dbModifyPresentation,
     memes,
     presence,
-    advicesDB,
+    advices,
     counter
 }

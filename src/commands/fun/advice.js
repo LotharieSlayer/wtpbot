@@ -6,6 +6,7 @@
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Advices } = require("../../files/modules");
 const { advices } = require("../../utils/enmapUtils");
 
 /* ----------------------------------------------- */
@@ -30,7 +31,6 @@ async function execute(interaction) {
     
     // Génère un nombre random entre 1 et 100
     const randomValue = Math.floor(Math.random() * 100 + 1);
-    if (randomValue > 1) return;
 
     // random sur advices.length
     // peut etre enmapRandom ou enmapRandomKey
