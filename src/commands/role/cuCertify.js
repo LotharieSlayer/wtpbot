@@ -1,7 +1,7 @@
 /**
  * @author Lothaire Guée
  * @description
- *      Contains the command 'certify'.
+ *      Contient la commande 'certify'.
  *      Allow mods to certify someone in the server.
  */
 
@@ -24,8 +24,8 @@ const cmCommand = new ContextMenuCommandBuilder()
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
 /**
- * Handler pour la SlashCommande.
- * @param {ContextMenuInteraction} interaction L'interaction générée par l'exécution de la commande.
+ * Fonction appelé quand la commande est 'cuCertify'
+ * @param {ContextMenuInteraction} interaction L'interaction généré par l'exécution de la commande.
  */
 async function execute( interaction ) {
 	if (Certify == false) return;

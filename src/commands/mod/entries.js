@@ -1,8 +1,8 @@
 /**
  * @author Lothaire Guée
  * @description
- *      Contains the command 'entries'.
- *      Send the member entries log file to the user in DM.
+ *      Contient la commande 'entries'.
+ *      Envoi le ficher de toutes les logs d'entrées de membre, DM + Reply
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
@@ -20,7 +20,7 @@ const slashCommand = new SlashCommandBuilder()
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
 /**
- * Fonction appelé quand la commande est 'ping'
+ * Fonction appelé quand la commande est 'entries'
  * @param {CommandInteraction} interaction L'interaction généré par l'exécution de la commande.
  */
 async function execute(interaction) {
