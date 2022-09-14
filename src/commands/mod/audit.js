@@ -21,7 +21,7 @@ const slashCommand = new SlashCommandBuilder()
     .addUserOption(user =>
         user
             .setName("user")
-            .setDescription("L'utilisateur atteingable ciblé à l'audit.")
+            .setDescription("L'utilisateur atteignable ciblé à l'audit.")
     )
     .addStringOption(userId =>
         userId

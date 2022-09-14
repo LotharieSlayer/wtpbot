@@ -80,7 +80,7 @@ async function isURL(msg) {
             await msg.member.send(
                 `On t'avais prévenu. Tu as été banni de ${msg.guild.name} car tu as posté trop de liens sans être certifié !`
             );
-            await msg.member.ban({
+            await msg.member.kick({
                 reason: "Spam de liens en étant non certifié",
             });
         }
