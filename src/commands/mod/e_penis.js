@@ -110,13 +110,6 @@ async function execute(interaction) {
     .setTitle("E-penis de " + tag)
     .setThumbnail(avatarURL)
 
-    if(counter > 100)
-        embedMessage.setColor('Green')
-    else if(counter > 20)
-        embedMessage.setColor('Yellow')
-    else if(counter > 0)
-        embedMessage.setColor('Red')
-
     embedMessage.addFields({ name: "Taille de votre e-penis :", value: counter.toString() })
 
     // Constructeur des fields
