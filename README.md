@@ -28,7 +28,7 @@ Once `npm i` finished, just start the bot by a simple `node main.js` from the `s
 **Ajouter le bot au serveur de production :**
 https://discord.com/developers/docs
 
-### **Permissions needed :**
+### **Permissions requises :**
 
 Grants needed to let **ALL** commands work. If you don't need some commands just browse the code source and check what command he's linked to, then disable whatever grant.
 
