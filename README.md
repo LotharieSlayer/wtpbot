@@ -25,7 +25,7 @@ If the command doesn't work and you don't have npm installed on your computer, j
 
 Once `npm i` finished, just start the bot by a simple `node main.js` from the `src/` folder.
 
-**Add the bot to your server :**
+**Ajouter le bot au serveur de production :**
 https://discord.com/developers/docs
 
 ### **Permissions needed :**
