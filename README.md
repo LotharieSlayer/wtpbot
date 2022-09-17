@@ -10,7 +10,7 @@
 
 WTPBot est un bot utile à FRANCE MEMES, il permet d'automatiser des tâches répetitives aux modérateurs, créer des évênements et gérer le support. Le bot a été design pour marcher sur 2 serveurs, le serveur de production et le serveur staff.
 
-This bot from FRANCE MEMES is not a "Public Discord Bot", we don't really have the infrastructure for at FM and we still keep the bot in private for the moment.
+Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour et nous gardons le process à usage privé sur FRANCE MEMES pour le moment.
 
 <br/>
 
