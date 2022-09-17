@@ -6,7 +6,7 @@
 
 <br/>
 
-### **Welcome on the Lotharie's Chatbot for Discord !**
+### **Bienvenue sur la documentation de WhatThephoqueBot !**
 
 WTPBot is a useful bot for FRANCE MEMES that allows the server to automate repetitive tasks for moderators, create events and manage support. The bot was designed to work on two servers, the production server and the staff server.
 
