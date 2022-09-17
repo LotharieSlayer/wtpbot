@@ -8,7 +8,7 @@
 
 ### **Bienvenue sur la documentation de WhatThephoqueBot !**
 
-WTPBot is a useful bot for FRANCE MEMES that allows the server to automate repetitive tasks for moderators, create events and manage support. The bot was designed to work on two servers, the production server and the staff server.
+WTPBot est un bot utile à FRANCE MEMES, il permet d'automatiser des tâches répetitives aux modérateurs, créer des évênements et gérer le support. The bot was designed to work on two servers, the production server and the staff server.
 
 This bot from FRANCE MEMES is not a "Public Discord Bot", we don't really have the infrastructure for at FM and we still keep the bot in private for the moment.
 
