@@ -35,7 +35,7 @@ Grants needed to let **ALL** commands work. If you don't need some commands just
 **Code : 1494917572806**
 ![image](https://user-images.githubusercontent.com/49253492/182611293-0617a171-20ef-4935-9797-c5d8aa0c43b4.png)
 
-**Warning :** YOUR_CLIENT_ID in the link below is the Client ID of **your bot**.
+**Attention :** YOUR_CLIENT_ID in the link below is the Client ID of **your bot**.
 
 `https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=1494917572806&scope=bot%20applications.commands`
 
