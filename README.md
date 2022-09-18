@@ -30,14 +30,14 @@ https://discord.com/developers/docs
 
 ### **Permissions requises :**
 
-Grants needed to let **ALL** commands work. If you don't need some commands just browse the code source and check what command he's linked to, then disable whatever grant.
+Ces permissions sont nécessaires pour **TOUTES** les commandes. Si vous n'avez pas l'utilité de certaines commandes, chercher simplement dans le code source quel commande est associé à tel code, et enlever la permission souhaitée.
 
 **Code : 1494917572806**
 ![image](https://user-images.githubusercontent.com/49253492/182611293-0617a171-20ef-4935-9797-c5d8aa0c43b4.png)
 
-**Attention :** YOUR_CLIENT_ID in the link below is the Client ID of **your bot**.
+**Attention :** VOTRE_CLIENT_ID dans le lien ci-dessous est le Client ID of **votre bot**.
 
-`https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=1494917572806&scope=bot%20applications.commands`
+`https://discord.com/api/oauth2/authorize?client_id=VOTRE_CLIENT_ID&permissions=1494917572806&scope=bot%20applications.commands`
 
 ### DISCLAIMER about the actual and the next 2.2 version : 
 (Because the bot doesn't really work, even if you follow all the instructions correctly ((you need some extra files)))
