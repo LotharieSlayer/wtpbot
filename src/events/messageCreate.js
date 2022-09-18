@@ -78,7 +78,7 @@ async function isURL(msg) {
                 .then((m) => setTimeout(() => m.delete(), 10000));
         if (cpt >= 2) {
             await msg.member.send(
-                `On t'avais prévenu. Tu as été banni de ${msg.guild.name} car tu as posté trop de liens sans être certifié !`
+                `On t'avais prévenu. Tu as été kick de ${msg.guild.name} car tu as posté trop de liens sans être certifié !`
             );
             await msg.member.kick({
                 reason: "Spam de liens en étant non certifié",

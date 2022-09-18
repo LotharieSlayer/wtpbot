@@ -53,7 +53,7 @@
             "emoji": "👉"
         },
         "troll": {
-            "name": "Troll",
+            "name": "Troll / Non-respect d'autrui",
             "emoji": "👺"
         },
         "non_respect_staff": {
@@ -76,10 +76,6 @@
             "name": "Zoophilie",
             "emoji": "🐭"
         },
-        "non_respect_autrui": {
-            "name": "Non-respect d'autrui",
-            "emoji": "😥"
-        },
         "pedophilie": {
             "name": "Pédophilie",
             "emoji": "👶"
@@ -89,16 +85,12 @@
             "emoji": "🔫"
         },
         "hack": {
-            "name": "Compte compromis ou piraté",
+            "name": "Compte compromis, piraté ou hack",
             "emoji": "🐱‍👤"
         },
         "mort": {
             "name": "Références excessives à la mort, l’automutilation ou tout autre trouble/maladie à la personne",
             "emoji": "💀"
-        },
-        "fake_proposition": {
-            "name": "Fake Proposition",
-            "emoji": "💡"
         },
         "plagiat": {
             "name": "Plagiat",
@@ -120,8 +112,7 @@
                 "spam",
                 "mass_ping",
                 "staff_ping_inutile",
-                "contenu_inapproprie",
-                "fake_proposition"
+                "contenu_inapproprie"
             ]
         },
         {
@@ -138,7 +129,7 @@
                 "hn",
                 "nsfw",
                 "politique",
-                "non_respect_autrui"
+                "plagiat"
             ]
         },
         {
@@ -163,8 +154,7 @@
                 "07:00:00"
             ],
             "reasons": [
-                "fake_report",
-                "plagiat"
+                "fake_report"
             ]
         },
         {
