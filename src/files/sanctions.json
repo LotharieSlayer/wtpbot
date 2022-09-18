@@ -99,6 +99,10 @@
         "fake_proposition": {
             "name": "Fake Proposition",
             "emoji": "💡"
+        },
+        "plagiat": {
+            "name": "Plagiat",
+            "emoji": "📝"
         }
     },
     "sanctions": [
@@ -148,7 +152,6 @@
                 "07:00:00"
             ],
             "reasons": [
-                "violence_extreme"
             ]
         },
         {
@@ -160,7 +163,8 @@
                 "07:00:00"
             ],
             "reasons": [
-                "fake_report"
+                "fake_report",
+                "plagiat"
             ]
         },
         {
@@ -194,6 +198,7 @@
                 "ban"
             ],
             "reasons": [
+                "violence_extreme",
                 "haine",
                 "discrimination",
                 "gore",
