@@ -6,11 +6,11 @@
 
 <br/>
 
-### **Welcome on the Lotharie's Chatbot for Discord !**
+### **Bienvenue sur la documentation de WhatThephoqueBOT !**
 
-WTPBot is a useful bot for FRANCE MEMES that allows the server to automate repetitive tasks for moderators, create events and manage support. The bot was designed to work on two servers, the production server and the staff server.
+WTPBot est un bot utile à FRANCE MEMES, il permet d'automatiser des tâches répetitives aux modérateurs, créer des évênements et gérer le support. Le bot a été design pour marcher sur 2 serveurs, le serveur de production et le serveur staff.
 
-This bot from FRANCE MEMES is not a "Public Discord Bot", we don't really have the infrastructure for at FM and we still keep the bot in private for the moment.
+Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour et nous gardons le process à usage privé sur FRANCE MEMES pour le moment.
 
 <br/>
 
@@ -20,15 +20,15 @@ This bot from FRANCE MEMES is not a "Public Discord Bot", we don't really have t
 
 # Installation : 
 
-Open you favorite terminal from the root folder and just `npm i` it.
+Ouvre ton terminal favori depuis le dossier `wtpbot/` et fait un simple `npm i`.
 If the command doesn't work and you don't have npm installed on your computer, just install Node LTS : https://nodejs.org/.
 
 Once `npm i` finished, just start the bot by a simple `node main.js` from the `src/` folder.
 
-**Add the bot to your server :**
+**Ajouter le bot au serveur de production :**
 https://discord.com/developers/docs
 
-### **Permissions needed :**
+### **Permissions requises :**
 
 Grants needed to let **ALL** commands work. If you don't need some commands just browse the code source and check what command he's linked to, then disable whatever grant.
 
