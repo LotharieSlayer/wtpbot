@@ -41,6 +41,8 @@ const contestPosts = new Enmap({name: "contest_posts"});
 const contestSupervotes = new Enmap({name: "contest_supervotes"});
 const contestKarmas = new Enmap({name: "contest_karmas"});
 
+// REPORTS
+const reports = new Enmap({name: "reports"})
 
 // Un-comment to set memes and presences into the database
 // const { MEMES } = require("../files/memes");
@@ -171,6 +173,7 @@ module.exports = {
     setupContest,
     setupPremium,
 
+    reports,
     contestPosts,
     contestSupervotes,
     contestKarmas,
