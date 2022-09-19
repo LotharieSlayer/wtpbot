@@ -64,6 +64,9 @@ async function execute( interaction ) {
     // Show the modal to the user
     await interaction.showModal(modal);
 
+    console.log(interaction.options.getStringData("reportTitle"))
+    console.log(interaction.options.getStringData("reportDescription"))
+
     reports.set(Date.now().toString(), {
         message: message.id,
         targetUser: user.id,
@@ -73,11 +76,6 @@ async function execute( interaction ) {
     })
 
     // send dans le serv staff dans le channel setup report
-
-    await interaction.reply({
-        content: `Merci d'avoir signalé ce message ${interaction.member} !`,
-        ephemeral: true,
-    });
 }
 
  
