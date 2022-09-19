@@ -5,9 +5,9 @@
  *      Permet le signalement et le report des utilisateurs.
  */
 
-const { ContextMenuCommandBuilder, TextInputBuilder, ActionRowBuilder } = require("@discordjs/builders");
+const { ContextMenuCommandBuilder } = require("@discordjs/builders");
 const { reports } = require("../../utils/enmapUtils");
-const { ApplicationCommandType, ModalBuilder } = require("discord.js");
+const { ApplicationCommandType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require("discord.js");
 const { Report } = require("../../files/modules");
 
 /* ----------------------------------------------- */
