@@ -31,7 +31,8 @@ async function execute( interaction ) {
     const message = await interaction.channel.messages.cache.get( interaction.targetId );
     const member = await interaction.guild.members.fetch(message.author.id);
 
-    message.channel.send("message\n", message, "member", member)
+    console.log("message", message)
+    console.log("member", member)
 
     await interaction.reply({
         content: `Merci d'avoir signalé ce message ${member.user} !`,
