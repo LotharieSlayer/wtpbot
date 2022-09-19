@@ -25,23 +25,23 @@ const modal = new ModalBuilder()
 // Add components to modal
 
 // Create the text input components
-const favoriteColorInput = new TextInputBuilder()
-.setCustomId('favoriteColorInput')
+const reportTitle = new TextInputBuilder()
+.setCustomId('reportTitle')
 // The label is the prompt the user sees for this input
-.setLabel("What's your favorite color?")
+.setLabel("Résumé du signalement")
 // Short means only a single line of text
 .setStyle(TextInputStyle.Short);
 
-const hobbiesInput = new TextInputBuilder()
-    .setCustomId('hobbiesInput')
-    .setLabel("What's some of your favorite hobbies?")
+const reportDescription = new TextInputBuilder()
+    .setCustomId('reportDescription')
+    .setLabel("Description et détails sur le signalement")
     // Paragraph means multiple lines of text.
     .setStyle(TextInputStyle.Paragraph);
 
 // An action row only holds one text input,
 // so you need one action row per text input.
-const firstActionRow = new ActionRowBuilder().addComponents(favoriteColorInput);
-const secondActionRow = new ActionRowBuilder().addComponents(hobbiesInput);
+const firstActionRow = new ActionRowBuilder().addComponents(reportTitle);
+const secondActionRow = new ActionRowBuilder().addComponents(reportDescription);
 
 // Add inputs to the modal
 modal.addComponents(firstActionRow, secondActionRow);
@@ -64,7 +64,7 @@ async function execute( interaction ) {
     // Show the modal to the user
     await interaction.showModal(modal);
 
-    reports.set(Date.now(), {
+    reports.set(Date.now().toString(), {
         message: message.id,
         targetUser: user.id,
         reporter: interaction.member.id,
