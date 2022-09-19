@@ -8,6 +8,7 @@
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
 const { getSetupData } = require("../../utils/enmapUtils");
 const { ApplicationCommandType } = require("discord.js");
+const { Report } = require("../../files/modules");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
