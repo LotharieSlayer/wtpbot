@@ -36,7 +36,7 @@ async function execute( interaction ) {
     console.log("user", user.id)
 
     await interaction.reply({
-        content: `Merci d'avoir signalé ce message ${member.user} !`,
+        content: `Merci d'avoir signalé ce message ${user} !`,
         ephemeral: true,
     });
 }
