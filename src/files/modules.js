@@ -35,3 +35,4 @@ exports.Warn = true;
 // v2.2.0
 exports.Contest = true;
 exports.Advices = true;
+exports.Report = true;
