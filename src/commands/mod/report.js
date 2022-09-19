@@ -29,15 +29,13 @@ async function execute( interaction ) {
     if (Report == false) return;
 
     const message = await interaction.channel.messages.cache.get( interaction.targetId );
-    console.log("message : ",message)
     const member = await interaction.guild.members.fetch(message.author.id);
-    console.log("member:" + member)
 
-    
+    message.channel.send("message\n", message, "member", member)
 
     await interaction.reply({
         content: `Merci d'avoir signalé ce message ${member.user} !`,
-        ephemeral: false,
+        ephemeral: true,
     });
 }
 
