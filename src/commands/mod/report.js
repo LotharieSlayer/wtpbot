@@ -26,18 +26,19 @@ const modal = new ModalBuilder()
 
 // Create the text input components
 const reportTitle = new TextInputBuilder()
-.setCustomId('reportTitle')
-// The label is the prompt the user sees for this input
-.setLabel("Résumé du signalement")
-// Short means only a single line of text
-.setStyle(TextInputStyle.Short);
+    .setCustomId('reportTitle')
+    // The label is the prompt the user sees for this input
+    .setLabel("Résumé du signalement")
+    // Short means only a single line of text
+    .setStyle(TextInputStyle.Short)
+    .setRequired(true);
 
 const reportDescription = new TextInputBuilder()
     .setCustomId('reportDescription')
     .setLabel("Description et détails sur le signalement")
     // Paragraph means multiple lines of text.
-    .setStyle(TextInputStyle.Paragraph);
-
+    .setStyle(TextInputStyle.Paragraph)
+    .setRequired(true);
 // An action row only holds one text input,
 // so you need one action row per text input.
 const firstActionRow = new ActionRowBuilder().addComponents(reportTitle);
@@ -64,8 +65,7 @@ async function execute( interaction ) {
     // Show the modal to the user
     await interaction.showModal(modal);
 
-    console.log(interaction.options.getStringData("reportTitle"))
-    console.log(interaction.options.getStringData("reportDescription"))
+    console.log(interaction)
 
     reports.set(Date.now().toString(), {
         message: message.id,
