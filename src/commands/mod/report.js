@@ -30,10 +30,10 @@ async function execute( interaction ) {
     if (Report == false) return;
 
     const message = await interaction.channel.messages.cache.get( interaction.targetId );
-    const member = await interaction.guild.members.fetch(message.author.id);
+    const user = await interaction.guild.members.fetch(message.author.id);
 
     console.log("message", message.id)
-    console.log("member", member.id)
+    console.log("user", user.id)
 
     await interaction.reply({
         content: `Merci d'avoir signalé ce message ${member.user} !`,
