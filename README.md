@@ -23,7 +23,7 @@ Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour
 Ouvre ton terminal favori depuis le dossier `wtpbot/` et fait un simple `npm i`.
 If the command doesn't work and you don't have npm installed on your computer, just install Node LTS : https://nodejs.org/.
 
-Once `npm i` finished, just start the bot by a simple `node main.js` from the `src/` folder.
+Une fois `npm i` fini, vous pouvez démarrer le bot par un simple `node main.js` depuis le dossier `src/`.
 
 **Ajouter le bot au serveur de production :**
 https://discord.com/developers/docs
