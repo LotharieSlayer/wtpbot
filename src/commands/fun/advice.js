@@ -28,15 +28,8 @@ const slashCommand = new SlashCommandBuilder()
 async function execute(interaction) {
 
     if(Advices == false) return;
-    
-    // Génère un nombre random entre 1 et 100
-    const randomValue = Math.floor(Math.random() * 100 + 1);
-
-    // random sur advices.length
-    // peut etre enmapRandom ou enmapRandomKey
-    // ensuite
-    await interaction.reply({content: "conseil", ephemeral: true})
-
+    const advice = await advices.randomKey();
+    await interaction.reply({content: advice, ephemeral: true})
 }
 
 /* ----------------------------------------------- */
