@@ -4,10 +4,10 @@
  *		It manage the slash commands.
  */
 
-
-const { InteractionType } = require( "discord.js" );
-
-
+const { InteractionType } = require("discord.js");
+const { handleResponse } = require("../commands/report/cmReport");
+const { handleResponseUser } = require("../commands/report/cuReport");
+const { reportAssignButton, reportCloseButton } = require("../services/report/report");
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -18,29 +18,43 @@ const { InteractionType } = require( "discord.js" );
  * @param {CommandInteraction} interaction The interaction that triggered the event.
  * @param {Client} client The client that created the interaction.
  */
-function execute( interaction, client ) {
+function execute(interaction, client) {
+    if (interaction.type === InteractionType.ApplicationCommand) {
+        client.commands.get(interaction.commandName).execute(interaction);
+    }
+    if (interaction.type === InteractionType.MessageComponent) {
 
-	if ( interaction.type === InteractionType.ApplicationCommand ) {
-		client.commands.get( interaction.commandName ).execute( interaction );
-	}
+        if (interaction.customId === "assignReport") {
+            reportAssignButton(interaction, client);
+        }
+        if (interaction.customId === "closeReport") {
+            reportCloseButton(interaction, client);
+        }
+        
+        if (interaction.customId === "contest") {
+            if (client.services.contest) {
+                const {
+                    contestInteractionButton,
+                } = require("../services/contest/contest");
+                contestInteractionButton(interaction, client);
+            }
+        }
+    }
+    
+    if (interaction.type === InteractionType.ModalSubmit) {
+        if (interaction.customId === "reportModal") handleResponse(interaction);
+        if (interaction.customId === "reportModalUser") handleResponseUser(interaction);
+    } else return;
 
-	if ( interaction.isContextMenuCommand() ) {
-		client.commands.get( interaction.commandName ).execute( interaction );
-	}
-
-    if ( interaction.isButton() ){
-		if (client.services.contest) { 
-			const { contestInteractionButton } = require("../services/contest/contest");
-			contestInteractionButton(interaction, client);
-		}
-	}
+    if (interaction.isContextMenuCommand()) {
+        client.commands.get(interaction.commandName).execute(interaction);
+    }
 }
-
 
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
-	name: "interactionCreate",
-	execute
-}
+    name: "interactionCreate",
+    execute,
+};

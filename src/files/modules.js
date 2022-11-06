@@ -10,29 +10,29 @@
  */
 
 // v1.0
-exports.Certify = true;
-exports.Archives = true;
-exports.Changelogs = true;
-exports.Proposition = true;
-exports.Presentation = false; // deprecated
+exports.Certify = false;
+exports.Archives = false;
+exports.Changelogs = false;
+exports.Proposition = false;
+exports.Presentation = false; // false deprecated
 exports.Setup = true;
 exports.Thread = true;
-exports.Memes = true;
-exports.Presence = true;
+exports.Memes = false;
+exports.Presence = false;
 
 // v1.1
-exports.Music = false; // deprecated
+exports.Music = false; // false deprecated
 
 // v1.2
-exports.Logs = true;
+exports.Logs = false;
 
 // v2.0.2
-exports.WelcomeMember = true;
+exports.WelcomeMember = false;
 
 // v2.1.0
-exports.Warn = true;
+exports.Warn = false;
 
 // v2.2.0
-exports.Contest = true;
+exports.Contest = false; // false not finished
 exports.Advices = true;
 exports.Report = true;

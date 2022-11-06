@@ -30,13 +30,17 @@ const client = new Client({
 		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildVoiceStates,
 		GatewayIntentBits.GuildBans,
-		GatewayIntentBits.MessageContent
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMessageTyping,
 	],
 	partials: [
 		Partials.Message,
 		Partials.Reaction,
 		Partials.GuildMember,
-		Partials.User
+		Partials.User,
+		Partials.Channel,
+		Partials.ThreadMember,
+		
 	]
 });
 

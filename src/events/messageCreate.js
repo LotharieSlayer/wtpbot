@@ -5,6 +5,7 @@
  */
 
 // const { activeMember } = require("../utils/modules/activeMember.js");
+const { ChannelType } = require("discord.js");
 const { proposition } = require("../modules/proposition.js");
 const { thread } = require("../modules/thread.js");
 const { memes, getSetupData } = require("../utils/enmapUtils.js");
@@ -21,11 +22,11 @@ let warns = new Map();
  */
 async function execute(message, client) {
     try {
-        if (!(await isURL(message))) {
+        // if (!(await isURL(message))) { // depreacted with Automod that block spam and scam links
             proposition(client, message);
             thread(message);
             loadMemes(message);
-        }
+        // }
     }
     catch(e){console.log(e)}
 }

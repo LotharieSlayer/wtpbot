@@ -15,7 +15,7 @@ const { ApplicationCommandType } = require("discord.js");
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const cmCommand = new ContextMenuCommandBuilder()
-	.setName( "Certifier User" )
+	.setName( "Certifier cet utilisateur" )
 	.setType( ApplicationCommandType.User )
     .setDefaultPermission(false);
 

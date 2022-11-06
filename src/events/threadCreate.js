@@ -1,12 +1,12 @@
 /**
  * @author Lothaire Guée
  * @description
- *      This event is used to track the likes and repost of the messages.
- *      If a message with a meme is not in the database, then it will be added.
+ *      This event is used to track the threads created / guildposts.
  */
 
 
-const { MessageReaction, Client, User } = require( "discord.js" );
+const { Client, ThreadChannel, ChannelType } = require( "discord.js" );
+const { supportNotify } = require("../services/report/report");
 
 
 /* ----------------------------------------------- */
@@ -14,12 +14,15 @@ const { MessageReaction, Client, User } = require( "discord.js" );
 /* ----------------------------------------------- */
 /**
  * Function called when the event 'messageReactionAdd' is emitted.
- * @param {MessageReaction} reaction The reaction object.
- * @param {User} user The user that applied the guild or reaction emoji.
+ * @param {ThreadChannel} thread The thread channel object.
+ * @param {boolean} newlyCreated Whether the thread was newly created.
  * @param {Client} client The client that emitted the event.
  */
-async function execute( reaction, user, client ) {
-	// console.log(reaction, user);
+async function execute( thread, newlyCreated, client ) {
+    if (thread.type == ChannelType.PublicThread){
+        supportNotify(thread, client);
+    }
+
 }
 
 
@@ -27,6 +30,6 @@ async function execute( reaction, user, client ) {
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
-	name: "messageReactionAdd",
-	execute
+    name: "threadCreate",
+    execute
 }
