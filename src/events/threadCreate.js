@@ -5,7 +5,7 @@
  */
 
 
-const { Client, ThreadChannel, ChannelType } = require( "discord.js" );
+const { ChannelType } = require( "discord.js" );
 const { supportNotify } = require("../services/report/report");
 
 

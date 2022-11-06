@@ -13,7 +13,7 @@ const { advices } = require("../../utils/enmapUtils");
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const slashCommand = new SlashCommandBuilder()
-    .setName("advice")
+    .setName("conseil")
     .setDescription(
         "[fun] Obtenir un conseil pour mieux utiliser le serveur."
     );
