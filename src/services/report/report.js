@@ -309,7 +309,7 @@ async function supportNotify(thread, client) {
                 iconURL: thread.guild.iconURL(),
             })
             .setDescription(
-                `Un nouveau ticket de support a été ouvert par ${threadOwner.user.username} !`
+                `Un nouveau ticket de support a été ouvert avec le tag ${thread.appliedTags[0]} !`
             )
             .setTimestamp()
             .setFooter({

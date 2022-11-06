@@ -451,7 +451,7 @@ async function execute(interaction) {
                 const outputChannelReport = interaction.options.getString("output_channel_id")
                 setupReport.set(interaction.guild.id, [inputChannelReport.id, outputGuildReport, outputChannelReport]);
                 await interaction.reply({
-                    content: `Channel pour les threads des reports ajouté au serveur dans <#${interaction.channel.id}> !\nOutput du serveur dans <#${outputChannelReport}>.`,
+                    content: `Channel pour les threads des reports ajouté au serveur dans <#${inputChannelReport.id}> !\nOutput du serveur dans <#${outputChannelReport}>.`,
                     ephemeral: true,
                 });
             break;

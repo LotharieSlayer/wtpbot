@@ -5,7 +5,7 @@
  */
 
 
-const { Client } = require( "discord.js" );
+const { ActivityType } = require( "discord.js" );
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -25,7 +25,7 @@ async function loadPresence( client ){
     const { presence } = require("../utils/enmapUtils")
 	setInterval(() => {
 		// Met la phrase dans le statut du bot.
-        client.user.setActivity(presence.randomKey(1)[0], { type: "WATCHING" });
+        client.user.setActivity(presence.randomKey(1)[0], { type: ActivityType.Watching });
     }, 10000);
 }
 
