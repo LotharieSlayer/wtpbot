@@ -104,5 +104,9 @@ dist
 .tern-port
 
 # Manually added files and folders
-/src/files/config.json
+# /src/files/config.json
 /src/data/
+
+# Contest service files
+/src/services/contest
+/src/commands/contest

@@ -1,37 +1,35 @@
 /**
  * @author Lothaire Guée
  * @description
- *      Contient la commande 'ping'.
- *      Pong the user.
+ *      Contient la commande "advice"
+ *      Réponds un des nombreux conseils pour mieux utiliser le serveur.
  */
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Advices } = require("../../files/modules");
+const { advices } = require("../../utils/enmapUtils");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const slashCommand = new SlashCommandBuilder()
-    .setName("ping")
+    .setName("conseil")
     .setDescription(
-        "[other] Donne la latence du bot et de l'API Discord en millisecondes."
-    )
-    .setDefaultPermission(false);
+        "[fun] Obtenir un conseil pour mieux utiliser le serveur."
+    );
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
 /**
- * Fonction appelé quand la commande est 'ping'
+ * Fonction appelé quand la commande est "advice"
  * @param {CommandInteraction} interaction L'interaction généré par l'exécution de la commande.
  */
 async function execute(interaction) {
 
-    await interaction.reply({
-        content: `🏓 **PING**
-		La latence du bot est de ${interaction.createdTimestamp - Date.now()}ms.
-		Latence API Discord : ${Math.round(interaction.client.ws.ping)}ms`,
-        ephemeral: false,
-    });
+    if(Advices == false) return;
+    const advice = await advices.randomKey();
+    await interaction.reply({content: advice, ephemeral: true})
 }
 
 /* ----------------------------------------------- */

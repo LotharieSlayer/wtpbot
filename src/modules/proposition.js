@@ -23,20 +23,20 @@ async function proposition(client, msg){
     if (msg.channel.id === PROPOSITION_ID){
         
         //Créer un embed de la proposition + y ajouter les réactions.
-        var messageContent = msg.content;
-        var messageAuthor = msg.author;
-        var Attachment = msg.attachments;
+        const messageContent = msg.content;
+        const messageAuthor = msg.author;
+        const Attachment = msg.attachments;
 
         const embed = new EmbedBuilder()
-            .setColor('RANDOM')
-			.setAuthor( messageAuthor.tag, messageAuthor.avatarURL() )
+            .setColor('Random')
+			.setAuthor({ name: messageAuthor.tag, iconURL: messageAuthor.avatarURL() })
             .setDescription(messageContent)
             .setTitle(`Proposition de ${messageAuthor.tag} :`)
             .addFields(
                 {name: "Votes :", value: "`✅` Oui\n`⚪` Neutre\n`❌` NON"},
             )
             .setTimestamp(new Date())
-            .setFooter(`Proposition de ${messageAuthor.tag} (${messageAuthor.id})`, client.user.avatarURL())
+            .setFooter({ text: `Proposition de ${messageAuthor.tag} (${messageAuthor.id})`, iconURL: client.user.avatarURL() })
     
 
         // SI YA PAS D'ATTACHEMENT //

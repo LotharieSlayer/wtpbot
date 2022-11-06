@@ -1,10 +1,10 @@
 {
   "name": "wtpbot",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "dependencies": {
     "@discordjs/rest": "^1.0.1",
     "discord-api-types": "^0.37.0",
-    "discord.js": "^14.1.2",
+    "discord.js": "^14.6.0",
     "dotenv": "^16.0.1",
     "enmap": "^5.9.0",
     "fs": "^0.0.1-security",

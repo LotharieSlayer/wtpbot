@@ -22,10 +22,15 @@ const setupActiveRole = new Enmap({name: "setup_active_role"});
 const setupArchives = new Enmap({name: "setup_archives"});
 const setupThread = new Enmap({name: "setup_thread"});
 const setupWelcome = new Enmap({name: "setup_welcome"});
+const setupReport = new Enmap({name: "setup_report"});
+const setupSupport = new Enmap({name: "setup_support"});
+const setupContest = new Enmap({name: "setup_contest"});
+const setupPremium = new Enmap({name: "setup_premium"});
 
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
 const presence = new Enmap({name: "presence"});
+const advices = new Enmap({name: "advices"})
 
 // WARNS
 const warnedUsers = new Enmap({name: "warned_users"});
@@ -33,10 +38,22 @@ const warnedUsers = new Enmap({name: "warned_users"});
 // COUNTER
 const counter = new Enmap({name: "counter"});
 
+// CONTEST
+const contestPosts = new Enmap({name: "contest_posts"});
+const contestSupervotes = new Enmap({name: "contest_supervotes"});
+const contestKarmas = new Enmap({name: "contest_karmas"});
+
+// REPORTS
+const reports = new Enmap({name: "reports"})
+
 // Un-comment to set memes and presences into the database
 // const { MEMES } = require("../files/memes");
 // const { STATES } = require("../files/memes");
 // setMemes();
+
+// Un-comment to set advices into the database
+const { ADVICES } = require("../files/advices")
+setAdvices();
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -49,7 +66,6 @@ const counter = new Enmap({name: "counter"});
  * Example : getSetupData(GUILD_ID, "presentation") but it can be : "proposition" or "discussion"
  */
 async function getSetupData(id, type){
-
 
     switch (type) {
         case "discussion":
@@ -84,8 +100,22 @@ async function getSetupData(id, type){
             // Here id is the member
             return await getResultsValue(warnedUsers, id)
         case "welcome":
-            // Here id is the member
+            // Here id is the guild
             return await getResultsValue(setupWelcome, id)
+        case "report":
+            // Here id is the guild
+            // WARNING : It returns an array [0 = channelThread, 1 = guildOutput, 2 = channelOutput]
+            return await getResultsValue(setupReport, id)
+        case "support":
+            // Here id is the guild
+            // WARNING : It returns an array [0 = forumChannel, 1 = guildOutput, 2 = channelOutput]
+            return await getResultsValue(setupReport, id)
+        case "contest":
+            // Here id is the guild
+            return await getResultsValue(setupContest, id)
+        case "premium":
+            // Here id is the guild
+            return await getResultsValue(setupPremium, id)
         default:
             break;
     }
@@ -125,6 +155,17 @@ async function setMemes(){
 */
 
 
+// Only for first starting
+async function setAdvices(){
+    // MEMES
+    for(let i=0; i < ADVICES.length; i++){
+        advices.set(ADVICES[i])
+    }
+    console.log("Toutes les données des advices ont été chargé !")
+}
+
+
+
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
@@ -139,10 +180,19 @@ module.exports = {
     setupThread,
     setupArchives,
     setupWelcome,
+    setupReport,
+    setupSupport,
+    setupContest,
+    setupPremium,
 
+    reports,
+    contestPosts,
+    contestSupervotes,
+    contestKarmas,
     warnedUsers,
     dbModifyPresentation,
     memes,
     presence,
+    advices,
     counter
 }
