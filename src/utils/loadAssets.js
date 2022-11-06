@@ -50,9 +50,9 @@ async function loadEvents( client ) {
  */
 async function loadCommandsToGuild( client, guildId ) {
     const commandsArray = [];
-    /* client.commands.map( command => {
+    client.commands.map( command => {
         commandsArray.push( command.data.toJSON() );
-    }); */ // Enlever les commentaires pour charger les commandes dans le client.
+    });
 
     await client.guilds.cache.get( guildId ).commands.set( commandsArray );
     console.log( `Loaded application (/) commands to the guild! (${guildId})` );
