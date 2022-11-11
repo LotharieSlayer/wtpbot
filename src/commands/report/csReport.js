@@ -8,7 +8,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { reports } = require("../../utils/enmapUtils");
 const { Report } = require("../../files/modules");
-const { reportWorker } = require("../../services/report/report");
+const { reportWorker } = require("../../modules/report");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */

@@ -6,7 +6,7 @@
 
 
 const { ChannelType } = require( "discord.js" );
-const { supportNotify } = require("../services/report/report");
+const { supportNotify } = require("../modules/report");
 
 
 /* ----------------------------------------------- */

@@ -43,7 +43,7 @@ async function execute(interaction) {
 
     if(userDB === undefined) {
         await interaction.reply({
-            content: `Aussi clean que de l'eau de roche ${tag} !/n Tu n'as jamais été warn !`,
+            content: `Aussi clean que de l'eau de roche ${tag} ! /n Tu n'as jamais été warn !`,
             ephemeral: true,
         });
         return;
@@ -60,11 +60,11 @@ async function execute(interaction) {
     }
 
     if(nbWarns > 10)
-        embedMessage.setColor('RED')
+        embedMessage.setColor('Red')
     else if(nbWarns > 5)
-        embedMessage.setColor('YELLOW')
+        embedMessage.setColor('Yellow')
     else if(nbWarns > 0)
-        embedMessage.setColor('GREEN')
+        embedMessage.setColor('Green')
 
 
     let sanctions = JSON.stringify(userDB.sanctions)
@@ -75,7 +75,7 @@ async function execute(interaction) {
     sanctions = sanctions.replaceAll(",", "\n")
     sanctions += "\n\nTri dans l'ordre des plus récents :"
 
-    embedMessage.addField("Warns", sanctions)
+    embedMessage.addFields({name: "Warns", value: sanctions})
 
     // for(let i = 0; i < userDB.warns.length; i++){
     for(let i = userDB.warns.length - 1; i >= 0; i--){
@@ -84,11 +84,11 @@ async function execute(interaction) {
         let timestamp = "";
         timestamp += userDB.warns[i].timestamp;
 
-        embedMessage.addField(
-            JSONPenalties.enum[userDB.warns[i].reason].emoji + " **" + JSONPenalties.enum[userDB.warns[i].reason].name + "** ",
-            reasonS + " <t:"+ timestamp.slice(0, -3) + ":R>" + " par <@" + userDB.warns[i].mod + ">\n",
-            true
-        );
+        embedMessage.addFields({
+            name: JSONPenalties.enum[userDB.warns[i].reason].emoji + " **" + JSONPenalties.enum[userDB.warns[i].reason].name + "** ",
+            value: reasonS + " <t:"+ timestamp.slice(0, -3) + ":R>" + " par <@" + userDB.warns[i].mod + ">\n",
+            inline: true
+        });
 
     }
 

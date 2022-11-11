@@ -7,7 +7,7 @@
 const { InteractionType } = require("discord.js");
 const { handleResponse } = require("../commands/report/cmReport");
 const { handleResponseUser } = require("../commands/report/cuReport");
-const { reportAssignButton, reportCloseButton } = require("../services/report/report");
+const { reportAssignButton, reportCloseButton } = require("../modules/report");
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -31,7 +31,9 @@ function execute(interaction, client) {
             reportCloseButton(interaction, client);
         }
         
-        if (interaction.customId === "contest") {
+        // Si le bouton est un bouton de vote à un contest
+        const command = interaction.customId.split("_")[0];
+        if (command === "contest") {
             if (client.services.contest) {
                 const {
                     contestInteractionButton,
