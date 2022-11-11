@@ -12,14 +12,14 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
 } = require("discord.js");
-const { Report } = require("../../files/modules.js");
+const { Report } = require("../files/modules.js");
 
 /*      IMPORTS      */
 const {
     reports,
     setupReport,
     setupSupport,
-} = require("../../utils/enmapUtils");
+} = require("../utils/enmapUtils");
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */

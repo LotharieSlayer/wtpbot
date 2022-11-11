@@ -49,7 +49,6 @@ async function execute(interaction) {
     }
 
     let member;
-    let userDB;
     let tag;
     let avatarURL;
     let resultsReason = [];
@@ -80,8 +79,10 @@ async function execute(interaction) {
                 }
             }
         })
-        tag = userDB.user.tag;
-        avatarURL = userDB.user.avatarURL;
+        // fetch user
+        const user = await interaction.client.users.fetch(interaction.options.getString("mod_id"));
+        tag = user.tag;
+        avatarURL = user.avatarURL();
     }
     else {
         member = interaction.member;
@@ -113,8 +114,8 @@ async function execute(interaction) {
     embedMessage.addFields({ name: "Taille de votre e-penis :", value: counter.toString() })
 
     // Constructeur des fields
-    for(let i = resultsReason.length - 1; i > 0 ; i--){
-
+    console.log(resultsReason.length)
+    for(let i = resultsReason.length - 1; i > resultsReason.length - 25 ; i--){
         embedMessage.addFields({
             name: resultsReason[i],
             value: resultsUser[i],

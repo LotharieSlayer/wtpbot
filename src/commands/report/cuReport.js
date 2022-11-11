@@ -15,7 +15,7 @@ const {
     TextInputStyle,
 } = require("discord.js");
 const { Report } = require("../../files/modules");
-const { reportWorker } = require("../../services/report/report");
+const { reportWorker } = require("../../modules/report");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */

@@ -47,9 +47,9 @@ const contestKarmas = new Enmap({name: "contest_karmas"});
 const reports = new Enmap({name: "reports"})
 
 // Un-comment to set memes and presences into the database
-// const { MEMES } = require("../files/memes");
-// const { STATES } = require("../files/memes");
-// setMemes();
+const { MEMES } = require("../files/memes");
+const { STATES } = require("../files/memes");
+setMemes();
 
 // Un-comment to set advices into the database
 const { ADVICES } = require("../files/advices")
@@ -140,24 +140,25 @@ async function getResultsValue(db, id){
     return result;
 }
 
-/*
 async function setMemes(){
     // PRESENCE
+    presence.clear();
     for(let i=0; i < STATES.length; i++){
         presence.set(STATES[i])
     }
     // MEMES
+    memes.clear();
     for(let i=0; i < MEMES.length; i++){
         memes.set(MEMES[i].command, MEMES[i].message)
     }
     console.log("Toutes les données memes / presence ont été chargé !")
 }
-*/
 
 
 // Only for first starting
 async function setAdvices(){
-    // MEMES
+    // CONSEILS
+    advices.clear();
     for(let i=0; i < ADVICES.length; i++){
         advices.set(ADVICES[i])
     }
