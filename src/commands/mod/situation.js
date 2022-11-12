@@ -43,7 +43,7 @@ async function execute(interaction) {
 
     if(userDB === undefined) {
         await interaction.reply({
-            content: `Aussi clean que de l'eau de roche ${tag} ! /n Tu n'as jamais été warn !`,
+            content: `Aussi clean que de l'eau de roche ${tag} ! Tu n'as jamais été warn !`,
             ephemeral: true,
         });
         return;
