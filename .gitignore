@@ -110,3 +110,6 @@ dist
 # Contest service files
 /src/services/contest
 /src/commands/contest
+
+# Dev plan
+/src/files/devplan.md

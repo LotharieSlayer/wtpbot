@@ -16,4 +16,4 @@ Présentations ?
 
 ### TO-DO
 
-Tester tout sous Discord 14.
+Tester les supervotes

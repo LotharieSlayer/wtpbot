@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /**
  * @author Lothaire Guée
  * @description
@@ -82,9 +83,7 @@ const slashCommand = new SlashCommandBuilder()
             .addChannelOption((channel) =>
                 channel
                     .setName("input_channel")
-                    .setDescription(
-                        "Entrez le channel où les reports se font."
-                    )
+                    .setDescription("Entrez le channel où les reports se font.")
                     .setRequired(true)
             )
             .addStringOption((string) =>
@@ -174,18 +173,28 @@ const slashCommand = new SlashCommandBuilder()
         subcommand
             .setName("contest")
             .setDescription("Setup/Supprimer le contest du serveur.")
+            .addStringOption((string) =>
+                string
+                    .setName("theme")
+                    .setDescription("Entrez le thème du contest.")
+                    .setRequired(true)
+            )
+            .addAttachmentOption((attachment) =>
+                attachment
+                    .setName("template")
+                    .setDescription("Uploadez la template du thème du contest.")
+                    .setRequired(true)
+            )
+            .addAttachmentOption((attachment) =>
+                attachment
+                    .setName("intro")
+                    .setDescription("Uploadez l'introduction vidéo du contest.")
+            )
             .addChannelOption((channel) =>
                 channel
                     .setName("infos")
                     .setDescription(
                         "Entrez le salon où seront affichées les infos du contest."
-                    )
-            )
-            .addChannelOption((channel) =>
-                channel
-                    .setName("posts")
-                    .setDescription(
-                        "Entrez le salon où seront affichées les posts du contest."
                     )
             )
     )
@@ -386,50 +395,43 @@ async function execute(interaction) {
             }
             break;
         case "contest":
-            if (
-                setupContest.get(interaction.guild.id) === undefined ||
-                interaction.options.getChannel("infos") != null ||
-                interaction.options.getChannel("posts") != null
-            ) {
-                let infoChannel = null;
-                let postChannel = null;
-                if (interaction.options.getChannel("infos") != null)
-                    infoChannel = interaction.options.getChannel("infos").id;
-                if (interaction.options.getChannel("posts") != null)
-                    postChannel = interaction.options.getChannel("posts").id;
+            let infoChannel = null;
+            let postChannel = null;
+            if (interaction.options.getChannel("infos") != null)
+                infoChannel = interaction.options.getChannel("infos").id;
 
-                const data = {
-                    setup: {
-                        setupUser: interaction.member.id,
-                        setupChannelInfos: infoChannel,
-                        setupChannelPosts: postChannel,
-                    },
-                };
+            const template = interaction.options.getAttachment("template").url;
+            let intro = interaction.options.getAttachment("intro");
 
-                setupContest.set(interaction.guild.id, data);
-                await client.eventsEmitter.emit(
-                    "ContestUpdate",
-                    data,
-                    interaction.guild.id
-                );
-                client.eventsEmitter.emit("ContestRestart");
-                await interaction.member.send({
-                    content: `Démarrage/Update du setup des contests en cours, nous vous enverrons un DM ici une fois terminé.`,
-                });
-                await interaction.reply({
-                    content: `Démarrage/Update du setup des contests en cours, nous vous enverrons un DM sur Discord une fois terminé.`,
-                    ephemeral: true,
-                });
-            } else {
-                setupContest.delete(interaction.guild.id);
-                await interaction.member.send({
-                    content: `Le setup a déjà effectuée.\nDésactivation des memes contest.\n**Warning :** Nous ne supprimons pas les channels dans le cas où voudriez les réutiliser.`,
-                });
-                await interaction.reply({
-                    content: `Le setup a déjà effectuée.\nDésactivation des memes contest.\n**Warning :** Nous ne supprimons pas les channels dans le cas où voudriez les réutiliser.`,
-                    ephemeral: true,
-                });
-            }
+            if(intro !== null)
+                intro = intro.url
+
+            const data = {
+                setup: {
+                    enabled: true,
+                    setupUser: interaction.member.id,
+                    setupChannelInfos: infoChannel,
+                    setupChannelPosts: postChannel,
+                    theme : interaction.options.getString("theme"),
+                    template,
+                    intro
+                },
+            };
+            
+            setupContest.set(interaction.guild.id, data);
+            await client.eventsEmitter.emit(
+                "ContestUpdate",
+                data,
+                interaction.guild.id
+            );
+            await interaction.member.send({
+                content: `Démarrage/Update du contest en cours, nous vous enverrons un DM ici une fois terminé. Pensez bien à configurer les roles premium à l'aide de /setup premium !`,
+            });
+            await interaction.reply({
+                content: `Démarrage/Update du contest en cours, nous vous enverrons un DM ici une fois terminé. Pensez bien à configurer les roles premium à l'aide de /setup premium !`,
+                ephemeral: true,
+            });
+        
             break;
         case "premium":
             // eslint-disable-next-line no-case-declarations
@@ -443,38 +445,51 @@ async function execute(interaction) {
             });
             break;
         case "report":
-                // eslint-disable-next-line no-case-declarations
-                const inputChannelReport = interaction.options.getChannel("input_channel");
-                // eslint-disable-next-line no-case-declarations
-                const outputGuildReport = interaction.options.getString("output_guild_id");
-                // eslint-disable-next-line no-case-declarations
-                const outputChannelReport = interaction.options.getString("output_channel_id")
-                setupReport.set(interaction.guild.id, [inputChannelReport.id, outputGuildReport, outputChannelReport]);
-                await interaction.reply({
-                    content: `Channel pour les threads des reports ajouté au serveur dans <#${inputChannelReport.id}> !\nOutput du serveur dans <#${outputChannelReport}>.`,
-                    ephemeral: true,
-                });
+            // eslint-disable-next-line no-case-declarations
+            const inputChannelReport =
+                interaction.options.getChannel("input_channel");
+            // eslint-disable-next-line no-case-declarations
+            const outputGuildReport =
+                interaction.options.getString("output_guild_id");
+            // eslint-disable-next-line no-case-declarations
+            const outputChannelReport =
+                interaction.options.getString("output_channel_id");
+            setupReport.set(interaction.guild.id, [
+                inputChannelReport.id,
+                outputGuildReport,
+                outputChannelReport,
+            ]);
+            await interaction.reply({
+                content: `Channel pour les threads des reports ajouté au serveur dans <#${inputChannelReport.id}> !\nOutput du serveur dans <#${outputChannelReport}>.`,
+                ephemeral: true,
+            });
             break;
-            case "support":
-                    // eslint-disable-next-line no-case-declarations
-                    const inputChannelSupport = interaction.options.getChannel("input_channel");
-                    // eslint-disable-next-line no-case-declarations
-                    const outputGuildSupport = interaction.options.getString("output_guild_id");
-                    // eslint-disable-next-line no-case-declarations
-                    const outputChannelSupport = interaction.options.getString("output_channel_id")
-                    setupSupport.set(interaction.guild.id, [inputChannelSupport.id, outputGuildSupport, outputChannelSupport]);
-                    await interaction.reply({
-                        content: `Channel des demandes de support ajouté au serveur dans <#${inputChannelSupport.id}> !\nOutput du serveur dans <#${outputChannelSupport}>.`,
-                        ephemeral: true,
-                    });
-                break;
+        case "support":
+            // eslint-disable-next-line no-case-declarations
+            const inputChannelSupport =
+                interaction.options.getChannel("input_channel");
+            // eslint-disable-next-line no-case-declarations
+            const outputGuildSupport =
+                interaction.options.getString("output_guild_id");
+            // eslint-disable-next-line no-case-declarations
+            const outputChannelSupport =
+                interaction.options.getString("output_channel_id");
+            setupSupport.set(interaction.guild.id, [
+                inputChannelSupport.id,
+                outputGuildSupport,
+                outputChannelSupport,
+            ]);
+            await interaction.reply({
+                content: `Channel des demandes de support ajouté au serveur dans <#${inputChannelSupport.id}> !\nOutput du serveur dans <#${outputChannelSupport}>.`,
+                ephemeral: true,
+            });
+            break;
         default:
             await interaction.reply({
                 content: "Commande non permise.",
                 ephemeral: true,
             });
             break;
-            
     }
 }
 
