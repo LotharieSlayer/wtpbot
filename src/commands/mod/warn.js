@@ -79,8 +79,6 @@ async function penalty(member, reason, sanction, reasonS, timeoutBase, interacti
             else
                 dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}**.\n**Info supplémentaire :** ${reasonS}`)
 
-            dmEmbed.setFooter({text:`${interaction.member.user.tag}`, iconURL:interaction.member.user.avatarURL()});
-
             try{await member.send({embeds:[dmEmbed]})}
             catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
             break;
@@ -179,8 +177,6 @@ async function execute(interaction) {
                 else
                     dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m).\n**Info supplémentaire :** ${reasonS}`)
 
-                dmEmbed.setFooter({text:`${interaction.member.user.tag}`, iconURL:interaction.member.user.avatarURL()});
-    
                 try{await member.send({embeds:[dmEmbed]})}
                 catch(e){console.log(`Impossible d'envoyer le message de warn à l'utilisateur ${member.user.username} (${member.id})`)}
                 
