@@ -75,9 +75,9 @@ async function penalty(member, reason, sanction, reasonS, timeoutBase, interacti
     switch (sanction) {
         case "dm":
             if(reasonS === null)
-                dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}** appliqué par <@${interaction.member.id}>.`)
+                dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}**.`)
             else
-                dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}** appliqué par <@${interaction.member.id}>.\n**Info supplémentaire :** ${reasonS}`)
+                dmEmbed.setDescription(`Vous avez été warn pour la raison **${reason}**.\n**Info supplémentaire :** ${reasonS}`)
 
             dmEmbed.setFooter({text:`${interaction.member.user.tag}`, iconURL:interaction.member.user.avatarURL()});
 
@@ -86,24 +86,24 @@ async function penalty(member, reason, sanction, reasonS, timeoutBase, interacti
             break;
         case "kick":
             if(reasonS === null)
-                await member.kick(`**Warn :** ${reason} appliqué par <@${interaction.member.id}>`)
+                await member.kick(`**Warn :** ${reason}`)
             else
-                await member.kick(`**Warn :** ${reason} appliqué par <@${interaction.member.id}>\n**Info supplémentaire :** ${reasonS}`)
+                await member.kick(`**Warn :** ${reason}\n**Info supplémentaire :** ${reasonS}`)
             break;
         case "ban":
             if(reasonS === null)
-                await member.ban({reason: `**Warn :** ${reason} appliqué par <@${interaction.member.id}>`})
+                await member.ban({reason: `**Warn :** ${reason}`})
             else
-                await member.ban({reason: `**Warn :** ${reason} appliqué par <@${interaction.member.id}>\n**Info supplémentaire :** ${reasonS}`})
+                await member.ban({reason: `**Warn :** ${reason}\n**Info supplémentaire :** ${reasonS}`})
             break;
         default:
             // eslint-disable-next-line no-case-declarations
             let timeoutBaseGood = timeoutBase - Date.now();
             if(timeoutBaseGood < 0) timeoutBaseGood = 0;
             if(reasonS === null)
-                member.timeout(getMs(sanction) + timeoutBaseGood, `**Warn :** ${reason} appliqué par <@${interaction.member.id}>`);
+                member.timeout(getMs(sanction) + timeoutBaseGood, `**Warn :** ${reason}`);
             else
-                member.timeout(getMs(sanction) + timeoutBaseGood, `**Warn :** ${reason} appliqué par <@${interaction.member.id}>\n**Info supplémentaire :** ${reasonS}`);
+                member.timeout(getMs(sanction) + timeoutBaseGood, `**Warn :** ${reason}\n**Info supplémentaire :** ${reasonS}`);
         break;
     }
 }
@@ -175,9 +175,9 @@ async function execute(interaction) {
                 
                 const nbTimes = userDB.sanctions[reason]+1;
                 if(interaction.options.getString("raison_supp") === null)
-                    dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m) appliqué par <@${interaction.member.id}>.`)
+                    dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m).`)
                 else
-                    dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m) appliqué par <@${interaction.member.id}>.\n**Info supplémentaire :** ${reasonS}`)
+                    dmEmbed.setDescription(`Vous avez été warn **${nbTimes} fois** pour ${reason}.\nSanction **${sanction}** (j:h:m).\n**Info supplémentaire :** ${reasonS}`)
 
                 dmEmbed.setFooter({text:`${interaction.member.user.tag}`, iconURL:interaction.member.user.avatarURL()});
     

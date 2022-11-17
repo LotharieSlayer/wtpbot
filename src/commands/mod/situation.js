@@ -86,7 +86,7 @@ async function execute(interaction) {
 
         embedMessage.addFields({
             name: JSONPenalties.enum[userDB.warns[i].reason].emoji + " **" + JSONPenalties.enum[userDB.warns[i].reason].name + "** ",
-            value: reasonS + " <t:"+ timestamp.slice(0, -3) + ":R>" + " par <@" + userDB.warns[i].mod + ">\n",
+            value: reasonS + " <t:"+ timestamp.slice(0, -3) + ":R>\n",
             inline: true
         });
 

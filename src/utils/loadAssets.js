@@ -55,10 +55,10 @@ async function loadCommandsToGuild( client, guildId ) {
     });
 
     // Retirer la condition pour charger en prod
-    // if(guildId === "724408079550251080"){
-    //     await client.guilds.cache.get( guildId ).commands.set([]);
-    //     return
-    // }
+    if(guildId === "724408079550251080"){
+        await client.guilds.cache.get( guildId ).commands.set([]);
+        return
+    }
 
     await client.guilds.cache.get( guildId ).commands.set( commandsArray );
     console.log( `Loaded application (/) commands to the guild! (${guildId})` );
