@@ -190,6 +190,18 @@ const slashCommand = new SlashCommandBuilder()
                     .setName("intro")
                     .setDescription("Uploadez l'introduction vidéo du contest.")
             )
+            .addStringOption((string) =>
+                string
+                    .setName("intro_description")
+                    .setDescription("Entrez une description pour accompagner votre intro.")
+            )
+            .addChannelOption((category) =>
+                category
+                    .setName("category")
+                    .setDescription(
+                        "Entrez la catégorie où seront affichées les contest."
+                    )
+            )
             .addChannelOption((channel) =>
                 channel
                     .setName("infos")
@@ -397,14 +409,20 @@ async function execute(interaction) {
         case "contest":
             let infoChannel = null;
             let postChannel = null;
-            if (interaction.options.getChannel("infos") != null)
-                infoChannel = interaction.options.getChannel("infos").id;
+            let categoryChannel = null;
+            let introDescription = "";
 
-            const template = interaction.options.getAttachment("template").url;
-            let intro = interaction.options.getAttachment("intro");
+            if (interaction.options.getChannel("infos") != null){
+                infoChannel = await interaction.options.getChannel("infos").id;}
+            
+            if (interaction.options.getChannel("category") != null){
+                categoryChannel = await interaction.options.getChannel("category").id;}
+            
+            if (interaction.options.getString("intro_description") != null){
+                introDescription = await interaction.options.getString("intro_description");}
 
-            if(intro !== null)
-                intro = intro.url
+            const template = await interaction.options.getAttachment("template");
+            const intro = await interaction.options.getAttachment("intro");
 
             const data = {
                 setup: {
@@ -412,13 +430,15 @@ async function execute(interaction) {
                     setupUser: interaction.member.id,
                     setupChannelInfos: infoChannel,
                     setupChannelPosts: postChannel,
+                    setupCategory: categoryChannel,
                     theme : interaction.options.getString("theme"),
-                    template,
-                    intro
+                    template: template,
+                    intro: intro,
+                    introDescription: introDescription,
                 },
             };
             
-            setupContest.set(interaction.guild.id, data);
+            await setupContest.set(interaction.guild.id, data);
             await client.eventsEmitter.emit(
                 "ContestUpdate",
                 data,
