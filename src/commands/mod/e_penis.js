@@ -114,7 +114,6 @@ async function execute(interaction) {
     embedMessage.addFields({ name: "Taille de votre e-penis :", value: counter.toString() })
 
     // Constructeur des fields
-    console.log(resultsReason.length)
     for(let i = resultsReason.length - 1; i > resultsReason.length - 25 ; i--){
         embedMessage.addFields({
             name: resultsReason[i],
