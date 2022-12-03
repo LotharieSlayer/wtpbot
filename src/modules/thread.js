@@ -17,7 +17,6 @@ const { getSetupData } = require('../utils/enmapUtils');
 /* ----------------------------------------------- */
 async function thread(msg){
     if(Thread == false) return;
-    if(msg.author.bot) return;
     const THREAD_ID = await getSetupData(msg.channel.id, "thread")
     if(THREAD_ID != msg.channel.id) return
 

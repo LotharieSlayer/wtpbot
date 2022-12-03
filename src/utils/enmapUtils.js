@@ -46,6 +46,11 @@ const contestKarmas = new Enmap({name: "contest_karmas"});
 // REPORTS
 const reports = new Enmap({name: "reports"})
 
+// INVITES
+const setupSubgiving = new Enmap({name: "setup_subgiving"});
+const personnesEntrantes = new Enmap({name: "personnes_entrantes"});
+const subgiving = new Enmap({name: "subgiving"});
+
 // Un-comment to set memes and presences into the database
 const { MEMES } = require("../files/memes");
 const { STATES } = require("../files/memes");
@@ -116,6 +121,9 @@ async function getSetupData(id, type){
         case "premium":
             // Here id is the guild
             return await getResultsValue(setupPremium, id)
+        case "subgiving":
+            // Here id is the guild
+            return await getResultsValue(setupSubgiving, id)
         default:
             break;
     }
@@ -185,6 +193,7 @@ module.exports = {
     setupSupport,
     setupContest,
     setupPremium,
+    setupSubgiving,
 
     reports,
     contestPosts,
@@ -195,5 +204,7 @@ module.exports = {
     memes,
     presence,
     advices,
-    counter
+    counter,
+    personnesEntrantes,
+    subgiving
 }

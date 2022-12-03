@@ -5,7 +5,7 @@
  */
 
 const { Client, Collection, GatewayIntentBits, Partials  } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites } = require( "./utils/loadAssets" );
 // const { loadCommandsToGuild } = require( "./utils/loadAssets" );
 require( "dotenv" ).config( { path: '.env' } );
 const events = require('events');
@@ -45,6 +45,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+client.invites = new Collection();
 
 // WARNING: Ces eventsEmitter ne sont en aucun cas lié à ceux de discord.js mais à ceux de l'application en local. Ils sont généralement utilisés pour les services/.
 client.eventsEmitter = new events.EventEmitter();
@@ -63,6 +64,7 @@ client.services.contest = contestService;
 		const { contest } = require("./services/contest/contest");
 		await contest( client );
 	}
+	await loadInvites( client );
 })();
 
 /* ----------------------------------------------- */

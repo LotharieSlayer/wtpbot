@@ -9,6 +9,9 @@
 const { promisify } = require( "util" );
 const { glob } = require( "glob" );
 const globPromise = promisify( glob );
+const { invites, getSetupData } = require("../utils/enmapUtils");
+const { Subgiving } = require("../files/modules");
+const { Collection } = require("discord.js");
 
 
 /* ----------------------------------------------- */
@@ -77,6 +80,24 @@ async function loadCommandToAllGuilds( client ) {
 }
 
 
+/**
+ * Load toutes les invitations de tous les serveurs dans la base de données.
+ * @param {Client} client The bot's client.
+ */
+async function loadInvites( client ) {
+    // Loop over all the guilds
+    client.guilds.cache.forEach(async (guild) => {
+        const setup = await getSetupData(guild.id, "subgiving")
+        if(setup != undefined)
+            if(Subgiving == false || setup[0] == false)
+                return;
+        // Fetch all Guild Invites
+        const firstInvites = await guild.invites.fetch();
+        // Set the key as Guild ID, and create a map which has the invite code, and the number of uses
+        client.invites.set(guild.id, new Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
+    });
+}
+
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
@@ -84,5 +105,6 @@ module.exports = {
     loadCommands,
     loadEvents,
     loadCommandsToGuild,
-    loadCommandToAllGuilds
+    loadCommandToAllGuilds,
+    loadInvites
 }
