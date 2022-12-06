@@ -123,6 +123,7 @@ async function getSetupData(id, type){
             return await getResultsValue(setupPremium, id)
         case "subgiving":
             // Here id is the guild
+            // WARNING : It returns an array [0 = enabled, 1 = channelOutput, 2 = roleOutput, 3 = endDateTime]
             return await getResultsValue(setupSubgiving, id)
         default:
             break;
