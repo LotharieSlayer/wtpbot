@@ -50,6 +50,7 @@ const reports = new Enmap({name: "reports"})
 const setupSubgiving = new Enmap({name: "setup_subgiving"});
 const personnesEntrantes = new Enmap({name: "personnes_entrantes"});
 const subgiving = new Enmap({name: "subgiving"});
+const subgivingInviter = new Enmap({name: "subgiving_inviter"});
 
 // Un-comment to set memes and presences into the database
 const { MEMES } = require("../files/memes");
@@ -207,5 +208,6 @@ module.exports = {
     advices,
     counter,
     personnesEntrantes,
-    subgiving
+    subgiving,
+    subgivingInviter
 }
