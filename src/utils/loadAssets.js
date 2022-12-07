@@ -17,6 +17,22 @@ const { Collection } = require("discord.js");
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
+
+/**
+ * Load the main file from plugins in the client.
+ * @param {Client} client The client of the bot.
+ */
+ async function loadPlugins( client ) {
+    const mainFilesPlugins = await globPromise( `${process.cwd()}/plugins/*/*.js` );
+    mainFilesPlugins.map( file => {
+        console.log(file)
+        const plugin = require( file );
+        plugin ? client.plugins[file] = true : client.plugins[file] = false;
+        plugin.execute(client);
+        console.log("[Plugin] " + file + " chargé.");
+    });
+}
+
 /**
  * Load the commands in the client.
  * @param {Client} client The client of the bot.
@@ -107,6 +123,7 @@ async function loadInvites( client ) {
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
+    loadPlugins,
     loadCommands,
     loadEvents,
     loadCommandsToGuild,

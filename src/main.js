@@ -5,21 +5,10 @@
  */
 
 const { Client, Collection, GatewayIntentBits, Partials  } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites, loadPlugins } = require( "./utils/loadAssets" );
 // const { loadCommandsToGuild } = require( "./utils/loadAssets" );
 require( "dotenv" ).config( { path: '.env' } );
 const events = require('events');
-
-let contestService;
-
-try {
-	require("./plugins/contest/contest");
-	contestService = true;
-}
-catch(e){
-	console.log("[Contest] Les plugins du contest ne sont pas disponibles en version open-source.");
-	contestService = false;
-}
 
 const client = new Client({
 	intents: [
@@ -51,7 +40,6 @@ client.invites = new Collection();
 client.eventsEmitter = new events.EventEmitter();
 
 client.plugins = new Collection();
-client.plugins.contest = contestService;
 
 (async () => {
 	await loadCommands( client );
@@ -60,10 +48,7 @@ client.plugins.contest = contestService;
 	// for(guild of process.env.DEV_GUILD_ID)
 		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
 	await loadCommandToAllGuilds( client );
-	if(contestService === true){
-		const { contest } = require("./plugins/contest/contest");
-		await contest( client );
-	}
+	await loadPlugins(client)
 	await loadInvites( client );
 })();
 
