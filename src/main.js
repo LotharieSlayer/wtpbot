@@ -13,11 +13,11 @@ const events = require('events');
 let contestService;
 
 try {
-	require("./services/contest/contest");
+	require("./plugins/contest/contest");
 	contestService = true;
 }
 catch(e){
-	console.log("[Contest] Les services de contest ne sont pas disponibles en version open-source.");
+	console.log("[Contest] Les plugins du contest ne sont pas disponibles en version open-source.");
 	contestService = false;
 }
 
@@ -47,11 +47,11 @@ const client = new Client({
 client.commands = new Collection();
 client.invites = new Collection();
 
-// WARNING: Ces eventsEmitter ne sont en aucun cas lié à ceux de discord.js mais à ceux de l'application en local. Ils sont généralement utilisés pour les services/.
+// WARNING: Ces eventsEmitter ne sont en aucun cas lié à ceux de discord.js mais à ceux de l'application en local. Ils sont généralement utilisés pour les plugins/.
 client.eventsEmitter = new events.EventEmitter();
 
-client.services = new Collection();
-client.services.contest = contestService;
+client.plugins = new Collection();
+client.plugins.contest = contestService;
 
 (async () => {
 	await loadCommands( client );
@@ -61,7 +61,7 @@ client.services.contest = contestService;
 		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
 	await loadCommandToAllGuilds( client );
 	if(contestService === true){
-		const { contest } = require("./services/contest/contest");
+		const { contest } = require("./plugins/contest/contest");
 		await contest( client );
 	}
 	await loadInvites( client );

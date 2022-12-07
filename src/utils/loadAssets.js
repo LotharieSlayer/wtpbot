@@ -9,7 +9,7 @@
 const { promisify } = require( "util" );
 const { glob } = require( "glob" );
 const globPromise = promisify( glob );
-const { invites, getSetupData } = require("../utils/enmapUtils");
+const { getSetupData } = require("../utils/enmapUtils");
 const { Subgiving } = require("../files/modules");
 const { Collection } = require("discord.js");
 
@@ -24,6 +24,11 @@ const { Collection } = require("discord.js");
 async function loadCommands( client ) {
     const files = await globPromise( `${process.cwd()}/commands/*/*.js` );
     files.map( file => {
+        const command = require( file );
+        client.commands.set( command.data.name, command );
+    });
+    const plugins = await globPromise( `${process.cwd()}/plugins/*/commands/*.js` );
+    plugins.map( file => {
         const command = require( file );
         client.commands.set( command.data.name, command );
     });
