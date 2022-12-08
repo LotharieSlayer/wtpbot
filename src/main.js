@@ -42,14 +42,14 @@ client.eventsEmitter = new events.EventEmitter();
 client.plugins = new Collection();
 
 (async () => {
-	await loadCommands( client );
-	await loadEvents( client );
-	await client.login( process.env.TOKEN );
+	await loadCommands(client);
+	await loadEvents(client);
+	await client.login(process.env.TOKEN);
 	// for(guild of process.env.DEV_GUILD_ID)
 		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
-	await loadCommandToAllGuilds( client );
+	await loadCommandToAllGuilds(client);
 	await loadPlugins(client)
-	await loadInvites( client );
+	await loadInvites(client);
 })();
 
 /* ----------------------------------------------- */

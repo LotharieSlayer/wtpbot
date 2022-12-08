@@ -25,11 +25,16 @@ const { Collection } = require("discord.js");
  async function loadPlugins( client ) {
     const mainFilesPlugins = await globPromise( `${process.cwd()}/plugins/*/*.js` );
     mainFilesPlugins.map( file => {
-        console.log(file)
-        const plugin = require( file );
-        plugin ? client.plugins[file] = true : client.plugins[file] = false;
-        plugin.execute(client);
-        console.log("[Plugin] " + file + " chargé.");
+        try {
+            const plugin = require( file );
+            file = file.split("/");
+            file = file[file.length - 1].substring(0, file.length - 3);
+            plugin ? client.plugins[file] = true : client.plugins[file] = false;
+            plugin.execute(client);
+            console.log("[Plugin] " + file + " chargé.");
+        } catch (error) {
+            console.log("[Plugin] Impossible de charger le plugin " + file + " : " + error);
+        }
     });
 }
 
