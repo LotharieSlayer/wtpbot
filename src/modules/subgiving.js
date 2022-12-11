@@ -33,6 +33,9 @@ async function subgiving(member, client){
         // Set the key as Guild ID, and create a map which has the invite code, and the number of uses
         client.invites.set(guild.id, new Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
     });
+
+    console.log(client.invites);
+    console.log(member.user.username)
     
     // To compare, we need to load the current invite list.
     const newInvites = await member.guild.invites.fetch()
