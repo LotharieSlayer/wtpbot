@@ -27,7 +27,7 @@ async function subgiving(member, client){
     // Look through the invites, find the one for which the uses went up.
     const invite = await newInvites.find(i => i.uses > oldInvites.get(i.code));
     // This is just to simplify the message being sent below (inviter doesn't have a tag property)
-    const inviter = await client.users.fetch(invite.inviter.id);
+    const inviter = await member.guild.members.fetch(invite.inviter.id);
     // Get the log channel (change to your liking)
     const logChannel = await member.guild.channels.cache.find(channel => channel.id === setup[1]);
     // A real basic message with the information we need. 
@@ -44,7 +44,7 @@ async function subgiving(member, client){
     }
     console.log("personnesEntrantes :" + personnesEntrantes.get(member.user.id))
     console.log("noDoublon : " + noDoublon)
-    let inviterMember = await member.guild.members.fetch(inviter.id);
+    let inviterMember = inviter //await member.guild.members.fetch(inviter.id);
     await personnesEntrantes.set(member.user.id, null)
 
     if (noDoublon == true) {
