@@ -36,7 +36,7 @@ async function subgiving(member, client){
         : logChannel.send(`<@${member.user.id}> joined but I couldn't find through which invite.`);
 
     let noDoublon;
-    if(personnesEntrantes.get(member.user.id) == null && personnesEntrantes.get(member.user.id) != undefined) {
+    if(personnesEntrantes.get(member.user.id) === null && personnesEntrantes.get(member.user.id) !== undefined) {
         noDoublon = false
     }
     else {
