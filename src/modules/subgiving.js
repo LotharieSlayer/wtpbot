@@ -36,7 +36,7 @@ async function subgiving(member, client){
         : logChannel.send(`<@${member.user.id}> joined but I couldn't find through which invite.`);
 
     let noDoublon;
-    if(personnesEntrantes.get(member.user.id) == null) {
+    if(personnesEntrantes.get(member.user.id) == null && personnesEntrantes.get(member.user.id) != undefined) {
         noDoublon = false
     }
     else {
@@ -44,27 +44,26 @@ async function subgiving(member, client){
     }
     console.log("personnesEntrantes :" + personnesEntrantes.get(member.user.id))
     console.log("noDoublon : " + noDoublon)
-    let inviterMember = inviter //await member.guild.members.fetch(inviter.id);
     await personnesEntrantes.set(member.user.id, null)
 
     if (noDoublon == true) {
-        subgivingInviter.set(inviterMember.user.id, subgivingInviter.get(inviterMember.user.id) + 1)
-        console.log("Ajout d'un vote en plus pour l'inviter :" + subgivingInviter.get(inviterMember.user.id))
+        subgivingInviter.set(inviter.user.id, subgivingInviter.get(inviter.user.id) + 1)
+        console.log("Ajout d'un vote en plus pour l'inviter :" + subgivingInviter.get(inviter.user.id))
     }
 
     if (noDoublon == false) {
-        inviterMember.send("T'es un ptit malin t'a essayé d'inviter la même personne, ça marche pas comme ça ! OwO")
+        inviter.send("T'es un ptit malin t'a essayé d'inviter la même personne, ça marche pas comme ça ! OwO")
         console.log("Envoie du mp malin")
     }
 
     // Maintenant on va mettre le role si son invitation a fait plus de 3 utilisations
-    if(subgivingInviter.get(inviterMember.user.id) >= 3 && noDoublon){
-        if(!inviterMember.roles.cache.find(role => role.id === setup[2])) {
-            const role = await inviterMember.guild.roles.cache.find(role => role.id === setup[2]);
-            inviterMember.roles.add(role)
-            subgivingTable.set(inviterMember.user.id, Date.now())
-            inviterMember.send("**BRAVO !**\nTu as invité 3 personnes, tu as donc le droit au role de subgiving jusqu'au <t:" + setup[3] + ":R> !")
-            subgivingInviter.set(inviterMember.user.id, subgivingInviter.get(inviterMember.user.id) + 1)
+    if(subgivingInviter.get(inviter.user.id) >= 3 && noDoublon){
+        if(!inviter.roles.cache.find(role => role.id === setup[2])) {
+            const role = await inviter.guild.roles.cache.find(role => role.id === setup[2]);
+            inviter.roles.add(role)
+            subgivingTable.set(inviter.user.id, Date.now())
+            inviter.send("**BRAVO !**\nTu as invité 3 personnes, tu as donc le droit au role de subgiving jusqu'au <t:" + setup[3] + ":R> !")
+            subgivingInviter.set(inviter.user.id, subgivingInviter.get(inviter.user.id) + 1)
             console.log("Le role a été ajouté")
         }
     }
