@@ -21,7 +21,7 @@ async function execute( invite, client ) {
 	if(setup != undefined)
 		if(Subgiving == false || setup[0] == false)
 			return;
-	client.invites.get(invite.guild.id).update(invite.code, [invite.uses, invite.inviter.id]);
+	client.invites.get(invite.guild.id).set(invite.code, [invite.uses, invite.inviter.id]);
 }
 
 
