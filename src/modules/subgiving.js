@@ -34,7 +34,6 @@ async function subgiving(member, client){
         client.invites.set(guild.id, new Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
     });
 
-    console.log(client.invites);
     console.log(member.user.username)
     
     // To compare, we need to load the current invite list.
