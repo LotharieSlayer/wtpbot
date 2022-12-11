@@ -14,7 +14,7 @@ const { reportWorker } = require("../../modules/report");
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
 const slashCommand = new SlashCommandBuilder()
-.setName("signaler")
+.setName("report")
 .setDescription("[report] Signaler une personne.")
 .addStringOption(option =>
     option.setName("raison")
