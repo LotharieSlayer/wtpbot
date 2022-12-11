@@ -78,7 +78,7 @@ async function subgiving(member, client){
             const role = await inviter.guild.roles.cache.find(role => role.id === setup[2]);
             inviter.roles.add(role)
             subgivingTable.set(inviter.user.id, Date.now())
-            inviter.send("**BRAVO !**\nTu as invité 3 personnes, tu as donc le droit au role de subgiving jusqu'au <t:" + setup[3] + ":R> !")
+            inviter.send("**BRAVO !**\nTu as invité 3 personnes, tu as donc le droit au role de subgiving jusqu'au <t:" + setup[3] + ":F> !")
             subgivingInviter.set(inviter.user.id, subgivingInviter.get(inviter.user.id) + 1)
             console.log("Le role a été ajouté")
         }
