@@ -11,6 +11,7 @@ const { Subgiving } = require('../files/modules.js');
 
 /*      IMPORTS      */
 const { getSetupData, personnesEntrantes, subgiving: subgivingTable, setupSubgiving, subgivingInviter } = require('../utils/enmapUtils');
+const { Collection } = require("discord.js");
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -20,6 +21,19 @@ async function subgiving(member, client){
     if(setup != undefined)
         if(Subgiving == false || setup[0] == false)
         return;
+
+    // Loop over all the guilds
+    client.guilds.cache.forEach(async (guild) => {
+        const setup = await getSetupData(guild.id, "subgiving")
+        if(setup != undefined)
+            if(Subgiving == false || setup[0] == false)
+                return;
+        // Fetch all Guild Invites
+        const firstInvites = await guild.invites.fetch();
+        // Set the key as Guild ID, and create a map which has the invite code, and the number of uses
+        client.invites.set(guild.id, new Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
+    });
+    
     // To compare, we need to load the current invite list.
     const newInvites = await member.guild.invites.fetch()
     // This is the *existing* invites for the guild.
