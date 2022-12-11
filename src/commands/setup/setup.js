@@ -21,6 +21,7 @@ const {
     setupSupport,
     setupContest,
     setupPremium,
+    setupSubgiving
 } = require("../../utils/enmapUtils");
 
 /*      AUTHORISATION      */
@@ -192,7 +193,7 @@ const slashCommand = new SlashCommandBuilder()
             )
             .addStringOption((string) =>
                 string
-                    .setName("intro_description")
+                    .setName("intro_desc")
                     .setDescription("Entrez une description pour accompagner votre intro.")
             )
             .addChannelOption((category) =>
@@ -209,6 +210,16 @@ const slashCommand = new SlashCommandBuilder()
                         "Entrez le salon où seront affichées les infos du contest."
                     )
             )
+            .addAttachmentOption((attachment) =>
+                attachment
+                    .setName("recompenses")
+                    .setDescription("Uploadez l'infographie des récompenses.")
+            )
+            .addStringOption((string) =>
+                string
+                    .setName("recompenses_desc")
+                    .setDescription("Entrez une description pour accompagner l'infographie des récompenses.")
+            )
     )
     .addSubcommand((subcommand) =>
         subcommand
@@ -222,6 +233,37 @@ const slashCommand = new SlashCommandBuilder()
                     .setDescription(
                         "Entrez l'ID du/des rôles Premium sur votre serveur. (séparé d'une \",\" si plusieurs)"
                     )
+            )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("subgiving")
+            .setDescription(
+                "Définir/Supprimer le channel pour les logs de subgiving. (Il ne peut n'y en avoir qu'un)"
+            )
+            .addChannelOption((channel) =>
+                channel
+                    .setName("channel")
+                    .setDescription(
+                        "Entrez le channel où les logs de subgiving seront envoyés."
+                    )
+                    .setRequired(true)
+            )
+            .addRoleOption((role) =>
+                role
+                    .setName("role")
+                    .setDescription(
+                        "Entrez le rôle du subgiving."
+                    )
+                    .setRequired(true)
+            )
+            .addStringOption((string) =>
+                string
+                    .setName("end_datetime")
+                    .setDescription(
+                        "Entrez la date de fin du subgiving sous la forme suivante d'un timestamp, exemple : 1620000000"
+                    )
+                    .setRequired(true)
             )
     );
 
@@ -317,6 +359,13 @@ async function execute(interaction) {
                 });
             }
             break;
+        case "subgiving":
+            setupSubgiving.set(interaction.guild.id, [true, interaction.options.getChannel("channel").id, interaction.options.getRole("role").id, interaction.options.getString("end_datetime")]);
+            await interaction.reply({
+                content: `Logs subgiving ajouté au serveur dans <#${interaction.options.getChannel("channel").id}> , <@!${interaction.options.getRole("role").id}> !\nFin le : <t:${interaction.options.getString("end_datetime").substring(0,10)}:R>`,
+                ephemeral: true,
+            });
+            break;
         case "welcome":
             if (setupWelcome.get(interaction.guild.id) === undefined) {
                 setupWelcome.set(interaction.guild.id, interaction.channel.id);
@@ -411,6 +460,7 @@ async function execute(interaction) {
             let postChannel = null;
             let categoryChannel = null;
             let introDescription = "";
+            let recompensesDescription = "";
 
             if (interaction.options.getChannel("infos") != null){
                 infoChannel = await interaction.options.getChannel("infos").id;}
@@ -418,11 +468,15 @@ async function execute(interaction) {
             if (interaction.options.getChannel("category") != null){
                 categoryChannel = await interaction.options.getChannel("category").id;}
             
-            if (interaction.options.getString("intro_description") != null){
-                introDescription = await interaction.options.getString("intro_description");}
+            if (interaction.options.getString("intro_desc") != null){
+                introDescription = await interaction.options.getString("intro_desc");}
+
+            if (interaction.options.getString("recompenses_desc") != null){
+                recompensesDescription = await interaction.options.getString("recompenses_desc");}
 
             const template = await interaction.options.getAttachment("template");
             const intro = await interaction.options.getAttachment("intro");
+            const recompenses = await interaction.options.getAttachment("recompenses");
 
             const data = {
                 setup: {
@@ -435,6 +489,9 @@ async function execute(interaction) {
                     template: template,
                     intro: intro,
                     introDescription: introDescription,
+                    recompenses: recompenses,
+                    recompensesDescription: recompensesDescription,
+                    datetime: Date.now()
                 },
             };
             

@@ -9,11 +9,35 @@
 const { promisify } = require( "util" );
 const { glob } = require( "glob" );
 const globPromise = promisify( glob );
+const { getSetupData } = require("../utils/enmapUtils");
+const { Subgiving } = require("../files/modules");
+const { Collection } = require("discord.js");
 
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
+
+/**
+ * Load the main file from plugins in the client.
+ * @param {Client} client The client of the bot.
+ */
+ async function loadPlugins( client ) {
+    const mainFilesPlugins = await globPromise( `${process.cwd()}/plugins/*/*.js` );
+    mainFilesPlugins.map( file => {
+        try {
+            const plugin = require( file );
+            file = file.split("/");
+            file = file[file.length - 1].substring(0, file.length - 3);
+            plugin ? client.plugins[file] = true : client.plugins[file] = false;
+            plugin.execute(client);
+            console.log("[Plugin] " + file + " chargé.");
+        } catch (error) {
+            console.log("[Plugin] Impossible de charger le plugin " + file + " : " + error);
+        }
+    });
+}
+
 /**
  * Load the commands in the client.
  * @param {Client} client The client of the bot.
@@ -21,6 +45,11 @@ const globPromise = promisify( glob );
 async function loadCommands( client ) {
     const files = await globPromise( `${process.cwd()}/commands/*/*.js` );
     files.map( file => {
+        const command = require( file );
+        client.commands.set( command.data.name, command );
+    });
+    const plugins = await globPromise( `${process.cwd()}/plugins/*/commands/*.js` );
+    plugins.map( file => {
         const command = require( file );
         client.commands.set( command.data.name, command );
     });
@@ -77,12 +106,32 @@ async function loadCommandToAllGuilds( client ) {
 }
 
 
+/**
+ * Load toutes les invitations de tous les serveurs dans la base de données.
+ * @param {Client} client The bot's client.
+ */
+async function loadInvites( client ) {
+    // Loop over all the guilds
+    client.guilds.cache.forEach(async (guild) => {
+        const setup = await getSetupData(guild.id, "subgiving")
+        if(setup != undefined)
+            if(Subgiving == false || setup[0] == false)
+                return;
+        // Fetch all Guild Invites
+        const firstInvites = await guild.invites.fetch();
+        // Set the key as Guild ID, and create a map which has the invite code, and the number of uses
+        client.invites.set(guild.id, new Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
+    });
+}
+
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
+    loadPlugins,
     loadCommands,
     loadEvents,
     loadCommandsToGuild,
-    loadCommandToAllGuilds
+    loadCommandToAllGuilds,
+    loadInvites
 }

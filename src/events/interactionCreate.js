@@ -35,10 +35,10 @@ function execute(interaction, client) {
         // Si le bouton est un bouton de vote à un contest
         const command = interaction.customId.split("_")[0];
         if (command === "contest") {
-            if (client.services.contest && setupContest.get(interaction.guild.id).setup.enabled) {
+            if (client.plugins.contest && setupContest.get(interaction.guild.id).setup.enabled) {
                 const {
                     contestInteractionButton,
-                } = require("../services/contest/contest");
+                } = require("../plugins/contest/contest");
                 contestInteractionButton(interaction, client);
             }
         }

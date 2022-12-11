@@ -5,21 +5,10 @@
  */
 
 const { Client, Collection, GatewayIntentBits, Partials  } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites, loadPlugins } = require( "./utils/loadAssets" );
 // const { loadCommandsToGuild } = require( "./utils/loadAssets" );
 require( "dotenv" ).config( { path: '.env' } );
 const events = require('events');
-
-let contestService;
-
-try {
-	require("./services/contest/contest");
-	contestService = true;
-}
-catch(e){
-	console.log("[Contest] Les services de contest ne sont pas disponibles en version open-source.");
-	contestService = false;
-}
 
 const client = new Client({
 	intents: [
@@ -45,24 +34,22 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+client.invites = new Collection();
 
-// WARNING: Ces eventsEmitter ne sont en aucun cas lié à ceux de discord.js mais à ceux de l'application en local. Ils sont généralement utilisés pour les services/.
+// WARNING: Ces eventsEmitter ne sont en aucun cas lié à ceux de discord.js mais à ceux de l'application en local. Ils sont généralement utilisés pour les plugins/.
 client.eventsEmitter = new events.EventEmitter();
 
-client.services = new Collection();
-client.services.contest = contestService;
+client.plugins = new Collection();
 
 (async () => {
-	await loadCommands( client );
-	await loadEvents( client );
-	await client.login( process.env.TOKEN );
+	await loadCommands(client);
+	await loadEvents(client);
+	await client.login(process.env.TOKEN);
 	// for(guild of process.env.DEV_GUILD_ID)
 		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
-	await loadCommandToAllGuilds( client );
-	if(contestService === true){
-		const { contest } = require("./services/contest/contest");
-		await contest( client );
-	}
+	await loadCommandToAllGuilds(client);
+	await loadPlugins(client)
+	await loadInvites(client);
 })();
 
 /* ----------------------------------------------- */

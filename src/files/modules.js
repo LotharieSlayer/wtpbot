@@ -36,3 +36,4 @@ exports.Warn = true;
 exports.Contest = true;
 exports.Advices = true;
 exports.Report = true;
+exports.Subgiving = true;
