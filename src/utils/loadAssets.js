@@ -28,7 +28,9 @@ const { Collection } = require("discord.js");
         try {
             const plugin = require( file );
             file = file.split("/");
-            file = file[file.length - 1].substring(0, file.length - 3);
+            file = file[file.length - 1];
+            if(file.substring(file.length - 3, file.length) == ".js")
+                file = file.substring(0, file.length - 3);
             plugin ? client.plugins[file] = true : client.plugins[file] = false;
             plugin.execute(client);
             console.log("[Plugin] " + file + " chargé.");
