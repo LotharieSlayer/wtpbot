@@ -71,6 +71,14 @@ async function loadEvents( client ) {
         else
             client.on( event.name, ( ...args ) => event.execute( ...args, client ) );
     });
+    const pluginsFiles = await globPromise( `${process.cwd()}/plugins/*/events/*.js` );
+    pluginsFiles.map( file => {
+        const event = require( file );
+        if ( event.once )
+            client.once( event.name, ( ...args ) => event.execute( ...args, client ) );
+        else
+            client.on( event.name, ( ...args ) => event.execute( ...args, client ) );
+    });
 }
 
 
