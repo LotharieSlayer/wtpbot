@@ -34,7 +34,6 @@ async function subgiving(member, client){
         client.invites.set(guild.id, new Collection(firstInvites.map((invite) => [invite.code, invite.uses])));
     });
 
-    console.log(client.invites);
     console.log(member.user.username)
     
     // To compare, we need to load the current invite list.
@@ -44,7 +43,10 @@ async function subgiving(member, client){
     // Look through the invites, find the one for which the uses went up.
     const invite = await newInvites.find(i => i.uses > oldInvites.get(i.code));
     // This is just to simplify the message being sent below (inviter doesn't have a tag property)
-    const inviter = await member.guild.members.fetch(invite.inviter.id);
+    let inviter;
+    while(inviter == null) {
+        inviter = await member.guild.members.fetch(invite.inviter.id);
+    }
     // Get the log channel (change to your liking)
     const logChannel = await member.guild.channels.cache.find(channel => channel.id === setup[1]);
     // A real basic message with the information we need. 
@@ -64,7 +66,9 @@ async function subgiving(member, client){
     await personnesEntrantes.set(member.user.id, null)
 
     if (noDoublon == true) {
-        subgivingInviter.set(inviter.user.id, subgivingInviter.get(inviter.user.id) + 1)
+        subgivingInviter.get(inviter.user.id) ?
+        subgivingInviter.set(inviter.user.id, subgivingInviter.get(inviter.user.id) + 1) :
+        subgivingInviter.set(inviter.user.id, 1)
         console.log("Ajout d'un vote en plus pour l'inviter :" + subgivingInviter.get(inviter.user.id))
     }
 
@@ -79,7 +83,7 @@ async function subgiving(member, client){
             const role = await inviter.guild.roles.cache.find(role => role.id === setup[2]);
             inviter.roles.add(role)
             subgivingTable.set(inviter.user.id, Date.now())
-            inviter.send("**BRAVO !**\nTu as invité 3 personnes, tu as donc le droit au role de subgiving jusqu'au <t:" + setup[3] + ":R> !")
+            inviter.send("**BRAVO !**\nTu as invité 3 personnes, tu as donc le droit au role de subgiving jusqu'au <t:" + setup[3] + ":F> !")
             subgivingInviter.set(inviter.user.id, subgivingInviter.get(inviter.user.id) + 1)
             console.log("Le role a été ajouté")
         }
