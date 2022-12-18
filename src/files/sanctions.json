@@ -165,6 +165,7 @@
                 "ban"
             ],
             "reasons": [
+                "violence_extreme",
                 "troll",
                 "non_respect_staff",
                 "armes"
@@ -188,7 +189,6 @@
                 "ban"
             ],
             "reasons": [
-                "violence_extreme",
                 "haine",
                 "discrimination",
                 "gore",
