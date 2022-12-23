@@ -19,28 +19,6 @@ const { Collection } = require("discord.js");
 /* ----------------------------------------------- */
 
 /**
- * Load the main file from plugins in the client.
- * @param {Client} client The client of the bot.
- */
- async function loadPlugins( client ) {
-    const mainFilesPlugins = await globPromise( `${process.cwd()}/plugins/*/*.js` );
-    mainFilesPlugins.map( file => {
-        try {
-            const plugin = require( file );
-            file = file.split("/");
-            file = file[file.length - 1];
-            if(file.substring(file.length - 3, file.length) == ".js")
-                file = file.substring(0, file.length - 3);
-            plugin ? client.plugins[file] = true : client.plugins[file] = false;
-            plugin.execute(client);
-            console.log("[Plugin] " + file + " chargé.");
-        } catch (error) {
-            console.log("[Plugin] Impossible de charger le plugin " + file + " : " + error);
-        }
-    });
-}
-
-/**
  * Load the commands in the client.
  * @param {Client} client The client of the bot.
  */
@@ -55,6 +33,12 @@ async function loadCommands( client ) {
         const command = require( file );
         client.commands.set( command.data.name, command );
     });
+    const pluginsFolder = await globPromise( `${process.cwd()}/plugins/*` );
+    pluginsFolder.map( file => {
+        file = file.split("/");
+        file = file[file.length - 1];
+        console.log("[Plugin] " + file);
+    })
 }
 
 
@@ -138,7 +122,6 @@ async function loadInvites( client ) {
 /* MODULE EXPORTS                                  */
 /* ----------------------------------------------- */
 module.exports = {
-    loadPlugins,
     loadCommands,
     loadEvents,
     loadCommandsToGuild,

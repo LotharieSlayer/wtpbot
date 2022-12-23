@@ -5,7 +5,7 @@
  */
 
 const { Client, Collection, GatewayIntentBits, Partials  } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites, loadPlugins } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites } = require( "./utils/loadAssets" );
 // const { loadCommandsToGuild } = require( "./utils/loadAssets" );
 require( "dotenv" ).config( { path: '.env' } );
 const events = require('events');
@@ -48,7 +48,6 @@ client.plugins = new Collection();
 	// for(guild of process.env.DEV_GUILD_ID)
 		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
 	await loadCommandToAllGuilds(client);
-	await loadPlugins(client)
 	await loadInvites(client);
 })();
 

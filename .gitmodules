@@ -1,0 +1,3 @@
+[submodule "src/plugins/logs"]
+	path = src/plugins/logs
+	url = https://github.com/LotharieSlayer/logs
