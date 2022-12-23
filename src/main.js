@@ -39,8 +39,6 @@ client.invites = new Collection();
 // WARNING: Ces eventsEmitter ne sont en aucun cas lié à ceux de discord.js mais à ceux de l'application en local. Ils sont généralement utilisés pour les plugins/.
 client.eventsEmitter = new events.EventEmitter();
 
-client.plugins = new Collection();
-
 (async () => {
 	await loadCommands(client);
 	await loadEvents(client);

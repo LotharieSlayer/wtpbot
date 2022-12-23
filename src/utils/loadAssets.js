@@ -30,6 +30,9 @@ async function loadCommands( client ) {
     });
     const plugins = await globPromise( `${process.cwd()}/plugins/*/commands/*.js` );
     plugins.map( file => {
+        let fileName = file.split("/");
+        fileName = fileName[fileName.length - 1];
+        if(fileName === "setup.js" || fileName === "setup" ) return;
         const command = require( file );
         client.commands.set( command.data.name, command );
     });
