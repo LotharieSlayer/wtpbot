@@ -13,20 +13,21 @@ const {
     setupSuggestions,
     setupThread,
     setupPresentations,
-    setupLogs,
     setupArchives,
     setupCertify,
     setupWelcome,
     setupReport,
     setupSupport,
-    setupContest,
     setupPremium,
     setupSubgiving
 } = require("../../utils/enmapUtils");
 
+const { promisify } = require( "util" );
+const { glob } = require( "glob" );
+const globPromise = promisify( glob );
+
 /*      AUTHORISATION      */
 const { Setup } = require("../../files/modules.js");
-const { client } = require("../../main");
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
@@ -60,13 +61,6 @@ const slashCommand = new SlashCommandBuilder()
         subcommand
             .setName("thread")
             .setDescription("Définir ce channel autorisable pour les threads.")
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("logs")
-            .setDescription(
-                "Définir/Supprimer le channel pour les logs. (Il ne peut n'y en avoir qu'un)"
-            )
     )
     .addSubcommand((subcommand) =>
         subcommand
@@ -172,57 +166,6 @@ const slashCommand = new SlashCommandBuilder()
     )
     .addSubcommand((subcommand) =>
         subcommand
-            .setName("contest")
-            .setDescription("Setup/Supprimer le contest du serveur.")
-            .addStringOption((string) =>
-                string
-                    .setName("theme")
-                    .setDescription("Entrez le thème du contest.")
-                    .setRequired(true)
-            )
-            .addAttachmentOption((attachment) =>
-                attachment
-                    .setName("template")
-                    .setDescription("Uploadez la template du thème du contest.")
-                    .setRequired(true)
-            )
-            .addAttachmentOption((attachment) =>
-                attachment
-                    .setName("intro")
-                    .setDescription("Uploadez l'introduction vidéo du contest.")
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("intro_desc")
-                    .setDescription("Entrez une description pour accompagner votre intro.")
-            )
-            .addChannelOption((category) =>
-                category
-                    .setName("category")
-                    .setDescription(
-                        "Entrez la catégorie où seront affichées les contest."
-                    )
-            )
-            .addChannelOption((channel) =>
-                channel
-                    .setName("infos")
-                    .setDescription(
-                        "Entrez le salon où seront affichées les infos du contest."
-                    )
-            )
-            .addAttachmentOption((attachment) =>
-                attachment
-                    .setName("recompenses")
-                    .setDescription("Uploadez l'infographie des récompenses.")
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("recompenses_desc")
-                    .setDescription("Entrez une description pour accompagner l'infographie des récompenses.")
-            )
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
             .setName("premium")
             .setDescription(
                 "Entrez l'ID du/des rôles Premium sur votre serveur. (séparé d'une \",\" si plusieurs)"
@@ -267,6 +210,13 @@ const slashCommand = new SlashCommandBuilder()
             )
     );
 
+    globPromise( `${process.cwd()}/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
+        pluginsSetup.map(file => {
+            const setup = require( file );
+            setup.addSetupCommand(slashCommand)
+        });
+    });
+
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -276,6 +226,12 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction) {
     if (Setup == false) return;
+    
+    const pluginsSetup = await globPromise( `${process.cwd()}/plugins/*/commands/setup.js` );
+    pluginsSetup.map(file => {
+        const setup = require( file );
+        setup.execute(interaction)
+    });
 
     switch (interaction.options._subcommand) {
         case "memes":
@@ -340,21 +296,6 @@ async function execute(interaction) {
                 setupThread.delete(interaction.channel.id);
                 await interaction.reply({
                     content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels thread !`,
-                    ephemeral: true,
-                });
-            }
-            break;
-        case "logs":
-            if (setupLogs.get(interaction.guild.id) === undefined) {
-                setupLogs.set(interaction.guild.id, interaction.channel.id);
-                await interaction.reply({
-                    content: `Logs ajouté au serveur dans <#${interaction.channel.id}> !`,
-                    ephemeral: true,
-                });
-            } else {
-                setupLogs.delete(interaction.guild.id);
-                await interaction.reply({
-                    content: `Logs supprimé du serveur !`,
                     ephemeral: true,
                 });
             }
@@ -455,61 +396,6 @@ async function execute(interaction) {
                 });
             }
             break;
-        case "contest":
-            let infoChannel = null;
-            let postChannel = null;
-            let categoryChannel = null;
-            let introDescription = "";
-            let recompensesDescription = "";
-
-            if (interaction.options.getChannel("infos") != null){
-                infoChannel = await interaction.options.getChannel("infos").id;}
-            
-            if (interaction.options.getChannel("category") != null){
-                categoryChannel = await interaction.options.getChannel("category").id;}
-            
-            if (interaction.options.getString("intro_desc") != null){
-                introDescription = await interaction.options.getString("intro_desc");}
-
-            if (interaction.options.getString("recompenses_desc") != null){
-                recompensesDescription = await interaction.options.getString("recompenses_desc");}
-
-            const template = await interaction.options.getAttachment("template");
-            const intro = await interaction.options.getAttachment("intro");
-            const recompenses = await interaction.options.getAttachment("recompenses");
-
-            const data = {
-                setup: {
-                    enabled: true,
-                    setupUser: interaction.member.id,
-                    setupChannelInfos: infoChannel,
-                    setupChannelPosts: postChannel,
-                    setupCategory: categoryChannel,
-                    theme : interaction.options.getString("theme"),
-                    template: template,
-                    intro: intro,
-                    introDescription: introDescription,
-                    recompenses: recompenses,
-                    recompensesDescription: recompensesDescription,
-                    datetime: Date.now()
-                },
-            };
-            
-            await setupContest.set(interaction.guild.id, data);
-            await client.eventsEmitter.emit(
-                "ContestUpdate",
-                data,
-                interaction.guild.id
-            );
-            await interaction.member.send({
-                content: `Démarrage/Update du contest en cours, nous vous enverrons un DM ici une fois terminé. Pensez bien à configurer les roles premium à l'aide de /setup premium !`,
-            });
-            await interaction.reply({
-                content: `Démarrage/Update du contest en cours, nous vous enverrons un DM ici une fois terminé. Pensez bien à configurer les roles premium à l'aide de /setup premium !`,
-                ephemeral: true,
-            });
-        
-            break;
         case "premium":
             // eslint-disable-next-line no-case-declarations
             const premiumRoles = interaction.options
@@ -562,10 +448,6 @@ async function execute(interaction) {
             });
             break;
         default:
-            await interaction.reply({
-                content: "Commande non permise.",
-                ephemeral: true,
-            });
             break;
     }
 }

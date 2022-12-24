@@ -16,7 +16,6 @@ const dbModifyPresentation = new Enmap({name: "modifyP"});
 const setupMemes = new Enmap({name: "setup_memes"});
 const setupSuggestions = new Enmap({name: "setup_suggestions"});
 const setupPresentations = new Enmap({name: "setup_presentations"});
-const setupLogs = new Enmap({name: "setup_logs"});
 const setupCertify = new Enmap({name: "setup_certify"});
 const setupActiveRole = new Enmap({name: "setup_active_role"});
 const setupArchives = new Enmap({name: "setup_archives"});
@@ -24,7 +23,6 @@ const setupThread = new Enmap({name: "setup_thread"});
 const setupWelcome = new Enmap({name: "setup_welcome"});
 const setupReport = new Enmap({name: "setup_report"});
 const setupSupport = new Enmap({name: "setup_support"});
-const setupContest = new Enmap({name: "setup_contest"});
 const setupPremium = new Enmap({name: "setup_premium"});
 
 // PRESENCE AND MEMES DATABASE INIT
@@ -37,11 +35,6 @@ const warnedUsers = new Enmap({name: "warned_users"});
 
 // COUNTER
 const counter = new Enmap({name: "counter"});
-
-// CONTEST
-const contestPosts = new Enmap({name: "contest_posts"});
-const contestSupervotes = new Enmap({name: "contest_supervotes"});
-const contestKarmas = new Enmap({name: "contest_karmas"});
 
 // REPORTS
 const reports = new Enmap({name: "reports"})
@@ -88,11 +81,6 @@ async function getSetupData(id, type){
         case "thread":
             // Here id is the channel
             return await getResultsKey(setupThread, id)
-        case "logs":
-            // Here id is the guild
-            // Because we are searching for the logs channel ID of the current guild
-            // It allows only a single channel for logging for example
-            return await getResultsValue(setupLogs, id)
         case "active_role":
             // Here id is the guild
             return await getResultsValue(setupActiveRole, id)
@@ -116,9 +104,6 @@ async function getSetupData(id, type){
             // Here id is the guild
             // WARNING : It returns an array [0 = forumChannel, 1 = guildOutput, 2 = channelOutput]
             return await getResultsValue(setupReport, id)
-        case "contest":
-            // Here id is the guild
-            return await getResultsValue(setupContest, id)
         case "premium":
             // Here id is the guild
             return await getResultsValue(setupPremium, id)
@@ -183,7 +168,6 @@ async function setAdvices(){
 module.exports = {
 	getSetupData,
     setupCertify,
-    setupLogs,
     setupMemes,
     setupActiveRole,
     setupPresentations,
@@ -193,14 +177,10 @@ module.exports = {
     setupWelcome,
     setupReport,
     setupSupport,
-    setupContest,
     setupPremium,
     setupSubgiving,
 
     reports,
-    contestPosts,
-    contestSupervotes,
-    contestKarmas,
     warnedUsers,
     dbModifyPresentation,
     memes,

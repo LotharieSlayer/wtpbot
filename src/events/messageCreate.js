@@ -5,11 +5,9 @@
  */
 
 // const { activeMember } = require("../utils/modules/activeMember.js");
-const { ChannelType, PermissionsBitField } = require("discord.js");
 const { proposition } = require("../modules/proposition.js");
 const { thread } = require("../modules/thread.js");
-const { memes, getSetupData, setupContest } = require("../utils/enmapUtils.js");
-let warns = new Map();
+const { memes, getSetupData } = require("../utils/enmapUtils.js");
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -25,7 +23,6 @@ async function execute(message, client) {
         proposition(client, message);
         thread(message);
         loadMemes(message);
-        isMessageInPostsContestChannel(message, client);
     } catch (e) {
         console.log(e);
     }
@@ -48,20 +45,6 @@ async function loadMemes(msg) {
             msg.reply(value);
             isSent = true;
         }
-    });
-}
-
-async function isMessageInPostsContestChannel(message, client) {
-    //foreach de setupContest
-    setupContest.forEach(async (value) => {
-        if (
-            message.channel.id == value.setup.setupChannelPosts &&
-            message.author.id != client.user.id &&
-            !message.member.permissions.has(
-                PermissionsBitField.Flags.ManageMessages
-            )
-        )
-            message.delete();
     });
 }
 
