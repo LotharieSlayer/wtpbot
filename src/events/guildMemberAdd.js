@@ -5,7 +5,6 @@
  */
 
 
-const { subgiving } = require("../modules/subgiving");
 const { welcomeMember } = require("../modules/welcomeMember");
 
 
@@ -18,7 +17,6 @@ const { welcomeMember } = require("../modules/welcomeMember");
  */
 async function execute( member, client ) {
 	welcomeMember(member, client)
-	subgiving(member, client)
 }
 
 

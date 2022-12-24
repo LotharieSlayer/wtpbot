@@ -39,12 +39,6 @@ const counter = new Enmap({name: "counter"});
 // REPORTS
 const reports = new Enmap({name: "reports"})
 
-// INVITES
-const setupSubgiving = new Enmap({name: "setup_subgiving"});
-const personnesEntrantes = new Enmap({name: "personnes_entrantes"});
-const subgiving = new Enmap({name: "subgiving"});
-const subgivingInviter = new Enmap({name: "subgiving_inviter"});
-
 // Un-comment to set memes and presences into the database
 const { MEMES } = require("../files/memes");
 const { STATES } = require("../files/memes");
@@ -107,10 +101,6 @@ async function getSetupData(id, type){
         case "premium":
             // Here id is the guild
             return await getResultsValue(setupPremium, id)
-        case "subgiving":
-            // Here id is the guild
-            // WARNING : It returns an array [0 = enabled, 1 = channelOutput, 2 = roleOutput, 3 = endDateTime]
-            return await getResultsValue(setupSubgiving, id)
         default:
             break;
     }
@@ -178,7 +168,6 @@ module.exports = {
     setupReport,
     setupSupport,
     setupPremium,
-    setupSubgiving,
 
     reports,
     warnedUsers,
@@ -187,7 +176,4 @@ module.exports = {
     presence,
     advices,
     counter,
-    personnesEntrantes,
-    subgiving,
-    subgivingInviter
 }

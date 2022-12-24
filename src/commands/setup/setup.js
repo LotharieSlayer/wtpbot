@@ -19,7 +19,6 @@ const {
     setupReport,
     setupSupport,
     setupPremium,
-    setupSubgiving
 } = require("../../utils/enmapUtils");
 
 const { promisify } = require( "util" );
@@ -177,37 +176,6 @@ const slashCommand = new SlashCommandBuilder()
                         "Entrez l'ID du/des rôles Premium sur votre serveur. (séparé d'une \",\" si plusieurs)"
                     )
             )
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("subgiving")
-            .setDescription(
-                "Définir/Supprimer le channel pour les logs de subgiving. (Il ne peut n'y en avoir qu'un)"
-            )
-            .addChannelOption((channel) =>
-                channel
-                    .setName("channel")
-                    .setDescription(
-                        "Entrez le channel où les logs de subgiving seront envoyés."
-                    )
-                    .setRequired(true)
-            )
-            .addRoleOption((role) =>
-                role
-                    .setName("role")
-                    .setDescription(
-                        "Entrez le rôle du subgiving."
-                    )
-                    .setRequired(true)
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("end_datetime")
-                    .setDescription(
-                        "Entrez la date de fin du subgiving sous la forme suivante d'un timestamp, exemple : 1620000000"
-                    )
-                    .setRequired(true)
-            )
     );
 
     globPromise( `${process.cwd()}/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
@@ -299,13 +267,6 @@ async function execute(interaction) {
                     ephemeral: true,
                 });
             }
-            break;
-        case "subgiving":
-            setupSubgiving.set(interaction.guild.id, [true, interaction.options.getChannel("channel").id, interaction.options.getRole("role").id, interaction.options.getString("end_datetime")]);
-            await interaction.reply({
-                content: `Logs subgiving ajouté au serveur dans <#${interaction.options.getChannel("channel").id}> , <@!${interaction.options.getRole("role").id}> !\nFin le : <t:${interaction.options.getString("end_datetime").substring(0,10)}:R>`,
-                ephemeral: true,
-            });
             break;
         case "welcome":
             if (setupWelcome.get(interaction.guild.id) === undefined) {
