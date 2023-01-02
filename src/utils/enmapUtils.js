@@ -21,23 +21,12 @@ const setupActiveRole = new Enmap({name: "setup_active_role"});
 const setupArchives = new Enmap({name: "setup_archives"});
 const setupThread = new Enmap({name: "setup_thread"});
 const setupWelcome = new Enmap({name: "setup_welcome"});
-const setupReport = new Enmap({name: "setup_report"});
-const setupSupport = new Enmap({name: "setup_support"});
 const setupPremium = new Enmap({name: "setup_premium"});
 
 // PRESENCE AND MEMES DATABASE INIT
 const memes = new Enmap({name: "memes"});
 const presence = new Enmap({name: "presence"});
 const advices = new Enmap({name: "advices"})
-
-// WARNS
-const warnedUsers = new Enmap({name: "warned_users"});
-
-// COUNTER
-const counter = new Enmap({name: "counter"});
-
-// REPORTS
-const reports = new Enmap({name: "reports"})
 
 // Un-comment to set memes and presences into the database
 const { MEMES } = require("../files/memes");
@@ -84,20 +73,9 @@ async function getSetupData(id, type){
         case "certify":
             // Here id is the guild
             return await getResultsValue(setupCertify, id)
-        case "warn_user":
-            // Here id is the member
-            return await getResultsValue(warnedUsers, id)
         case "welcome":
             // Here id is the guild
             return await getResultsValue(setupWelcome, id)
-        case "report":
-            // Here id is the guild
-            // WARNING : It returns an array [0 = channelThread, 1 = guildOutput, 2 = channelOutput]
-            return await getResultsValue(setupReport, id)
-        case "support":
-            // Here id is the guild
-            // WARNING : It returns an array [0 = forumChannel, 1 = guildOutput, 2 = channelOutput]
-            return await getResultsValue(setupReport, id)
         case "premium":
             // Here id is the guild
             return await getResultsValue(setupPremium, id)
@@ -165,15 +143,10 @@ module.exports = {
     setupThread,
     setupArchives,
     setupWelcome,
-    setupReport,
-    setupSupport,
     setupPremium,
 
-    reports,
-    warnedUsers,
     dbModifyPresentation,
     memes,
     presence,
     advices,
-    counter,
 }

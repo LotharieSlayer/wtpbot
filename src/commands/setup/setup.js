@@ -16,7 +16,6 @@ const {
     setupArchives,
     setupCertify,
     setupWelcome,
-    setupReport,
     setupSupport,
     setupPremium,
 } = require("../../utils/enmapUtils");
@@ -51,13 +50,6 @@ const slashCommand = new SlashCommandBuilder()
     )
     .addSubcommand((subcommand) =>
         subcommand
-            .setName("presentations")
-            .setDescription(
-                "Définir/Supprimer ce channel autorisable pour les présentations."
-            )
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
             .setName("thread")
             .setDescription("Définir ce channel autorisable pour les threads.")
     )
@@ -66,66 +58,6 @@ const slashCommand = new SlashCommandBuilder()
             .setName("welcome")
             .setDescription(
                 "Définir/Supprimer le channel pour les bienvenus. (Il ne peut n'y en avoir qu'un)"
-            )
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("report")
-            .setDescription(
-                "Définir/Supprimer le channel pour les threads privés des reports. (Il ne peut n'y en avoir qu'un)"
-            )
-            .addChannelOption((channel) =>
-                channel
-                    .setName("input_channel")
-                    .setDescription("Entrez le channel où les reports se font.")
-                    .setRequired(true)
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("output_guild_id")
-                    .setDescription(
-                        "Entrez l'ID du serveur où les reports seront envoyés pour le staff."
-                    )
-                    .setRequired(true)
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("output_channel_id")
-                    .setDescription(
-                        "Entrez l'ID du channel où les reports seront envoyés pour le staff."
-                    )
-                    .setRequired(true)
-            )
-    )
-    .addSubcommand((subcommand) =>
-        subcommand
-            .setName("support")
-            .setDescription(
-                "Définir/Supprimer le channel pour le support. (Il ne peut n'y en avoir qu'un)"
-            )
-            .addChannelOption((channel) =>
-                channel
-                    .setName("input_channel")
-                    .setDescription(
-                        "Entrez le channel où les demandes de support se font."
-                    )
-                    .setRequired(true)
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("output_guild_id")
-                    .setDescription(
-                        "Entrez l'ID du serveur où les demandes de support seront envoyés pour le staff."
-                    )
-                    .setRequired(true)
-            )
-            .addStringOption((string) =>
-                string
-                    .setName("output_channel_id")
-                    .setDescription(
-                        "Entrez l'ID du channel où les demandes de support seront envoyés pour le staff."
-                    )
-                    .setRequired(true)
             )
     )
     .addSubcommand((subcommand) =>
@@ -231,24 +163,6 @@ async function execute(interaction) {
                 setupSuggestions.delete(interaction.channel.id);
                 await interaction.reply({
                     content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels propositions !`,
-                    ephemeral: true,
-                });
-            }
-            break;
-        case "presentations":
-            if (setupPresentations.get(interaction.channel.id) === undefined) {
-                setupPresentations.set(
-                    interaction.channel.id,
-                    interaction.guild.id
-                );
-                await interaction.reply({
-                    content: `Channel <#${interaction.channel.id}> ajouté à la liste des channels présentations !`,
-                    ephemeral: true,
-                });
-            } else {
-                setupPresentations.delete(interaction.channel.id);
-                await interaction.reply({
-                    content: `Channel <#${interaction.channel.id}> supprimé de la liste des channels présentations !`,
                     ephemeral: true,
                 });
             }
@@ -365,46 +279,6 @@ async function execute(interaction) {
             setupPremium.set(interaction.guild.id, premiumRoles);
             await interaction.reply({
                 content: `**Setup des rôles premium terminés !**\nRôles premium : ${premiumRoles}`,
-                ephemeral: true,
-            });
-            break;
-        case "report":
-            // eslint-disable-next-line no-case-declarations
-            const inputChannelReport =
-                interaction.options.getChannel("input_channel");
-            // eslint-disable-next-line no-case-declarations
-            const outputGuildReport =
-                interaction.options.getString("output_guild_id");
-            // eslint-disable-next-line no-case-declarations
-            const outputChannelReport =
-                interaction.options.getString("output_channel_id");
-            setupReport.set(interaction.guild.id, [
-                inputChannelReport.id,
-                outputGuildReport,
-                outputChannelReport,
-            ]);
-            await interaction.reply({
-                content: `Channel pour les threads des reports ajouté au serveur dans <#${inputChannelReport.id}> !\nOutput du serveur dans <#${outputChannelReport}>.`,
-                ephemeral: true,
-            });
-            break;
-        case "support":
-            // eslint-disable-next-line no-case-declarations
-            const inputChannelSupport =
-                interaction.options.getChannel("input_channel");
-            // eslint-disable-next-line no-case-declarations
-            const outputGuildSupport =
-                interaction.options.getString("output_guild_id");
-            // eslint-disable-next-line no-case-declarations
-            const outputChannelSupport =
-                interaction.options.getString("output_channel_id");
-            setupSupport.set(interaction.guild.id, [
-                inputChannelSupport.id,
-                outputGuildSupport,
-                outputChannelSupport,
-            ]);
-            await interaction.reply({
-                content: `Channel des demandes de support ajouté au serveur dans <#${inputChannelSupport.id}> !\nOutput du serveur dans <#${outputChannelSupport}>.`,
                 ephemeral: true,
             });
             break;

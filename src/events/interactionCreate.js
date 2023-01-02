@@ -5,9 +5,6 @@
  */
 
 const { InteractionType } = require("discord.js");
-const { handleResponse } = require("../commands/report/cmReport");
-const { handleResponseUser } = require("../commands/report/cuReport");
-const { reportAssignButton, reportCloseButton } = require("../modules/report");
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
 /* ----------------------------------------------- */
@@ -19,24 +16,13 @@ const { reportAssignButton, reportCloseButton } = require("../modules/report");
  * @param {Client} client The client that created the interaction.
  */
 function execute(interaction, client) {
+    
     if (interaction.type === InteractionType.ApplicationCommand) {
         client.commands.get(interaction.commandName).execute(interaction);
     }
-    if (interaction.type === InteractionType.MessageComponent) {
-
-        if (interaction.customId === "assignReport") {
-            reportAssignButton(interaction, client);
-        }
-        if (interaction.customId === "closeReport") {
-            reportCloseButton(interaction, client);
-        }
-        
-    }
     
-    if (interaction.type === InteractionType.ModalSubmit) {
-        if (interaction.customId === "reportModal") handleResponse(interaction);
-        if (interaction.customId === "reportModalUser") handleResponseUser(interaction);
-    } else return;
+    // Si c'est la reportModal on return
+    if (interaction.commandName === 'Signaler le message' || interaction.commandName === 'Signaler cet utilisateur') return;
 
     if (interaction.isContextMenuCommand()) {
         client.commands.get(interaction.commandName).execute(interaction);

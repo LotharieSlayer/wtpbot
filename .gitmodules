@@ -7,3 +7,9 @@
 [submodule "src/plugins/warn"]
 	path = src/plugins/warn
 	url = https://github.com/LotharieSlayer/warn
+[submodule "src/plugins/report"]
+	path = src/plugins/report
+	url = https://github.com/LotharieSlayer/report
+[submodule "src/plugins/support"]
+	path = src/plugins/support
+	url = https://github.com/LotharieSlayer/support
