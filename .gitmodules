@@ -19,3 +19,21 @@
 [submodule "src/plugins/activity"]
 	path = src/plugins/activity
 	url = https://github.com/LotharieSlayer/activity
+[submodule "src/plugins/certify"]
+	path = src/plugins/certify
+	url = https://github.com/LotharieSlayer/certify
+[submodule "src/plugins/welcome"]
+	path = src/plugins/welcome
+	url = https://github.com/LotharieSlayer/welcome
+[submodule "src/plugins/suggestions"]
+	path = src/plugins/suggestions
+	url = https://github.com/LotharieSlayer/suggestions
+[submodule "src/plugins/thread"]
+	path = src/plugins/thread
+	url = https://github.com/LotharieSlayer/thread
+[submodule "src/plugins/archives"]
+	path = src/plugins/archives
+	url = https://github.com/LotharieSlayer/archives
+[submodule "src/plugins/premium"]
+	path = src/plugins/premium
+	url = https://github.com/LotharieSlayer/premium

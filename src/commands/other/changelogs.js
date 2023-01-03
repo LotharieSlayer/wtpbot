@@ -11,9 +11,6 @@ const { EmbedBuilder } = require("discord.js");
 const pjson = require("../../../package.json");
 const fs = require("fs");
 
-/*      AUTHORISATION      */
-const { Changelogs } = require("../../files/modules.js");
-
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
 /* ----------------------------------------------- */
@@ -30,7 +27,6 @@ const slashCommand = new SlashCommandBuilder()
  * @param {CommandInteraction} interaction L'interaction généré par l'exécution de la commande.
  */
 async function execute(interaction) {
-    if (Changelogs == false) return;
 
     const messageContent = fs.readFileSync("./files/changelogs.txt", "utf8");
 
