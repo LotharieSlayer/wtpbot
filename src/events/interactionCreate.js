@@ -21,12 +21,6 @@ function execute(interaction, client) {
         client.commands.get(interaction.commandName).execute(interaction);
     }
     
-    // Si c'est la reportModal on return
-    if (interaction.commandName === 'Signaler le message' || interaction.commandName === 'Signaler cet utilisateur') return;
-
-    if (interaction.isContextMenuCommand()) {
-        client.commands.get(interaction.commandName).execute(interaction);
-    }
 }
 
 /* ----------------------------------------------- */
