@@ -16,9 +16,6 @@
 [submodule "src/plugins/random-replies"]
 	path = src/plugins/random-replies
 	url = https://github.com/LotharieSlayer/random-replies
-[submodule "src/plugins/activity"]
-	path = src/plugins/activity
-	url = https://github.com/LotharieSlayer/activity
 [submodule "src/plugins/certify"]
 	path = src/plugins/certify
 	url = https://github.com/LotharieSlayer/certify
@@ -37,3 +34,6 @@
 [submodule "src/plugins/premium"]
 	path = src/plugins/premium
 	url = https://github.com/LotharieSlayer/premium
+[submodule "src/plugins/activity"]
+	path = src/plugins/activity
+	url = https://github.com/LotharieSlayer/activity
