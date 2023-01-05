@@ -9,8 +9,7 @@
 const { promisify } = require( "util" );
 const { glob } = require( "glob" );
 const globPromise = promisify( glob );
-const { getSetupData } = require("../utils/enmapUtils");
-const { Subgiving } = require("../files/modules");
+const { getSetupData } = require("../plugins/subgiving/utils/enmapUtils");
 const { Collection } = require("discord.js");
 
 
@@ -112,7 +111,7 @@ async function loadInvites( client ) {
     client.guilds.cache.forEach(async (guild) => {
         const setup = await getSetupData(guild.id, "subgiving")
         if(setup != undefined)
-            if(Subgiving == false || setup[0] == false)
+            if(setup[0] == false)
                 return;
         // Fetch all Guild Invites
         const firstInvites = await guild.invites.fetch();
