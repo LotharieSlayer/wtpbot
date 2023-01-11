@@ -1,9 +1,6 @@
 [submodule "src/plugins/logs"]
 	path = src/plugins/logs
 	url = https://github.com/LotharieSlayer/logs
-[submodule "src/plugins/subgiving"]
-	path = src/plugins/subgiving
-	url = https://github.com/LotharieSlayer/subgiving
 [submodule "src/plugins/warn"]
 	path = src/plugins/warn
 	url = https://github.com/LotharieSlayer/warn
@@ -37,3 +34,6 @@
 [submodule "src/plugins/activity"]
 	path = src/plugins/activity
 	url = https://github.com/LotharieSlayer/activity
+[submodule "src/plugins/retention-thread"]
+	path = src/plugins/retention-thread
+	url = https://github.com/LotharieSlayer/retention-thread
