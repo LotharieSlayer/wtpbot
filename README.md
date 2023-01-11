@@ -38,5 +38,3 @@ Ces permissions sont nécessaires pour **TOUTES** les commandes. Si vous n'avez 
 **Attention :** VOTRE_CLIENT_ID dans le lien ci-dessous est le Client ID of **votre bot**.
 
 `https://discord.com/api/oauth2/authorize?client_id=VOTRE_CLIENT_ID&permissions=1494917572806&scope=bot%20applications.commands`
-
-commit test
