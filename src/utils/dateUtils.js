@@ -41,6 +41,33 @@ function getMs(time){
 	return ms
 }
 
+/**
+ * Convertie une date en ms.
+ * La date doit respecter les indicateurs de temps suivant (d, h, m, s).
+ * L'ordre n'importe pas.
+ * @param {string} string_date La date (ex : 3d12h30m5s).
+ * @returns La date convertie en ms.
+ */
+function getMsTime(string_date) {
+    const multipliers = {
+        'd': 24 * 3600 * 1000,
+        'h': 3600 * 1000,
+        'm': 60 * 1000,
+        's': 1000,
+    };
+    let ms_time = 0;
+    let last_pos = 0;
+
+    string_date = string_date.replace(' ', '');
+    for (let k = 0; k < string_date.length; k++) {
+        const char_code = string_date.charCodeAt(k);
+        if (char_code < 48 || char_code > 57) {
+            ms_time += parseInt(string_date.substring(last_pos, k)) * multipliers[string_date.charAt(k)];
+            last_pos = k + 1;
+        }
+    }
+    return ms_time;
+}
 
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
@@ -48,5 +75,6 @@ function getMs(time){
 module.exports = {
 	getDayFormatDate,
 	getMonthFormatDate,
-	getMs
+	getMs,
+	getMsTime
 }

@@ -46,7 +46,6 @@ client.eventsEmitter = new events.EventEmitter();
 	// for(guild of process.env.DEV_GUILD_ID)
 		// await loadCommandsToGuild( client, process.env.DEV_GUILD_ID );
 	await loadCommandToAllGuilds(client);
-	await loadInvites(client);
 })();
 
 /* ----------------------------------------------- */
