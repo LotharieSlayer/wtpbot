@@ -5,7 +5,7 @@
  */
 
 const { Client, Collection, GatewayIntentBits, Partials  } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds } = require( "./utils/loadAssets" );
 // const { loadCommandsToGuild } = require( "./utils/loadAssets" );
 require( "dotenv" ).config( { path: '.env' } );
 const events = require('events');
