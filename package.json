@@ -9,7 +9,9 @@
     "enmap": "^5.9.0",
     "fs": "^0.0.1-security",
     "glob": "^7.2.3",
-    "i18next": "^21.8.16"
+    "i18next": "^21.8.16",
+    "mongodb": "^5.0.1",
+    "socket.io": "^4.6.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0"

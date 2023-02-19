@@ -1,4 +1,5 @@
 /**
+ * @author Lothaire Guée
  * @author Benjamin Guirlet
  * @description
  * 		The file contains the functions to load the commands and events in the bot at startup.
@@ -9,7 +10,7 @@
 const { promisify } = require( "util" );
 const { glob } = require( "glob" );
 const globPromise = promisify( glob );
-
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */
@@ -99,6 +100,21 @@ async function loadCommandToAllGuilds( client ) {
     // console.log( "Loaded application (/) commands to the guild!\nThe commands may take up to an hour before being available on the guilds." );
 }
 
+// Connect to the database MongoDB
+async function connectToDatabase(client) {
+    client.mongo = new MongoClient(process.env.MONGO_URI, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        },
+    });
+    client.mongo.wtpbot = client.mongo.db('wtpbot');
+    client.mongo.francebot = client.mongo.db('francebot');
+    client.mongo.commons = client.mongo.db('commons');
+
+    console.log("Connected to MongoDB database")
+}
 
 /* ----------------------------------------------- */
 /* MODULE EXPORTS                                  */
@@ -108,4 +124,5 @@ module.exports = {
     loadEvents,
     loadCommandsToGuild,
     loadCommandToAllGuilds,
+    connectToDatabase
 }

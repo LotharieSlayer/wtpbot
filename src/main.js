@@ -5,7 +5,7 @@
  */
 
 const { Client, Collection, GatewayIntentBits, Partials  } = require( "discord.js" );
-const { loadCommands, loadEvents, loadCommandToAllGuilds, loadInvites } = require( "./utils/loadAssets" );
+const { loadCommands, loadEvents, loadCommandToAllGuilds, connectToDatabase } = require( "./utils/loadAssets" );
 // const { loadCommandsToGuild } = require( "./utils/loadAssets" );
 require( "dotenv" ).config( { path: '.env' } );
 const events = require('events');
@@ -40,6 +40,7 @@ client.invites = new Collection();
 client.eventsEmitter = new events.EventEmitter();
 
 (async () => {
+	await connectToDatabase(client);
 	await loadCommands(client);
 	await loadEvents(client);
 	await client.login(process.env.TOKEN);

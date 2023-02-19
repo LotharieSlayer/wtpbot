@@ -36,12 +36,12 @@ const slashCommand = new SlashCommandBuilder()
  * Fonction appelé quand la commande est 'setup'
  * @param {CommandInteraction} interaction L'interaction généré par l'exécution de la commande.
  */
-async function execute(interaction) {
+async function execute(interaction, client) {
     
     const pluginsSetup = await globPromise( `${process.cwd()}/plugins/*/commands/setup.js` );
     pluginsSetup.map(file => {
         const setup = require( file );
-        setup.execute(interaction)
+        setup.execute(interaction, client)
     });
 
     switch (interaction.options._subcommand) {
