@@ -18,7 +18,7 @@ const { InteractionType } = require("discord.js");
 function execute(interaction, client) {
     
     if (interaction.type === InteractionType.ApplicationCommand) {
-        client.commands.get(interaction.commandName).execute(interaction);
+        client.commands.get(interaction.commandName).execute(interaction, client);
     }
     
 }
