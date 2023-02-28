@@ -2,16 +2,15 @@
   "name": "wtpbot",
   "version": "2.2.0",
   "dependencies": {
-    "@discordjs/rest": "^1.0.1",
-    "discord-api-types": "^0.37.0",
-    "discord.js": "^14.6.0",
+    "@discordjs/rest": "^1.5.0",
+    "discord-api-types": "^0.37.35",
+    "discord.js": "^14.7.1",
     "dotenv": "^16.0.1",
-    "enmap": "^5.9.0",
+    "enmap": "^5.9.5",
     "fs": "^0.0.1-security",
     "glob": "^7.2.3",
     "i18next": "^21.8.16",
-    "mongodb": "^5.0.1",
-    "socket.io": "^4.6.0"
+    "mongodb": "^5.1.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0"
