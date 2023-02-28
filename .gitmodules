@@ -1,39 +1,52 @@
 [submodule "src/plugins/logs"]
 	path = src/plugins/logs
 	url = https://github.com/LotharieSlayer/logs
+	branch = main
 [submodule "src/plugins/warn"]
 	path = src/plugins/warn
 	url = https://github.com/LotharieSlayer/warn
+	branch = main
 [submodule "src/plugins/report"]
 	path = src/plugins/report
 	url = https://github.com/LotharieSlayer/report
+	branch = main
 [submodule "src/plugins/support"]
 	path = src/plugins/support
 	url = https://github.com/LotharieSlayer/support
+	branch = main
 [submodule "src/plugins/random-replies"]
 	path = src/plugins/random-replies
 	url = https://github.com/LotharieSlayer/random-replies
+	branch = main
 [submodule "src/plugins/certify"]
 	path = src/plugins/certify
 	url = https://github.com/LotharieSlayer/certify
+	branch = main
 [submodule "src/plugins/welcome"]
 	path = src/plugins/welcome
 	url = https://github.com/LotharieSlayer/welcome
+	branch = main
 [submodule "src/plugins/suggestions"]
 	path = src/plugins/suggestions
 	url = https://github.com/LotharieSlayer/suggestions
+	branch = main
 [submodule "src/plugins/thread"]
 	path = src/plugins/thread
 	url = https://github.com/LotharieSlayer/thread
+	branch = main
 [submodule "src/plugins/archives"]
 	path = src/plugins/archives
 	url = https://github.com/LotharieSlayer/archives
+	branch = main
 [submodule "src/plugins/premium"]
 	path = src/plugins/premium
 	url = https://github.com/LotharieSlayer/premium
+	branch = main
 [submodule "src/plugins/activity"]
 	path = src/plugins/activity
 	url = https://github.com/LotharieSlayer/activity
+	branch = main
 [submodule "src/plugins/retention-thread"]
 	path = src/plugins/retention-thread
 	url = https://github.com/LotharieSlayer/retention-thread
+	branch = main
