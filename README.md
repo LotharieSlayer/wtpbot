@@ -18,23 +18,39 @@ Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour
 
 <br/>
 
+# Requis :
+- Node 18.x
+- MongoDB 6
+
 # Installation : 
 
-Ouvre ton terminal favori depuis le dossier `wtpbot/` et fait un simple `npm i`.
-If the command doesn't work and you don't have npm installed on your computer, just install Node LTS : https://nodejs.org/.
+### Cloner le projet
+`git clone https://github.com/LotharieSlayer/wtpbot/`
 
-Une fois `npm i` fini, vous pouvez démarrer le bot par un simple `node main.js` depuis le dossier `src/`.
+### Passer MongoDB en mode Replica Set
+[Manuel](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)
+- Aller dans `/etc/mongod.conf`
+- Décommenter les lignes suivantes et donner un nom à votre replica
+```conf
+replication:
+   replSetName: "rs0"
+```
+- Redémarrer MongoDB
 
-**Ajouter le bot au serveur de production :**
-https://discord.com/developers/docs
+### Entrer le token .env
+- Dans `src/`, créer un fichier .env contenant le token de votre bot donné par Discord.
 
-### **Permissions requises :**
+Si vous n'avez aucune idée de ce qu'est un token Discord, vous aurez plus d'infos sur la [documentation officielle](https://discord.com/developers/docs) ou en tapant simplement sur Google/Youtube ("Comment avoir le token de mon bot sur Discord")
 
-Ces permissions sont nécessaires pour **TOUTES** les commandes. Si vous n'avez pas l'utilité de certaines commandes, chercher simplement dans le code source quel commande est associé à tel code, et enlever la permission souhaitée.
+### Permissions requises
 
-**Code : 1494917572806**
-![image](https://user-images.githubusercontent.com/49253492/182611293-0617a171-20ef-4935-9797-c5d8aa0c43b4.png)
+La permission 8 est nécessaire pour **TOUTES** les commandes. Si vous n'avez pas l'utilité de ce code 8 (qui veut dire admin), cherchez simplement le repository du plugin et regardez selon le README de ce dernier. Dans le doute, si vous ne connaissez pas les permissions nécessaires au bon fonctionnement de votre bot, laissez le code 8.
+
+### Mettre votre bot sur votre serveur Discord
+
+Vous n'avez plus qu'à chercher le Client ID de votre bot sur le dashboard de Discord.
+
+`https://discord.com/api/oauth2/authorize?client_id=VOTRE_CLIENT_ID&permissions=8&scope=bot%20applications.commands`
+Copiez-coller ce lien dans un navigateur et tadaaa ! Vous n'avez plus qu'à faire `node main.js` dans un terminal depuis le dossier `src/` pour démarrer votre bot !
 
 **Attention :** VOTRE_CLIENT_ID dans le lien ci-dessous est le Client ID of **votre bot**.
-
-`https://discord.com/api/oauth2/authorize?client_id=VOTRE_CLIENT_ID&permissions=1494917572806&scope=bot%20applications.commands`
