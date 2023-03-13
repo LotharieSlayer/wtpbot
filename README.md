@@ -39,16 +39,21 @@ replication:
 
 ### Entrer le token .env
 - Dans `src/`, créer un fichier .env contenant le token de votre bot donné par Discord.
+- Mettez votre token de la manière suivante : `TOKEN="votre token"`
 
 Si vous n'avez aucune idée de ce qu'est un token Discord, vous aurez plus d'infos sur la [documentation officielle](https://discord.com/developers/docs) ou en tapant simplement sur Google/Youtube ("Comment avoir le token de mon bot sur Discord")
 
-### Permissions requises
-
-La permission 8 est nécessaire pour **TOUTES** les commandes. Si vous n'avez pas l'utilité de ce code 8 (qui veut dire admin), cherchez simplement le repository du plugin et regardez selon le README de ce dernier. Dans le doute, si vous ne connaissez pas les permissions nécessaires au bon fonctionnement de votre bot, laissez le code 8.
+Une fois tout ça fait, il faut générer un URL pour inviter votre bot, vous pouvez le faire depuis le dashboard Discord, mais voilà quelques informations.
 
 ### Mettre votre bot sur votre serveur Discord
 
-Vous n'avez plus qu'à chercher le Client ID de votre bot sur le dashboard de Discord.
+#### Permissions (facultatif)
+
+Si vous êtes familier avec les permissions vous savez surement que vous devez les énumérer dans l'URL que vous allez géénrer pour inviter le bot dans votre serveur. La permission 8 est nécessaire pour **TOUTES** les commandes. Si vous n'avez pas l'utilité de ce code 8 (qui veut dire admin), cherchez simplement le repository du plugin et regardez selon le README de ce dernier. Dans le doute, si vous ne connaissez pas les permissions nécessaires au bon fonctionnement de votre bot, laissez le code 8.
+
+#### Client ID (obligatoire)
+
+Enfin, vous n'avez plus qu'à chercher le Client ID de votre bot sur le dashboard de Discord.
 
 `https://discord.com/api/oauth2/authorize?client_id=VOTRE_CLIENT_ID&permissions=8&scope=bot%20applications.commands`
 Copiez-coller ce lien dans un navigateur et tadaaa ! Vous n'avez plus qu'à faire `node main.js` dans un terminal depuis le dossier `src/` pour démarrer votre bot !
