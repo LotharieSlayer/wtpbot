@@ -28,7 +28,7 @@ Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour
 `git clone https://github.com/LotharieSlayer/wtpbot/`
 
 ### Passer MongoDB en mode Replica Set
-[Manuel](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)
+[Documentation MongoDB - Replica Set](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)
 - Aller dans `/etc/mongod.conf`
 - Décommenter les lignes suivantes et donner un nom à votre replica
 ```conf
