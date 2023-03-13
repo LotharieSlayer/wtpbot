@@ -18,9 +18,9 @@ Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour
 
 <br/>
 
-# Requis :
-- Node 18.x
-- MongoDB 6
+# Prérequis :
+- [Node.js 18.x](https://nodejs.org/en/)
+- [MongoDB 6](https://www.mongodb.com/docs/manual/installation/)
 
 # Installation : 
 
