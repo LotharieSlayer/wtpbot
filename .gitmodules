@@ -46,7 +46,3 @@
 	path = src/plugins/activity
 	url = https://github.com/LotharieSlayer/activity
 	branch = main
-[submodule "src/plugins/retention-thread"]
-	path = src/plugins/retention-thread
-	url = https://github.com/LotharieSlayer/retention-thread
-	branch = main
