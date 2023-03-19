@@ -14,11 +14,11 @@ Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour
 
 ---
 
-# Prérequis :
+# Prérequis
 - [Node.js 18.x](https://nodejs.org/en/)
 - [MongoDB 6](https://www.mongodb.com/docs/manual/installation/)
 
-# Installation : 
+# Installation
 
 ### Cloner le projet
 `git clone https://github.com/LotharieSlayer/wtpbot/`
@@ -61,4 +61,11 @@ Enfin, vous n'avez plus qu'à chercher le Client ID de votre bot sur le dashboar
 
 `https://discord.com/api/oauth2/authorize?client_id=VOTRE_CLIENT_ID&permissions=8&scope=bot%20applications.commands`
 
-Copiez-coller ce lien dans un navigateur et tadaaa ! Vous n'avez plus qu'à faire `node main.js` dans un terminal depuis le dossier `src/` pour démarrer votre bot !
+Copiez-coller ce lien dans un navigateur et tadaaa !
+
+# Démarrage
+
+`node main.js` depuis `src/` : Lancer le bot (production)
+`npm run dev` : Lancer le bot
+`npm run add --plugin=<nom du plugin>` : Télécharger un plugin et l'ajouter au bot.
+`npm run remove --plugin=<nom du plugin>` : Supprimer le plugin

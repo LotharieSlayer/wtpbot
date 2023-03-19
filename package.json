@@ -1,6 +1,12 @@
 {
   "name": "wtpbot",
   "version": "2.2.0",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "cd src && nodemon main.js",
+    "add": "cd src/plugins && git clone https://github.com/LotharieSlayer/$npm_config_plugin && cd ../.. && echo \"\n \\033[32m Plugin $npm_config_plugin added successfully ! \\033[0m \n\"",
+    "remove": "cd src/plugins && rm -rf $npm_config_plugin && cd ../.. && echo \"\n \\033[32m Plugin $npm_config_plugin removed successfully ! \\033[0m \n\""
+  },
   "dependencies": {
     "@discordjs/rest": "^1.6.0",
     "discord-api-types": "^0.37.36",
