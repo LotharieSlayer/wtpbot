@@ -5,9 +5,9 @@
   "scripts": {
     "start": "cd src && node main.js",
     "dev": "cd src && nodemon main.js",
-    "add": "cd src/plugins && git clone https://github.com/LotharieSlayer/$npm_config_plugin && cd ../.. && echo \"\n \\033[32m Plugin $npm_config_plugin added successfully ! \\033[0m \n\"",
-    "remove": "cd src/plugins && rm -rf $npm_config_plugin && cd ../.. && echo \"\n \\033[32m Plugin $npm_config_plugin removed successfully ! \\033[0m \n\"",
-    "list": "echo \"Liste des plugins actifs :\" && cd src/plugins && ls -l | grep ^d | awk '{print $9}'"
+    "list": "echo \"Liste des plugins téléchargés :\" && cd src/plugins && ls -l | grep ^d | awk '{print $9}'",
+    "update": "cd src/plugins && for plugin in $(cat ../files/plugins.list); do plugin_name=$(echo $plugin | cut -d'/' -f2); if [ -d \"../plugins/$plugin_name\" ]; then echo \"\\033[32m Plugin $plugin_name already downloaded !  \\033[0m\"; else git clone https://github.com/$plugin; echo \"\\033[32m Plugin $plugin added successfully ! \\033[0m \n\"; fi done && echo \"\n\\033[32m Downloading updates... Please wait... \\033[0m \n\" && for folder in $(ls -l | grep ^d | awk '{print $9}'); do cd $folder; git pull -q; cd ..; if ! grep -oq $folder$ ../files/plugins.list; then rm -r $folder; echo \"\\033[32m Plugin $folder removed successfully ! \\033[0m\n\"; fi done && cd ../.. && echo \"\\033[32m Plugins from files/plugins.list added/removed/updated successfully ! \\033[0m \n\"",
+    "rebase": "cd src/ && rm -r plugins && mkdir plugins && cd plugins && for plugin in $(cat ../files/plugins.list); do git clone https://github.com/$plugin; done && cd ../.. && echo \"\n \\033[32m Successfully rebased from files/plugins.list ! \\033[0m \n\""
   },
   "dependencies": {
     "@discordjs/rest": "^1.6.0",
