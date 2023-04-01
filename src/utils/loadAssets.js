@@ -102,7 +102,9 @@ async function loadCommandToAllGuilds( client ) {
 
 // Connect to the database MongoDB
 async function connectToDatabase(client) {
-    client.mongo = new MongoClient(process.env.MONGO_URI, {
+    client.mongo = await new MongoClient(process.env.MONGO_URI, {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true,
         serverApi: {
             version: ServerApiVersion.v1,
             strict: true,

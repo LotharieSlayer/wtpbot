@@ -107,8 +107,8 @@ dist
 # /src/files/config.json
 /src/data/
 
-# Contest plugin files
-/src/plugins/contest
-
 # Dev plan
 /src/files/devplan.md
+
+# Plugins
+/src/plugins/
