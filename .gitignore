@@ -112,3 +112,4 @@ dist
 
 # Plugins
 /src/plugins/
+src/files/plugins.list
