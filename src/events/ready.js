@@ -13,7 +13,13 @@
  * @param {Client} client The client that emitted the event.
  */
 function execute( client ) {
-	console.log( `${client.user.username} is connected!` );
+	
+	const date = new Date();
+	const dateFormat = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} `
+		+ `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:`
+		+ `${String(date.getSeconds()).padStart(2, '0')}`;
+
+	console.log( `${client.user.username} is connected at ${dateFormat} !` );
 
 }
 
