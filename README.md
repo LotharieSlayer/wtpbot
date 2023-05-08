@@ -34,6 +34,7 @@ replication:
    replSetName: "rs0"
 ```
 - Redémarrer MongoDB
+- `mongosh -> rs.initiate()`
 
 **Pour Windows :**
 - Lancer un terminal
