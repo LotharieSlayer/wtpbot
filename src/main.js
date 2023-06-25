@@ -40,7 +40,9 @@ client.invites = new Collection();
 client.eventsEmitter = new events.EventEmitter();
 
 (async () => {
-	await connectToDatabase(client);
+	// Ajoutez `MONGO_URI="mongodb://localhost:27017"` dans le fichier .env pour activer la connexion à la base de données MongoDB avec connectToDatabase.
+	if(process.env.MONGO_URI !== undefined)
+		await connectToDatabase(client);
 	await loadCommands(client);
 	await loadEvents(client);
 	await client.login(process.env.TOKEN);
