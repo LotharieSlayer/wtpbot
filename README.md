@@ -23,7 +23,7 @@ Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour
 ### Cloner le projet
 `git clone https://github.com/LotharieSlayer/wtpbot/`
 
-### Passer MongoDB en mode Replica Set
+### Passer MongoDB en mode Replica Set (facultatif)
 [Documentation MongoDB - Replica Set](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)
 
 **Pour Linux :**
