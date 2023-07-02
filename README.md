@@ -12,6 +12,8 @@ WTPBot est un bot utile à FRANCE MEMES, il permet d'automatiser des tâches ré
 
 Ce bot n'est pas un "Bot Discord public", nous n'avons pas l'infrastructure pour et nous gardons le process à usage privé sur FRANCE MEMES pour le moment.
 
+Document concernant la mise à jour vers la version 2.2.0 de WTPBot : https://docs.google.com/document/d/1zoPg5Qn9ekLlfRBoHV0a8ynJmao0QODnw4AdbL5DAz0/edit?usp=sharing
+
 ---
 
 # Prérequis
