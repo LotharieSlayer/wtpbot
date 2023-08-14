@@ -105,7 +105,7 @@ dist
 
 # Manually added files and folders
 # /src/files/config.json
-/src/data/
+data/
 
 # Dev plan
 /src/files/devplan.md
