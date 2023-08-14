@@ -1,5 +1,5 @@
 /**
- * @author Lothaire Guée
+ * @author Lotharie
  * @description
  *      Contains the function linked to the dates.
  */

@@ -1,5 +1,5 @@
 /**
- * @author Lothaire Guée
+ * @author Lotharie
  * @description
  *      Contient la commande 'changelogs'.
  *      Allows anyone to see the changelogs of the bot.

@@ -1,5 +1,5 @@
 /**
- * @author Lothaire Guée
+ * @author Lotharie
  * @description
  *		It manage the slash commands.
  */

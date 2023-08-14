@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"target": "ES2020",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"rootDir": "./src/",
+		"outDir": "./dist/",
+		"sourceMap": true,
+		"resolveJsonModule": true,
+		"baseUrl": "./",
+		"paths": {
+			"@src/*": [ "./src/*" ],
+			"@lib/*": [ "./src/lib/*" ],
+			"@plugins/*": [ "./src/plugins/*" ],
+		}
+	},
+	"files": [
+		"src/main.ts"
+	],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.js",
+		"src/**/*.json",
+		"src/**/*.png",
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
+}

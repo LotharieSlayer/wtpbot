@@ -1,5 +1,5 @@
 /**
- * @author Lothaire Guée
+ * @author Lotharie
  * @description
  *		Handler for the 'ready' event.
  */
@@ -15,9 +15,17 @@
 function execute( client ) {
 	
 	const date = new Date();
-	const dateFormat = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} `
-		+ `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:`
-		+ `${String(date.getSeconds()).padStart(2, '0')}`;
+	// set date and hours to french format
+	const dateFormat = date.toLocaleString("fr-FR", {
+		timeZone: "Europe/Paris",
+		hour12: false,
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+	});
 
 	console.log( `${client.user.username} is connected at ${dateFormat} !` );
 

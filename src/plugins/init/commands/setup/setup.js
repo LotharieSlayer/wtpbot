@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /**
- * @author Lothaire Guée
+ * @author Lotharie
  * @description
  *      Contient la commande 'setup'.
  *      Allow admin to setup the JSON configuration file.
@@ -22,7 +22,7 @@ const slashCommand = new SlashCommandBuilder()
     .setDefaultPermission(false)
     
 
-    globPromise( `${process.cwd()}/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
+    globPromise( `@src/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
         pluginsSetup.map(file => {
             const setup = require( file );
             setup.addSetupCommand(slashCommand)

@@ -1,5 +1,5 @@
 /**
- * @author Lothaire Guée
+ * @author Lotharie
  * @description
  *      Contient la commande 'ping'.
  *      Pong the user.
