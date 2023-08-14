@@ -27,6 +27,8 @@ Document concernant la mise à jour vers la version 2.2.0 de WTPBot : https://do
 
 ### Passer MongoDB en mode Replica Set (facultatif)
 [Documentation MongoDB - Replica Set](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)
+<details>
+<summary>Ouvrir le tuto</summary>
 
 **Pour Linux :**
 - Aller dans `/etc/mongod.conf`
@@ -44,8 +46,10 @@ replication:
 - `mongosh -> rs.initiate()`
 - Laisser le terminal ouvert
 
+</details>
+
 ### Entrer le token .env
-- Dans `src/`, créer un fichier `.env` contenant le token de votre bot donné par Discord.
+- Dans la racine du projet (`wtpbot/`, `.`), créez un fichier `.env` contenant le token de votre bot donné par Discord. Un exemple est montré dans le fichier `.env.dist`.
 - Mettez votre token de la manière suivante : `TOKEN="votre token"`
 
 Si vous n'avez aucune idée de ce qu'est un token Discord, vous aurez plus d'infos sur la [documentation officielle](https://discord.com/developers/docs) ou en tapant simplement sur Google/Youtube ("Comment avoir le token de mon bot sur Discord")
