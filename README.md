@@ -72,7 +72,9 @@ Copiez-coller ce lien dans un navigateur et tadaaa !
 
 # Démarrage
 
-- `npm run start` ou `node main.js` depuis `src/` : Lancer le bot (production)
+- `npm run start` : Build + lancer le bot (production)
+- `npm run start-prod` : Lancer le bot (production)
+- `npm run build` : Build le bot
 - `npm run dev` : Lancer le bot (développement)
 
 ### Gestion des plugins (Linux & macOS seulement)
