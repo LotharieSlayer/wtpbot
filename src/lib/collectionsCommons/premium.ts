@@ -1,6 +1,6 @@
 import { Bot } from '@lib/bot';
 import { Collection, Db } from 'mongodb';
-import { guildId } from '@plugins/premium/files/config.json';
+// import { guildId } from '@plugins/premium/files/config.json';
 
 import NodeCache = require('node-cache');
 

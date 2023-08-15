@@ -3,7 +3,7 @@
   "version": "2.3.0",
   "main": "src/main.js",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "tsc && tsc-alias && cp -rf src/files dist/",
     "start": "npm run build && npm run start-prod",
     "start-prod": "node dist/main.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/main.ts",

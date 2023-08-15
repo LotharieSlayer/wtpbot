@@ -6,6 +6,8 @@
  *      Allow admin to setup the JSON configuration file.
  */
 
+import { Bot } from "@src/lib/bot";
+
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
@@ -19,15 +21,18 @@ const globPromise = promisify( glob );
 const slashCommand = new SlashCommandBuilder()
     .setName("setup")
     .setDescription("[setup] Setup une fonctionnalité du bot sur ce serveur.")
-    .setDefaultPermission(false)
+    .setDefaultPermission(false);
     
+	
+	globPromise( `${__dirname}/../../*/commands/setup.js` ).then(async (pluginsSetup) => {
+		await pluginsSetup.map(async file => {
+			if(file.includes("plugins/init")) return;
+			const setup = require( file );
+			await setup.addSetupCommand(slashCommand);
+		});
+		Bot.instance.commands.set(slashCommand.name, {data: slashCommand});
+	});
 
-    globPromise( `@src/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
-        pluginsSetup.map(file => {
-            const setup = require( file );
-            setup.addSetupCommand(slashCommand)
-        });
-    });
 
 /* ----------------------------------------------- */
 /* FUNCTIONS                                       */

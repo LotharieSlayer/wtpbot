@@ -14,6 +14,7 @@ const LOG_LEVELS = ['INFO', 'WARNING', 'ERROR'];
 
 
 export class Bot extends Client {
+	public static instance: Bot;
 	public commands: commandsArray;
 	private readonly _pluginsPath: string;
 
@@ -30,6 +31,7 @@ export class Bot extends Client {
 
 	constructor(options: ClientOptions) {
 		super(options);
+		Bot.instance = this;
 
 		// This variable is necessary to load the plugins from dist and
 		// not src (and the opposite) when running the code after compilation.
@@ -95,9 +97,16 @@ export class Bot extends Client {
 	 */
 	log(text: string, level: number = 0) {
 		const date = new Date();
-		const dateFormat = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} `
-			+ `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:`
-			+ `${String(date.getSeconds()).padStart(2, '0')}`;
+		const dateFormat = date.toLocaleString("fr-FR", {
+			timeZone: "Europe/Paris",
+			hour12: false,
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+		});
 		console.log(`${dateFormat} ${this._getLevelTxt(level)} : ${text}`);
 	}
 

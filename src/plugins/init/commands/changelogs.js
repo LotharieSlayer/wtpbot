@@ -8,7 +8,6 @@
 /*      IMPORTS      */
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
-const pjson = require("../../../package.json");
 const fs = require("fs");
 
 /* ----------------------------------------------- */
@@ -28,13 +27,13 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction) {
 
-    const messageContent = fs.readFileSync("./files/changelogs.txt", "utf8");
+    const messageContent = fs.readFileSync(__dirname + "/../../../files/changelogs.txt", "utf8");
 
     //EMBED
     // inside a command, event listener, etc.
     const embed = new EmbedBuilder()
         .setColor(0xe15dd9)
-        .setTitle(`Changelogs v${pjson.version} :`)
+        .setTitle(`Changelogs v${messageContent.split("\n")[0]}`)
         .setAuthor({name: "WhatThePhoqueBot", iconURL: interaction.client.user.avatarURL()})
         .setDescription(messageContent)
         .setTimestamp(new Date())
