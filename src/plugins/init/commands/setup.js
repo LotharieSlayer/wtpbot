@@ -30,7 +30,7 @@ const slashCommand = new SlashCommandBuilder()
 			const setup = require( file );
 			await setup.addSetupCommand(slashCommand);
 		});
-		Bot.instance.commands.set(slashCommand.name, {data: slashCommand});
+		Bot.instance.commands.set(slashCommand.name, {data: slashCommand, execute});
 	});
 
 
@@ -43,8 +43,9 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction, client) {
     
-    const pluginsSetup = await globPromise( `${process.cwd()}/plugins/*/commands/setup.js` );
+    const pluginsSetup = await globPromise( `${__dirname}/../../*/commands/setup.js` );
     pluginsSetup.map(file => {
+		if(file.includes("plugins/init")) return;
         const setup = require( file );
         setup.execute(interaction, client)
     });
