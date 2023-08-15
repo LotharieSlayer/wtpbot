@@ -76,8 +76,11 @@ Copiez-coller ce lien dans un navigateur et tadaaa !
 - `npm run dev` : Lancer le bot (développement)
 
 ### Gestion des plugins (Linux & macOS seulement)
+#### [Télécharger de nouveaux plugins ici](https://github.com/stars/LotharieSlayer/lists/wtpbot-plugins)
 - `npm run update` : Installer/Supprimer/Mettre à jour des plugins depuis le fichier plugins.list avec des repositories provenant de GitHub. (cf. [src/files/plugins.list](https://github.com/LotharieSlayer/wtpbot/blob/dev/src/files/plugins.list))
 - `npm run list` : Afficher tous les plugins téléchargés et actifs
+
+
 
 # License (CC BY-NC-ND 4.0)
 
