@@ -71,11 +71,17 @@ Copiez-coller ce lien dans un navigateur et tadaaa !
 - `npm run start` ou `node main.js` depuis `src/` : Lancer le bot (production)
 - `npm run dev` : Lancer le bot (développement)
 
-### Gestion des plugins (Linux seulement)
+### Gestion des plugins
+#### UNIX
 - `npm run first` : Télécharger les plugins pour la première fois
 - `npm run update` : Installer/Supprimer/Mettre à jour des plugins depuis le fichier plugins.list avec des repositories provenant de GitHub. (cf. [src/files/plugins.list](https://github.com/LotharieSlayer/wtpbot/blob/dev/src/files/plugins.list))
 - `npm run rebase` : Réinitialiser les plugins et les retélécharger de manière clean depuis GitHub.
 - `npm run list` : Afficher tous les plugins téléchargés et actifs
+#### Windows
+- `npm run first_win` 
+- `npm run update_win`
+- `npm run rebase_win`
+- `npm run list_win`
 
 # License (CC BY-NC-ND 4.0)
 
