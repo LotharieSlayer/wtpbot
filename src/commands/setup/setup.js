@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 /**
  * @author Lothaire Guée
  * @description
@@ -7,11 +6,10 @@
  */
 
 /*      IMPORTS      */
+const path = require('path');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
-const { promisify } = require( "util" );
 const { glob } = require( "glob" );
-const globPromise = promisify( glob );
 
 /* ----------------------------------------------- */
 /* COMMAND BUILD                                   */
@@ -22,8 +20,9 @@ const slashCommand = new SlashCommandBuilder()
     .setDefaultPermission(false)
     
 
-    globPromise( `${process.cwd()}/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
+    glob( `${process.cwd()}/plugins/*/commands/setup.js` ).then((pluginsSetup) => {
         pluginsSetup.map(file => {
+            file = path.resolve(file);
             const setup = require( file );
             setup.addSetupCommand(slashCommand)
         });
@@ -38,8 +37,9 @@ const slashCommand = new SlashCommandBuilder()
  */
 async function execute(interaction, client) {
     
-    const pluginsSetup = await globPromise( `${process.cwd()}/plugins/*/commands/setup.js` );
+    const pluginsSetup = await glob( `${process.cwd()}/plugins/*/commands/setup.js` );
     pluginsSetup.map(file => {
+        file = path.resolve(file);
         const setup = require( file );
         setup.execute(interaction, client)
     });

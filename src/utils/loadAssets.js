@@ -7,9 +7,8 @@
 
 
 // Used to get all the directory of the commands and events.
-const { promisify } = require( "util" );
+const path = require('path');
 const { glob } = require( "glob" );
-const globPromise = promisify( glob );
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 /* ----------------------------------------------- */
@@ -21,24 +20,26 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
  * @param {Client} client The client of the bot.
  */
 async function loadCommands( client ) {
-    const files = await globPromise( `${process.cwd()}/commands/*/*.js` );
+    console.log( "Loading commands..." );
+    const files = await glob( `${process.cwd()}/commands/*/*.js` );
     files.map( file => {
+        file = path.resolve(file);
         const command = require( file );
+        console.log( `\t[${command.data.name}]` );
         client.commands.set( command.data.name, command );
     });
-    const plugins = await globPromise( `${process.cwd()}/plugins/*/commands/*.js` );
+    const plugins = await glob( `${process.cwd()}/plugins/*/commands/*.js` );
     plugins.map( file => {
-        let fileName = file.split("/");
-        fileName = fileName[fileName.length - 1];
+        file = path.resolve(file);
+        const fileName = path.basename(file);
         if(fileName === "setup.js" || fileName === "setup" ) return;
         const command = require( file );
+        console.log( `\t[${command.data.name}]` );
         client.commands.set( command.data.name, command );
     });
-    const pluginsFolder = await globPromise( `${process.cwd()}/plugins/*` );
+    const pluginsFolder = await glob( `${process.cwd()}/plugins/*` );
     pluginsFolder.map( file => {
-        file = file.split("/");
-        file = file[file.length - 1];
-        console.log("[Plugin] " + file);
+        console.log("[Plugin] " + path.basename(file));
     })
 }
 
@@ -48,16 +49,18 @@ async function loadCommands( client ) {
  * @param {Client} client The client of the bot.
  */
 async function loadEvents( client ) {
-    const files = await globPromise( `${process.cwd()}/events/*.js` );
+    const files = await glob( `${process.cwd()}/events/*.js` );
     files.map( file => {
+        file = path.resolve(file);
         const event = require( file );
         if ( event.once )
             client.once( event.name, ( ...args ) => event.execute( ...args, client ) );
         else
             client.on( event.name, ( ...args ) => event.execute( ...args, client ) );
     });
-    const pluginsFiles = await globPromise( `${process.cwd()}/plugins/*/events/*.js` );
+    const pluginsFiles = await glob( `${process.cwd()}/plugins/*/events/*.js` );
     pluginsFiles.map( file => {
+        file = path.resolve(file);
         const event = require( file );
         if ( event.once )
             client.once( event.name, ( ...args ) => event.execute( ...args, client ) );
@@ -103,8 +106,6 @@ async function loadCommandToAllGuilds( client ) {
 // Connect to the database MongoDB
 async function connectToDatabase(client) {
     client.mongo = await new MongoClient(process.env.MONGO_URI, {
-        useNewUrlParser: true, 
-        useUnifiedTopology: true,
         serverApi: {
             version: ServerApiVersion.v1,
             strict: true,

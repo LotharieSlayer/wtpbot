@@ -17,7 +17,7 @@ Document concernant la mise à jour vers la version 2.2.0 de WTPBot : https://do
 ---
 
 # Prérequis
-- [Node.js 22.x et npm](https://nodejs.org/en/)
+- [Node.js 20.x et npm](https://nodejs.org/en/)
 - [MongoDB 6](https://www.mongodb.com/docs/manual/installation/)
 
 # Installation
