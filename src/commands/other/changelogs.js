@@ -43,7 +43,7 @@ async function execute(interaction) {
             value: interaction.client.user.avatarURL()
         });
 
-    await interaction.reply({ embeds: [embed], ephemeral: false });
+    await interaction.reply({ embeds: [embed] });
 }
 
 /* ----------------------------------------------- */

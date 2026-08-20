@@ -30,7 +30,7 @@ async function execute(interaction) {
         content: `🏓 **PING**
 		La latence du bot est de ${Date.now() - interaction.createdTimestamp}ms.
 		Latence API Discord : ${Math.round(interaction.client.ws.ping)}ms`,
-        ephemeral: false,
+        
     });
 }
 
